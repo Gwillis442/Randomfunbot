@@ -98,6 +98,8 @@ client.on('messageCreate', (message) =>{
 
 });
 
+
+
 client.on('interactionCreate', async interaction => {
 	
   
@@ -117,15 +119,20 @@ client.on('interactionCreate', async interaction => {
 
 		await interaction.reply(`Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`);
 
-	} else if (commandName === 'echo') {
+	} else if (commandName === 'roulette'){ // Russian Roulette command 1/6 chance to be shot
 
-    userProvidedInput = options.getString('input');
-    await interaction.reply(`You provided: ${userProvidedInput}`);
+    const roulette = Math.floor(Math.random() * 6) + 1;
 
-  } else if(commandName === 'settarget'){
-      const newUsername = options.getString('newUsername');
-      targetUsername = newUsername;
-      await interaction.reply(`Target username updated to ${newUsername}`);
+    if(roulette === 1){
+
+      await interaction.reply(`Bang! ${interaction.user.id} was shot.`);
+
+    } else {
+
+      await interaction.reply('*click*');
+
+    }
+
   }
 
 });
