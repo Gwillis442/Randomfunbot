@@ -35,6 +35,7 @@ client.on('messageCreate', (message) => {
   }
 });
 
+//creating random chance for user to have message deleted
 //If message author's username does not match target
 client.on('messageCreate', (message) =>{
   if(message.author.username !== targetUsername){
@@ -51,6 +52,7 @@ client.on('messageCreate', (message) =>{
   }
 });
 
+//Creating random chance to have bot respond with 1 of 2 emotes
 client.on('messageCreate', (message) => {
   
   const randomNumber1 = Math.floor(Math.random() * 100) + 1;
@@ -66,6 +68,7 @@ client.on('messageCreate', (message) => {
   }    
 });  
 
+//Creating random chance to have bot respond to a person with a message
 client.on('messageCreate', (message) =>{
 
     const randomNumber2 = Math.floor(Math.random() * 2048) + 1;
@@ -79,7 +82,9 @@ client.on('messageCreate', (message) =>{
 });
 
 client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
+	
+  
+  if (!interaction.isCommand()) return;
 
 	const { commandName } = interaction;
 
@@ -88,8 +93,16 @@ client.on('interactionCreate', async interaction => {
 	} else if (commandName === 'server') {
 		await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
 	} else if (commandName === 'user') {
-		await interaction.reply('User info.');
-	}
+		await interaction.reply(`Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`);
+	} else if (commandName === 'echo') {
+    userProvidedInput = options.getString('input');
+    await interaction.reply(`You provided: ${userProvidedInput}`);3
+  } else if(commandName === 'settarget'){
+      const newUsername = options.getString('newUsername');
+      targetUsername = newUsername;
+      await interaction.reply(`Target username updated to ${newUsername}`);
+  }
+
 });
 
 client.login('MTE3MjAyNTUwOTU3MjUzMDIyNg.Gbg__A.kmQAj7zl07nvB9pUCzUSRhXQ2jW088XNFzcUxw');

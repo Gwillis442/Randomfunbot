@@ -8,6 +8,18 @@ const commands = [
 	new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!'),
 	new SlashCommandBuilder().setName('server').setDescription('Replies with server info!'),
 	new SlashCommandBuilder().setName('user').setDescription('Replies with user info!'),
+    new SlashCommandBuilder().setName('echo').setDescription('Replies with your input!')
+            .addStringOption(option =>option.setName('input')
+            .setDescription('The input to echo back')
+			.setRequired(true)),
+    new SlashCommandBuilder()
+            .setName('settarget')
+            .setDescription('Set the target username for message deletion')
+            .addStringOption(option =>
+            option.setName('newUsername')
+                .setDescription('The new target username')
+                .setRequired(true)
+                .setRegex(/.+/)), // Allow any non-empty string
 ]
 	.map(command => command.toJSON());
 
