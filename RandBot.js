@@ -3,7 +3,8 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const client = new Client({ 
   intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
   ]
 });
 
@@ -14,15 +15,23 @@ client.on('ready', () => {
 // Set the username to target for message deletion
 const targetUsername = "kony911";
 
+// Creating Array filled with reaction emojis
+const arraySize = 7;
+const emojiArray = Array(arraySize).fill(null);
+    emojiArray[0] = '👍';
+    emojiArray[1] = '👎';
+    emojiArray[2] = '🤡';
+    emojiArray[3] = '❤️';
+
 client.on('messageCreate', (message) => {
   
   // Check if the message author's username matches the target username
   if (message.author.username === targetUsername) {
     // Generate a random number between 1 and 100
-    const randomNumber = Math.floor(Math.random() * 150) + 1;
+    const singleTargetDelete = Math.floor(Math.random() * 150) + 1;
 
     // If the random number is 1, delete the message
-    if (randomNumber === 1) {
+    if (singleTargetDelete === 1) {
       message.delete()
       .then(deletedMessage => {
         console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
@@ -39,10 +48,10 @@ client.on('messageCreate', (message) => {
 //If message author's username does not match target
 client.on('messageCreate', (message) =>{
   if(message.author.username !== targetUsername){
-    const randomNumber3 = Math.floor(Math.random() * 200) + 1;
+    const multiTargetDelete = Math.floor(Math.random() * 200) + 1;
 
      // If the random number is 1, delete the message
-    if (randomNumber3 === 1) {
+    if (multiTargetDelete === 1) {
       message.delete()
       .then(deletedMessage => {
       console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
@@ -52,28 +61,36 @@ client.on('messageCreate', (message) =>{
   }
 });
 
-//Creating random chance to have bot respond with 1 of 2 emotes
-client.on('messageCreate', (message) => {
-  
-  const randomNumber1 = Math.floor(Math.random() * 100) + 1;
 
-  if (randomNumber1 === 1){
 
-      message.react('👍');
+//Creating random chance to have bot respond with 1 of 8 emotes
+client.on('messageCreate', (message) => { 
 
-  } else if(randomNumber1 === 3){
+  if (message.author.username === 'shiba442') {
+  const reactionNum = 1;//Math.floor(Math.random() * 100) + 1;
 
-      message.react('👎');
+  if (reactionNum === 1){
 
-  }    
-});  
+    const reactionNum1 = Math.floor(Math.random() * arraySize);
+    
+    emojiArray[4] = message.guild.emojis.cache.find(emoji => emoji.name === 'righty');
+    emojiArray[5] = message.guild.emojis.cache.find(emoji => emoji.name === 'lefty');
+    emojiArray[6] = message.guild.emojis.cache.find(emoji => emoji.name === 'pepegun');
+      
+    message.react(emojiArray[reactionNum1]);
+
+      }
+    }
+  });
+
+ 
 
 //Creating random chance to have bot respond to a person with a message
 client.on('messageCreate', (message) =>{
 
-    const randomNumber2 = Math.floor(Math.random() * 2048) + 1;
+    const unHingedReply = Math.floor(Math.random() * 2048) + 1;
 
-    if(randomNumber2 === 1){
+    if(unHingedReply === 1){
       
       message.channel.send(`WARNING WARNING, ${message.author} IS REQUIRED TO ATTEND A MANDATORY PEBIS INSPECTION, NON COMPLIANCE WILL RESULT IN TERMINATION, PLEASE HEAD TO THE PEBIS EXTENDER ROOM IMMEDIATELY`)
 
@@ -89,14 +106,22 @@ client.on('interactionCreate', async interaction => {
 	const { commandName } = interaction;
 
 	if (commandName === 'ping') {
+
 		await interaction.reply('Pong!');
+
 	} else if (commandName === 'server') {
+
 		await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
+
 	} else if (commandName === 'user') {
+
 		await interaction.reply(`Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`);
+
 	} else if (commandName === 'echo') {
+
     userProvidedInput = options.getString('input');
-    await interaction.reply(`You provided: ${userProvidedInput}`);3
+    await interaction.reply(`You provided: ${userProvidedInput}`);
+
   } else if(commandName === 'settarget'){
       const newUsername = options.getString('newUsername');
       targetUsername = newUsername;
