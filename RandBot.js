@@ -66,8 +66,8 @@ client.on('messageCreate', (message) =>{
 //Creating random chance to have bot respond with 1 of 8 emotes
 client.on('messageCreate', (message) => { 
 
-  if (message.author.username === 'shiba442') {
-  const reactionNum = 1;//Math.floor(Math.random() * 100) + 1;
+
+  const reactionNum = Math.floor(Math.random() * 100) + 1;
 
   if (reactionNum === 1){
 
@@ -80,7 +80,7 @@ client.on('messageCreate', (message) => {
     message.react(emojiArray[reactionNum1]);
 
       }
-    }
+    
   });
 
  
