@@ -127,6 +127,7 @@ client.on('interactionCreate', async interaction => {
 
       await interaction.reply(`Bang! ${interaction.user} was shot.`);
       await interaction.member.voice.setChannel(null);
+      await interaction.reply(`Bang! ${interaction.user} was shot.`);
 
     } else {
 
