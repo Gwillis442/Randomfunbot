@@ -122,10 +122,11 @@ client.on('interactionCreate', async interaction => {
 	} else if (commandName === 'roulette'){ // Russian Roulette command 1/6 chance to be shot
 
     const roulette = Math.floor(Math.random() * 6) + 1;
-
+    const memberVoiceChannel = interaction.member.voice.channel;
     if(roulette === 1){
 
-      await interaction.reply(`Bang! ${interaction.user.id} was shot.`);
+      await interaction.reply(`Bang! ${interaction.user} was shot.`);
+      await interaction.member.voice.setChannel(null);
 
     } else {
 
