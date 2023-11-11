@@ -125,7 +125,7 @@ client.on('interactionCreate', async interaction => {
 
     if(roulette === 1){
 
-      await interaction.reply(`Bang! ${interaction.user.id} was shot.`);
+      await interaction.reply(`Bang! ${interaction.user} was shot.`);
 
     } else {
 
