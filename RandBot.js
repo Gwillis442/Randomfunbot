@@ -125,7 +125,6 @@ client.on('interactionCreate', async interaction => {
     const memberVoiceChannel = interaction.member.voice.channel;
     if(roulette === 1){
 
-      await interaction.reply(`Bang! ${interaction.user} was shot.`);
       await interaction.member.voice.setChannel(null);
       await interaction.reply(`Bang! ${interaction.user} was shot.`);
 
