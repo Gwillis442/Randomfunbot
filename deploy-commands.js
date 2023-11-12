@@ -8,7 +8,8 @@ const commands = [
 	new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!'),
 	new SlashCommandBuilder().setName('server').setDescription('Replies with server info!'),
 	new SlashCommandBuilder().setName('user').setDescription('Replies with user info!'),
-    new SlashCommandBuilder().setName('roulette').setDescription('Play Russian Roulette'),
+    new SlashCommandBuilder().setName('roulette').setDescription('Play Russian Roulette solo or with others'),
+	new SlashCommandBuilder().setName('spinchamber').setDescription('Spin the chamber'),
 ]
 	.map(command => command.toJSON());
 

@@ -23,6 +23,9 @@ const emojiArray = Array(arraySize).fill(null);
     emojiArray[2] = '🤡';
     emojiArray[3] = '❤️';
 
+var chamber = Math.floor(Math.random() * 6) + 1;
+var bullet = Math.floor(Math.random() * 6) + 1;
+
 client.on('messageCreate', (message) => {
   
   // Check if the message author's username matches the target username
@@ -81,9 +84,7 @@ client.on('messageCreate', (message) => {
 
       }
     
-  });
-
- 
+  }); 
 
 //Creating random chance to have bot respond to a person with a message
 client.on('messageCreate', (message) =>{
@@ -97,6 +98,13 @@ client.on('messageCreate', (message) =>{
     }
 
 });
+
+function spinChamber(){
+
+  chamber = Math.floor(Math.random() * 6) + 1;
+  bullet = Math.floor(Math.random() * 6) + 1;
+
+}
 
 
 
@@ -121,18 +129,39 @@ client.on('interactionCreate', async interaction => {
 
 	} else if (commandName === 'roulette'){ // Russian Roulette command 1/6 chance to be shot
 
-    const roulette = Math.floor(Math.random() * 6) + 1;
     const memberVoiceChannel = interaction.member.voice.channel;
-    if(roulette === 1){
+
+    if(chamber === bullet){
 
       await interaction.member.voice.setChannel(null);
       await interaction.reply(`Bang! ${interaction.user} was shot.`);
+      //console.log(`${interaction.username} what shot`);
+
+      spinChamber();
+      //console.log('Reseting bullet and chamber');
 
     } else {
 
       await interaction.reply('*click*');
 
+      chamber++;
+
+      if(chamber === 7){
+
+        chamber = 1;
+
+      }
+      //console.log(`Chamber = ${chamber}`);
+      //console.log(`Bullet = ${bullet}`);
+
     }
+
+  } else if(commandName === 'spinchamber'){
+
+    spinChamber();
+    await interaction.reply(`${interaction.user} spun the chamber.`);
+    //console.log(`Chamber = ${chamber}`);
+    //console.log(`Bullet = ${bullet}`);
 
   }
 
