@@ -5,11 +5,11 @@ const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, token } = require('./config.json');
 
 const commands = [
-	new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!'),
-	new SlashCommandBuilder().setName('server').setDescription('Replies with server info!'),
-	new SlashCommandBuilder().setName('user').setDescription('Replies with user info!'),
     new SlashCommandBuilder().setName('roulette').setDescription('Play Russian Roulette solo or with others'),
 	new SlashCommandBuilder().setName('spinchamber').setDescription('Spin the chamber'),
+	new SlashCommandBuilder().setName('roll').setDescription('Get a random number')
+			.addStringOption(option => option.setName('min').setDescription('Minimum value').setRequired(true))
+			.addStringOption(option => option.setName('max').setDescription('Maximum value').setRequired(true)),
 ]
 	.map(command => command.toJSON());
 

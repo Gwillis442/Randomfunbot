@@ -106,6 +106,12 @@ function spinChamber(){
 
 }
 
+function rng(min, max){
+
+return(Math.floor(Math.random() * (max - min + 1)) + min);
+
+}
+
 
 
 client.on('interactionCreate', async interaction => {
@@ -113,21 +119,9 @@ client.on('interactionCreate', async interaction => {
   
   if (!interaction.isCommand()) return;
 
-	const { commandName } = interaction;
+	const { commandName, options } = interaction;
 
-	if (commandName === 'ping') {
-
-		await interaction.reply('Pong!');
-
-	} else if (commandName === 'server') {
-
-		await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
-
-	} else if (commandName === 'user') {
-
-		await interaction.reply(`Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`);
-
-	} else if (commandName === 'roulette'){ // Russian Roulette command 1/6 chance to be shot
+	if (commandName === 'roulette'){ // Russian Roulette command 1/6 chance to be shot
 
     const memberVoiceChannel = interaction.member.voice.channel;
 
@@ -162,6 +156,16 @@ client.on('interactionCreate', async interaction => {
     await interaction.reply(`${interaction.user} spun the chamber.`);
     //console.log(`Chamber = ${chamber}`);
     //console.log(`Bullet = ${bullet}`);
+
+  } else if(commandName === 'roll'){
+
+    const min = options.getString('min');
+    const max = options.getString('max');
+    const minNum = parseInt(min);
+    const maxNum = parseInt(max);
+    const result = rng(minNum, maxNum);
+    await interaction.reply(`Random number between ${minNum} and ${maxNum}: ${result}`);
+
 
   }
 
