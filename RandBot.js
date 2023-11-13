@@ -5,6 +5,7 @@ const client = new Client({
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
+    //GatewayIntentBits.MessageComponents,
   ]
 });
 
@@ -23,8 +24,18 @@ const emojiArray = Array(arraySize).fill(null);
     emojiArray[2] = '🤡';
     emojiArray[3] = '❤️';
 
+// var for both bullet and chamber fo roulette
 var chamber = Math.floor(Math.random() * 6) + 1;
 var bullet = Math.floor(Math.random() * 6) + 1;
+
+/*
+==================================
+Single Target Deletion
+Given a specific username (hardcoded) the bot will generate a random number between 1 and 150 
+if number is 1 bot will delete the message 
+Modified: 11/13/2023
+==================================
+*/
 
 client.on('messageCreate', (message) => {
   
@@ -47,7 +58,14 @@ client.on('messageCreate', (message) => {
   }
 });
 
-//creating random chance for user to have message deleted
+/*
+==================================
+Multiple Target Deletion
+Given any other username besides target (hardcoded) the bot will generate a random number between 1 and 200 
+if number is 1 bot will delete the message 
+Modified: 11/13/2023
+==================================
+*/
 //If message author's username does not match target
 client.on('messageCreate', (message) =>{
   if(message.author.username !== targetUsername){
@@ -64,7 +82,15 @@ client.on('messageCreate', (message) =>{
   }
 });
 
-
+/*
+==================================
+Random Reaction
+When a message is sent in chat the bot will roll a number between 1 and 100
+if the number is 1 it will then roll a number between 1 and 8
+dependent on that number the bot will react to the message with the corrosponding emoji
+Modified: 11/13/2023
+==================================
+*/
 
 //Creating random chance to have bot respond with 1 of 8 emotes
 client.on('messageCreate', (message) => { 
@@ -76,6 +102,7 @@ client.on('messageCreate', (message) => {
 
     const reactionNum1 = Math.floor(Math.random() * arraySize);
     
+    //Server specific emojis
     emojiArray[4] = message.guild.emojis.cache.find(emoji => emoji.name === 'righty');
     emojiArray[5] = message.guild.emojis.cache.find(emoji => emoji.name === 'lefty');
     emojiArray[6] = message.guild.emojis.cache.find(emoji => emoji.name === 'pepegun');
@@ -86,7 +113,14 @@ client.on('messageCreate', (message) => {
     
   }); 
 
-//Creating random chance to have bot respond to a person with a message
+/*
+==================================
+Random Unhinged Response
+When a message is sent in chat the bot will roll a number between 1 and 2048
+if the number is 1 the bot will respond to the message with a hardcoded response
+Modified: 11/13/2023
+==================================
+*/
 client.on('messageCreate', (message) =>{
 
     const unHingedReply = Math.floor(Math.random() * 2048) + 1;
@@ -99,20 +133,41 @@ client.on('messageCreate', (message) =>{
 
 });
 
-function spinChamber(){
+/*
+==================================
+Spin Cylinder
+When called the function will reroll the random numbers between 1 and 6 for chamber and bullet
+Modified: 11/13/2023
+==================================
+*/
+
+function spinCylinder(){
 
   chamber = Math.floor(Math.random() * 6) + 1;
   bullet = Math.floor(Math.random() * 6) + 1;
 
 }
 
+/*
+==================================
+Random Number Generator 
+When called the function will roll random numbers between 2 passed to the function
+Modified: 11/13/2023
+==================================
+*/
 function rng(min, max){
 
 return(Math.floor(Math.random() * (max - min + 1)) + min);
 
 }
 
-
+/*
+==================================
+Interaction builder
+Holds logic for the user using a / command
+Modified: 11/13/2023
+==================================
+*/
 
 client.on('interactionCreate', async interaction => {
 	
@@ -128,15 +183,15 @@ client.on('interactionCreate', async interaction => {
     if(chamber === bullet){
 
       await interaction.member.voice.setChannel(null);
-      await interaction.reply(`Bang! ${interaction.user} was shot.`);
+      await interaction.reply(`*Bang* ${interaction.user} was shot!`);
       //console.log(`${interaction.username} what shot`);
 
-      spinChamber();
+      spinCylinder();
       //console.log('Reseting bullet and chamber');
 
     } else {
 
-      await interaction.reply('*click*');
+      await interaction.reply(`*click*`);
 
       chamber++;
 
@@ -150,10 +205,10 @@ client.on('interactionCreate', async interaction => {
 
     }
 
-  } else if(commandName === 'spinchamber'){
+  } else if(commandName === 'spincylinder'){
 
     spinChamber();
-    await interaction.reply(`${interaction.user} spun the chamber.`);
+    await interaction.reply(`${interaction.user} spun the cylinder.`);
     //console.log(`Chamber = ${chamber}`);
     //console.log(`Bullet = ${bullet}`);
 
@@ -166,6 +221,23 @@ client.on('interactionCreate', async interaction => {
     const result = rng(minNum, maxNum);
     await interaction.reply(`Random number between ${minNum} and ${maxNum}: ${result}`);
 
+
+  } else if(commandName === 'deathroll'){
+
+    const max = options.getString('max');
+    const maxNum = parseInt(max);   
+
+    const result = rng(1,maxNum);
+
+    if(result === 1){
+
+      await interaction.reply(`${interaction.user} rolled a ${result} and lost`);
+
+    } else{
+
+      await interaction.reply(`${interaction.user} rolled a ${result}`);      
+
+    }  
 
   }
 
