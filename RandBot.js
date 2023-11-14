@@ -250,16 +250,18 @@ function testRNG(){
   var x = 0;
   var y = 0;
  
-  for(var i; i < 100; i++){
-    var num = rng(50,200);
-    if(num > 200 || num < 50){
+  for(var i = 0; i < 100; i++){
+    var num = rng(5,10);
+    if(num > 10|| num < 5){
       y++;
     } else {
       x++;
     }
 }
-console.log('test End')
+console.log(`Testing RNG`);
 console.log(`Success: ${x} Fail: ${y}`);
+console.log('Test End')
+
 }
 
 client.login('MTE3MjAyNTUwOTU3MjUzMDIyNg.GfpzbC.br3NYgOxg8ZigxMszICvzkX73l_KjNpjXO4CHk');
