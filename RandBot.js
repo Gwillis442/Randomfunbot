@@ -25,6 +25,13 @@ const emojiArray = Array(arraySize).fill(null);
     emojiArray[2] = '🤡';
     emojiArray[3] = '❤️';
 
+const lootBoxItems = [
+    { name: 'Common Sword', rarity: 'common' },
+    { name: 'Rare Shield', rarity: 'rare' },
+    { name: 'Epic Potion', rarity: 'epic' },
+    { name: 'Legendary Armor', rarity: 'legendary' },
+  ];
+
 // var for both bullet and chamber fo roulette
 var chamber = rng(1,6);
 var bullet = rng(1,6);
@@ -166,9 +173,31 @@ return(Math.floor(Math.random() * (max - min + 1)) + min);
 
 /*
 ==================================
+Loot Box generator
+allows for the opening of a 'lootbox' that gives the user a sense of pride and acomplishment
+Modified: 11/14/2023
+==================================
+*/
+function openLootBox(){
+  var num = rng(1,100);
+
+  if(num == 1){
+  return(lootBoxItems[3]);
+  }else if(num < 1 && num <= 20){
+    return(lootBoxItems[2]);
+  }else if(num > 20 && num <= 50){
+    return(lootBoxItems[1]);
+  }else{
+    return(lootBoxItems[0]);
+  }
+
+}
+
+/*
+==================================
 Interaction builder
 Holds logic for the user using a / command
-Dependcies found in deploy-commands.js
+Dependcies found in 'deploy-commands.js'
 Modified: 11/13/2023
 ==================================
 */
@@ -183,7 +212,6 @@ client.on('interactionCreate', async interaction => {
     const memberVoiceChannel = interaction.member.voice.channel;
 
     if(chamber === bullet){
-
       await interaction.member.voice.setChannel(null);
       await interaction.reply(`*Bang* ${interaction.user} was shot!`);
       //console.log(`${interaction.username} what shot`);
@@ -192,7 +220,6 @@ client.on('interactionCreate', async interaction => {
       //console.log('Reseting bullet and chamber');
 
     } else {
-
       await interaction.reply(`*click*`);
 
       chamber++;
@@ -207,7 +234,7 @@ client.on('interactionCreate', async interaction => {
 
     }
 
-  } else if(commandName === 'spincylinder'){// command to reroll random numbers for bullet and chamber
+  } else if(commandName === 'spin_cylinder'){// command to reroll random numbers for bullet and chamber
 
     spinCylinder();
     await interaction.reply(`${interaction.user} spun the cylinder.`);
@@ -215,7 +242,6 @@ client.on('interactionCreate', async interaction => {
     //console.log(`Bullet = ${bullet}`);
 
   } else if(commandName === 'roll'){ // allows you to roll a random number between 2 user inputs
-
     const min = options.getString('min');
     const max = options.getString('max');
     const minNum = parseInt(min);
@@ -224,28 +250,36 @@ client.on('interactionCreate', async interaction => {
     await interaction.reply(`Random number between ${minNum} and ${maxNum}: ${result}`);
 
 
-  } else if(commandName === 'deathroll'){ //rolls a random number between 1 and user input until a 1 is rolled
+  } else if(commandName === 'death_roll'){ //rolls a random number between 1 and user input until a 1 is rolled
 
     const max = options.getString('max');
-    const maxNum = parseInt(max);   
-
+    const maxNum = parseInt(max);
     const result = rng(1,maxNum);
 
     if(result === 1){
-
       await interaction.reply(`${interaction.user} rolled a ${result} and lost`);
 
     } else{
-
       await interaction.reply(`${interaction.user} rolled a ${result}`);      
 
     }  
 
+  } else if(commandName === 'open_loot_box'){
+    var randomItem = openLootBox();
+    await interaction.reply({
+      content: `You got a **${randomItem.rarity}** item: ${randomItem.name}!`
+    });
   }
 
 });
 
-
+/*
+==================================
+TestRNG
+Function to test the RNG function
+Modified: 11/14/2023
+==================================
+*/
 function testRNG(){
   var x = 0;
   var y = 0;

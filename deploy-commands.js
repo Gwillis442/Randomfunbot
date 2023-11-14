@@ -6,12 +6,13 @@ const { clientId, guildId, token } = require('./config.json');
 
 const commands = [
     new SlashCommandBuilder().setName('roulette').setDescription('Play Russian Roulette solo or with others'),
-	new SlashCommandBuilder().setName('spincylinder').setDescription('Spin the cylinder'),
+	new SlashCommandBuilder().setName('spin_cylinder').setDescription('Spin the cylinder'),
 	new SlashCommandBuilder().setName('roll').setDescription('Get a random number')
 			.addStringOption(option => option.setName('min').setDescription('Minimum value').setRequired(true))
 			.addStringOption(option => option.setName('max').setDescription('Maximum value').setRequired(true)),
-	new SlashCommandBuilder().setName('deathroll').setDescription('Get a random number')
+	new SlashCommandBuilder().setName('death_roll').setDescription('Get a random number')
 			.addStringOption(option => option.setName('max').setDescription('Max Value').setRequired(true)),
+	new SlashCommandBuilder().setName('open_loot_box').setDescription('Open a loot box'),
 ]
 
 	.map(command => command.toJSON());
