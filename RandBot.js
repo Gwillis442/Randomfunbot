@@ -11,6 +11,7 @@ const client = new Client({
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
+    testRNG();
   });
 
 // Set the username to target for message deletion
@@ -25,8 +26,9 @@ const emojiArray = Array(arraySize).fill(null);
     emojiArray[3] = '❤️';
 
 // var for both bullet and chamber fo roulette
-var chamber = Math.floor(Math.random() * 6) + 1;
-var bullet = Math.floor(Math.random() * 6) + 1;
+var chamber = rng(1,6);
+var bullet = rng(1,6);
+
 
 /*
 ==================================
@@ -42,7 +44,7 @@ client.on('messageCreate', (message) => {
   // Check if the message author's username matches the target username
   if (message.author.username === targetUsername) {
     // Generate a random number between 1 and 100
-    const singleTargetDelete = Math.floor(Math.random() * 150) + 1;
+    const singleTargetDelete = rng(1,150);
 
     // If the random number is 1, delete the message
     if (singleTargetDelete === 1) {
@@ -61,7 +63,8 @@ client.on('messageCreate', (message) => {
 /*
 ==================================
 Multiple Target Deletion
-Given any other username besides target (hardcoded) the bot will generate a random number between 1 and 200 
+Given any other username besides target (hardcoded) 
+the bot will generate a random number between 1 and 200 
 if number is 1 bot will delete the message 
 Modified: 11/13/2023
 ==================================
@@ -69,7 +72,7 @@ Modified: 11/13/2023
 //If message author's username does not match target
 client.on('messageCreate', (message) =>{
   if(message.author.username !== targetUsername){
-    const multiTargetDelete = Math.floor(Math.random() * 200) + 1;
+    const multiTargetDelete = rng(1,200);
 
      // If the random number is 1, delete the message
     if (multiTargetDelete === 1) {
@@ -96,11 +99,11 @@ Modified: 11/13/2023
 client.on('messageCreate', (message) => { 
 
 
-  const reactionNum = Math.floor(Math.random() * 100) + 1;
+  const reactionNum = rng(1,100);
 
   if (reactionNum === 1){
 
-    const reactionNum1 = Math.floor(Math.random() * arraySize);
+    const reactionNum1 = rng(1,arraySize);
     
     //Server specific emojis
     emojiArray[4] = message.guild.emojis.cache.find(emoji => emoji.name === 'righty');
@@ -143,8 +146,8 @@ Modified: 11/13/2023
 
 function spinCylinder(){
 
-  chamber = Math.floor(Math.random() * 6) + 1;
-  bullet = Math.floor(Math.random() * 6) + 1;
+  chamber = rng(1,6);
+  bullet = rng(1,6);
 
 }
 
@@ -165,13 +168,12 @@ return(Math.floor(Math.random() * (max - min + 1)) + min);
 ==================================
 Interaction builder
 Holds logic for the user using a / command
+Dependcies found in deploy-commands.js
 Modified: 11/13/2023
 ==================================
 */
 
-client.on('interactionCreate', async interaction => {
-	
-  
+client.on('interactionCreate', async interaction => {  
   if (!interaction.isCommand()) return;
 
 	const { commandName, options } = interaction;
@@ -205,14 +207,14 @@ client.on('interactionCreate', async interaction => {
 
     }
 
-  } else if(commandName === 'spincylinder'){
+  } else if(commandName === 'spincylinder'){// command to reroll random numbers for bullet and chamber
 
     spinCylinder();
     await interaction.reply(`${interaction.user} spun the cylinder.`);
     //console.log(`Chamber = ${chamber}`);
     //console.log(`Bullet = ${bullet}`);
 
-  } else if(commandName === 'roll'){
+  } else if(commandName === 'roll'){ // allows you to roll a random number between 2 user inputs
 
     const min = options.getString('min');
     const max = options.getString('max');
@@ -222,7 +224,7 @@ client.on('interactionCreate', async interaction => {
     await interaction.reply(`Random number between ${minNum} and ${maxNum}: ${result}`);
 
 
-  } else if(commandName === 'deathroll'){
+  } else if(commandName === 'deathroll'){ //rolls a random number between 1 and user input until a 1 is rolled
 
     const max = options.getString('max');
     const maxNum = parseInt(max);   
@@ -242,5 +244,22 @@ client.on('interactionCreate', async interaction => {
   }
 
 });
+
+
+function testRNG(){
+  var x = 0;
+  var y = 0;
+ 
+  for(var i; i < 100; i++){
+    var num = rng(50,200);
+    if(num > 200 || num < 50){
+      y++;
+    } else {
+      x++;
+    }
+}
+console.log('test End')
+console.log(`Success: ${x} Fail: ${y}`);
+}
 
 client.login('MTE3MjAyNTUwOTU3MjUzMDIyNg.GfpzbC.br3NYgOxg8ZigxMszICvzkX73l_KjNpjXO4CHk');
