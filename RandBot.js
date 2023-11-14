@@ -11,7 +11,7 @@ const client = new Client({
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
-    testRNG();
+    //testRNG();
   });
 
 // Set the username to target for message deletion
