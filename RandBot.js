@@ -207,7 +207,7 @@ client.on('interactionCreate', async interaction => {
 
   } else if(commandName === 'spincylinder'){
 
-    spinChamber();
+    spinCylinder();
     await interaction.reply(`${interaction.user} spun the cylinder.`);
     //console.log(`Chamber = ${chamber}`);
     //console.log(`Bullet = ${bullet}`);
