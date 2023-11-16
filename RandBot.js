@@ -1,36 +1,33 @@
 
+const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
 const { Client, GatewayIntentBits } = require('discord.js');
+const {emojiArray, } = require('./item-arrays'); // Import from ItemArrays.js
+const {rng, openLootBox, testRNG} = require('./functions.js');
 const client = new Client({ 
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
-    //GatewayIntentBits.MessageComponents,
   ]
 });
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
-    //testRNG();
+    testRNG();
   });
 
 // Set the username to target for message deletion
 const targetUsername = "kony911";
 
 // Creating Array filled with reaction emojis
+/*
 const arraySize = 7;
 const emojiArray = Array(arraySize).fill(null);
     emojiArray[0] = '👍';
     emojiArray[1] = '👎';
     emojiArray[2] = '🤡';
     emojiArray[3] = '❤️';
-
-const lootBoxItems = [
-    { name: 'Common Sword', rarity: 'common' },
-    { name: 'Rare Shield', rarity: 'rare' },
-    { name: 'Epic Potion', rarity: 'epic' },
-    { name: 'Legendary Armor', rarity: 'legendary' },
-  ];
+*/
 
 // var for both bullet and chamber fo roulette
 var chamber = rng(1,6);
@@ -39,9 +36,11 @@ var bullet = rng(1,6);
 
 /*
 ==================================
-Single Target Deletion
+Message Deletion
 Given a specific username (hardcoded) the bot will generate a random number between 1 and 150 
-if number is 1 bot will delete the message 
+if number is 1 message will be deleted
+If not the specific username the bot will instead will generate a random number between 1 and 200
+if number is 1 message will be deleted
 Modified: 11/13/2023
 ==================================
 */
@@ -64,21 +63,7 @@ client.on('messageCreate', (message) => {
       })
       .catch(console.error);
     }
-  }
-});
-
-/*
-==================================
-Multiple Target Deletion
-Given any other username besides target (hardcoded) 
-the bot will generate a random number between 1 and 200 
-if number is 1 bot will delete the message 
-Modified: 11/13/2023
-==================================
-*/
-//If message author's username does not match target
-client.on('messageCreate', (message) =>{
-  if(message.author.username !== targetUsername){
+  } else {
     const multiTargetDelete = rng(1,200);
 
      // If the random number is 1, delete the message
@@ -145,56 +130,6 @@ client.on('messageCreate', (message) =>{
 
 /*
 ==================================
-Spin Cylinder
-When called the function will reroll the random numbers between 1 and 6 for chamber and bullet
-Modified: 11/13/2023
-==================================
-*/
-
-function spinCylinder(){
-
-  chamber = rng(1,6);
-  bullet = rng(1,6);
-
-}
-
-/*
-==================================
-Random Number Generator 
-When called the function will roll random numbers between 2 passed to the function
-Modified: 11/13/2023
-==================================
-*/
-function rng(min, max){
-
-return(Math.floor(Math.random() * (max - min + 1)) + min);
-
-}
-
-/*
-==================================
-Loot Box generator
-allows for the opening of a 'lootbox' that gives the user a sense of pride and acomplishment
-Modified: 11/14/2023
-==================================
-*/
-function openLootBox(){
-  var num = rng(1,100);
-
-  if(num == 1){
-  return(lootBoxItems[3]);
-  }else if(num < 1 && num <= 20){
-    return(lootBoxItems[2]);
-  }else if(num > 20 && num <= 50){
-    return(lootBoxItems[1]);
-  }else{
-    return(lootBoxItems[0]);
-  }
-
-}
-
-/*
-==================================
 Interaction builder
 Holds logic for the user using a / command
 Dependcies found in 'deploy-commands.js'
@@ -205,7 +140,7 @@ Modified: 11/13/2023
 client.on('interactionCreate', async interaction => {  
   if (!interaction.isCommand()) return;
 
-	const { commandName, options } = interaction;
+	  const { commandName, options } = interaction;
 
 	if (commandName === 'roulette'){ // Russian Roulette command 1/6 chance to be shot
 
@@ -215,8 +150,8 @@ client.on('interactionCreate', async interaction => {
       await interaction.member.voice.setChannel(null);
       await interaction.reply(`*Bang* ${interaction.user} was shot!`);
       //console.log(`${interaction.username} what shot`);
-
-      spinCylinder();
+      bullet = rng(1,6);
+      chamber = rng(1,6);
       //console.log('Reseting bullet and chamber');
 
     } else {
@@ -236,22 +171,21 @@ client.on('interactionCreate', async interaction => {
 
   } else if(commandName === 'spin_cylinder'){// command to reroll random numbers for bullet and chamber
 
-    spinCylinder();
-    await interaction.reply(`${interaction.user} spun the cylinder.`);
-    //console.log(`Chamber = ${chamber}`);
-    //console.log(`Bullet = ${bullet}`);
+      chamber = rng(1,6);
+      bullet = rng(1,6);
+      await interaction.reply(`${interaction.user} spun the cylinder.`);
+      //console.log(`Chamber = ${chamber}`);
+      //console.log(`Bullet = ${bullet}`);
 
   } else if(commandName === 'roll'){ // allows you to roll a random number between 2 user inputs
-    const min = options.getString('min');
-    const max = options.getString('max');
-    const minNum = parseInt(min);
-    const maxNum = parseInt(max);
-    const result = rng(minNum, maxNum);
-    await interaction.reply(`Random number between ${minNum} and ${maxNum}: ${result}`);
-
+      const min = options.getString('min');
+      const max = options.getString('max');
+      const minNum = parseInt(min);
+      const maxNum = parseInt(max);
+      const result = rng(minNum, maxNum);
+      await interaction.reply(`Random number between ${minNum} and ${maxNum}: ${result}`);
 
   } else if(commandName === 'death_roll'){ //rolls a random number between 1 and user input until a 1 is rolled
-
     const max = options.getString('max');
     const maxNum = parseInt(max);
     const result = rng(1,maxNum);
@@ -266,36 +200,17 @@ client.on('interactionCreate', async interaction => {
 
   } else if(commandName === 'open_loot_box'){
     var randomItem = openLootBox();
-    await interaction.reply({
-      content: `You got a **${randomItem.rarity}** item: ${randomItem.name}!`
-    });
-  }
 
+    const button = new ButtonBuilder().setCustomId('open_loot_box').setLabel('Open Another Loot Box').setStyle('Primary')
+    const row = new ActionRowBuilder().addComponents(button);
+    
+    await interaction.reply({
+      content: `You got a **${randomItem.rarity}** item: ${randomItem.name}!`,  
+      components: [row],    
+    });    
+  }
 });
 
-/*
-==================================
-TestRNG
-Function to test the RNG function
-Modified: 11/14/2023
-==================================
-*/
-function testRNG(){
-  var x = 0;
-  var y = 0;
- 
-  for(var i = 0; i < 100; i++){
-    var num = rng(5,10);
-    if(num > 10|| num < 5){
-      y++;
-    } else {
-      x++;
-    }
-}
-console.log(`Testing RNG`);
-console.log(`Success: ${x} Fail: ${y}`);
-console.log('Test End')
 
-}
 
 client.login('MTE3MjAyNTUwOTU3MjUzMDIyNg.GfpzbC.br3NYgOxg8ZigxMszICvzkX73l_KjNpjXO4CHk');
