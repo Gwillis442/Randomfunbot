@@ -1,4 +1,4 @@
-const { lootBoxItems} = require('./item-arrays'); // Import from ItemArrays.js
+const {lootBoxItems,} = require('./item-arrays'); // Import from ItemArrays.js
 /*
 ==================================
 Random Number Generator 
@@ -21,13 +21,13 @@ function openLootBox(){
     var num = rng(1,100);
   
     if(num == 1){
-    return(lootBoxItems[3]);
+    return(lootBoxItems[3][rng(0,3)]);
     }else if(num < 1 && num <= 20){
-      return(lootBoxItems[2]);
+      return(lootBoxItems[2][rng(0,3)]);
     }else if(num > 20 && num <= 50){
-      return(lootBoxItems[1]);
+      return(lootBoxItems[1][rng(0,3)]);
     }else{
-      return(lootBoxItems[0]);
+      return(lootBoxItems[0][rng(0,3)]);
     }
   
   }
@@ -60,6 +60,6 @@ module.exports = {
     openLootBox,
     rng,
     testRNG,
-    
+
 
 };

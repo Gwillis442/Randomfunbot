@@ -2,7 +2,7 @@
 const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
 const { Client, GatewayIntentBits } = require('discord.js');
 const {emojiArray, } = require('./item-arrays'); // Import from ItemArrays.js
-const {rng, openLootBox, testRNG} = require('./functions.js');
+const {rng, openLootBox, testRNG,} = require('./functions.js');
 const client = new Client({ 
   intents: [
     GatewayIntentBits.Guilds,
@@ -18,16 +18,6 @@ client.on('ready', () => {
 
 // Set the username to target for message deletion
 const targetUsername = "kony911";
-
-// Creating Array filled with reaction emojis
-/*
-const arraySize = 7;
-const emojiArray = Array(arraySize).fill(null);
-    emojiArray[0] = '👍';
-    emojiArray[1] = '👎';
-    emojiArray[2] = '🤡';
-    emojiArray[3] = '❤️';
-*/
 
 // var for both bullet and chamber fo roulette
 var chamber = rng(1,6);
@@ -205,7 +195,7 @@ client.on('interactionCreate', async interaction => {
     const row = new ActionRowBuilder().addComponents(button);
     
     await interaction.reply({
-      content: `You got a **${randomItem.rarity}** item: ${randomItem.name}!`,  
+      content: `You got a **${randomItem.name}**!`,  
       components: [row],    
     });    
   }
