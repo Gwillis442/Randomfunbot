@@ -1,4 +1,5 @@
 const {lootBoxItems,} = require('./item-arrays'); // Import from ItemArrays.js
+
 /*
 ==================================
 Random Number Generator 
@@ -32,6 +33,18 @@ function openLootBox(){
   
   }
 
+  function modAlert(client, message){
+    const channel = client.channels.cache.get('1164650721514369135');
+
+    if (channel) {
+      const authorName = message.author.username; // Get the original message author's name
+      const messageContent = `Deleted message from **${message.author.tag}**: "${message.content}"`;
+      channel.send(messageContent);
+    } else {
+      console.error(`Channel with ID ${channelId} not found.`);
+    }
+  }
+
   /*
 ==================================
 TestRNG
@@ -56,10 +69,10 @@ function testRNG(){
   console.log('Test End')
   
   }
+
 module.exports = {
     openLootBox,
     rng,
     testRNG,
-
-
+    modAlert,
 };

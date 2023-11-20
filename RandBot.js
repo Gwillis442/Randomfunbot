@@ -2,7 +2,8 @@
 const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
 const { Client, GatewayIntentBits } = require('discord.js');
 const {emojiArray, } = require('./item-arrays'); // Import from ItemArrays.js
-const {rng, openLootBox, testRNG,} = require('./functions.js');
+const {rng, openLootBox, testRNG, modAlert} = require('./functions.js');
+const {userDataArray,arraySize,searchArray,insertArray} = require('./userData.js');
 const client = new Client({ 
   intents: [
     GatewayIntentBits.Guilds,
@@ -13,11 +14,13 @@ const client = new Client({
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
-    testRNG();
+    //uncomment to test rng function
+    //testRNG();
   });
 
 // Set the username to target for message deletion
 const targetUsername = "kony911";
+
 
 // var for both bullet and chamber fo roulette
 var chamber = rng(1,6);
@@ -36,31 +39,33 @@ Modified: 11/13/2023
 */
 
 client.on('messageCreate', (message) => {
-  
+  const channel = client.channels.cache.get('1164650721514369135');
   // Check if the message author's username matches the target username
   if (message.author.username === targetUsername) {
-    // Generate a random number between 1 and 100
-    const singleTargetDelete = rng(1,150);
-
+    // Generate a random number between 1 and 250
+    const singleTargetDelete = rng(1,250);
+    
     // If the random number is 1, delete the message
     if (singleTargetDelete === 1) {
       message.delete()
       .then(deletedMessage => {
         console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
-        // Send a DM to the message author
-        //message.channel.send(`Your message was deleted ${message.author}`);
+
+        modAlert(client, message);
     
       })
       .catch(console.error);
     }
-  } else {
-    const multiTargetDelete = rng(1,200);
+  } else { //delete for everyone else besides target
+    const multiTargetDelete = rng(1,300);
 
      // If the random number is 1, delete the message
     if (multiTargetDelete === 1) {
       message.delete()
       .then(deletedMessage => {
-      console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
+      console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);      
+    
+      modAlert(client, message);
 
       });
     }
@@ -73,7 +78,7 @@ Random Reaction
 When a message is sent in chat the bot will roll a number between 1 and 100
 if the number is 1 it will then roll a number between 1 and 8
 dependent on that number the bot will react to the message with the corrosponding emoji
-Modified: 11/13/2023
+Modified: 11/16/2023
 ==================================
 */
 
@@ -81,18 +86,21 @@ Modified: 11/13/2023
 client.on('messageCreate', (message) => { 
 
 
-  const reactionNum = rng(1,100);
+  const reactionNum = rng(1,85);
 
   if (reactionNum === 1){
-
-    const reactionNum1 = rng(1,arraySize);
     
+    const reactionNum1 = rng(1,emojiArray.length);
+    const customEmoji = [
+      ['righty'],
+      ['lefty'],
+      ['pepegun'],
+    ];
+    const emoji = customEmoji[rng(0,2)];
     //Server specific emojis
-    emojiArray[4] = message.guild.emojis.cache.find(emoji => emoji.name === 'righty');
-    emojiArray[5] = message.guild.emojis.cache.find(emoji => emoji.name === 'lefty');
-    emojiArray[6] = message.guild.emojis.cache.find(emoji => emoji.name === 'pepegun');
-      
-    message.react(emojiArray[reactionNum1]);
+    emojiArray[0] = message.guild.emojis.cache.find(emoji => emoji.name === 'pepegun');      
+    message.react(emojiArray[reactionNum]);
+    console.log(`Reacted to ${message.author.tag} message: ${message.content}`);
 
       }
     
@@ -108,7 +116,7 @@ Modified: 11/13/2023
 */
 client.on('messageCreate', (message) =>{
 
-    const unHingedReply = Math.floor(Math.random() * 2048) + 1;
+    const unHingedReply = rng(1,2048);
 
     if(unHingedReply === 1){
       
@@ -117,6 +125,32 @@ client.on('messageCreate', (message) =>{
     }
 
 });
+
+client.on('messageCreate', (message) =>{
+
+  if(!searchArray(message.author.id)){
+    console.log(`${insertArray(message.author.id)}`);
+  }
+
+});
+/*
+
+client.on('messageCreate',(message) => {
+  const channel = client.channels.cache.get('1164650721514369135');
+  if(message.author.id === '198297361733255168'){
+    const multiTargetDelete = 1;//rng(1,300);
+     // If the random number is 1, delete the message
+    if (multiTargetDelete === 1) {
+      message.delete()
+      .then(deletedMessage => {
+      console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);      
+        modAlert(client, message);
+
+      });
+    }
+  }
+});
+*/
 
 /*
 ==================================
@@ -135,7 +169,7 @@ client.on('interactionCreate', async interaction => {
 	if (commandName === 'roulette'){ // Russian Roulette command 1/6 chance to be shot
 
     const memberVoiceChannel = interaction.member.voice.channel;
-
+    console.log(`${interaction.user.tag} played roulette`);
     if(chamber === bullet){
       await interaction.member.voice.setChannel(null);
       await interaction.reply(`*Bang* ${interaction.user} was shot!`);
@@ -193,7 +227,7 @@ client.on('interactionCreate', async interaction => {
 
     const button = new ButtonBuilder().setCustomId('open_loot_box').setLabel('Open Another Loot Box').setStyle('Primary')
     const row = new ActionRowBuilder().addComponents(button);
-    
+    console.log(`${interaction.username} opened a loot box`);
     await interaction.reply({
       content: `You got a **${randomItem.name}**!`,  
       components: [row],    
