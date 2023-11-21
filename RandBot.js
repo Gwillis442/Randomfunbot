@@ -1,6 +1,7 @@
 
 const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
 const { Client, GatewayIntentBits } = require('discord.js');
+const { token } = require('./config.json');
 const {emojiArray, } = require('./item-arrays'); // Import from ItemArrays.js
 const {rng, openLootBox, testRNG, modAlert} = require('./functions.js');
 const {userDataArray,arraySize,searchArray,insertArray} = require('./userData.js');
@@ -237,4 +238,4 @@ client.on('interactionCreate', async interaction => {
 
 
 
-client.login('MTE3MjAyNTUwOTU3MjUzMDIyNg.GfpzbC.br3NYgOxg8ZigxMszICvzkX73l_KjNpjXO4CHk');
+client.login(token);
