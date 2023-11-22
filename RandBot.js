@@ -2,10 +2,10 @@
 const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
 const { Client, GatewayIntentBits } = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
-const { token } = require('./config.json');
+const {token } = require('./config.json');
 const {emojiArray, } = require('./item-arrays'); // Import from ItemArrays.js
 const {rng, openLootBox, testRNG, modAlert} = require('./functions.js');
-const { insertUser } = require('./dbInsert.js');
+const {insertUser, updatePostCount } = require('./dbFunctions.js');
 
 const client = new Client({ 
   intents: [
@@ -134,6 +134,24 @@ client.on('messageCreate', (message) =>{
   const db = new sqlite3.Database('botDatabase.db');
   insertUser(db, message.author.id, message.author.username);
 
+});
+
+client.on('messageCreate', (message) => {
+  // Check if the message is in the 'the-algo' channel
+  if (message.channel.name === 'the-algo') {
+    // Check if the message contains a TikTok, Instagram Reel, or YouTube Short link
+    const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com|youtu\.be)\/\S+/i.test(message.content);
+
+    if (containsLink) {
+      // Get the user ID from the message author
+      const userId = message.author.id;
+
+      // Call the function to update the post count (you might adjust the increment value)
+      const incrementValue = 1; // You can adjust this value based on your requirements
+      const db = new sqlite3.Database('botDatabase.db');
+      updatePostCount(db, userId, incrementValue);
+    }
+  }
 });
 /*
 

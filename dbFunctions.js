@@ -36,8 +36,19 @@ function insertUser(db, userId, username) {
     db.close();
   }
   
+  function updatePostCount(db, userId, incrementValue) {
+    // Update the post_count for the user in the 'post_count' table
+    db.run("UPDATE post_count SET post_count = post_count + ? WHERE user_id = ?", [incrementValue, userId], function(err) {
+      if (err) {
+        return console.error(err.message);
+      }
+      console.log(`Post count updated for user with ID ${userId}`);
+    });
+    db.close();
+  }
   
 
 module.exports = {
     insertUser,
+    updatePostCount,
   };
