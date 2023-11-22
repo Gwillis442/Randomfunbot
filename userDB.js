@@ -71,11 +71,20 @@ db.all(query, [], (err, rows) => {
   }
 
   // Display the result
-  console.log(`Links Posted in 'The-Algo' as of 11-21-2023:`);
+  console.log(`tiktok/reel/short links Posted as of 11-21-2023:`);
   rows.forEach((row) => {
     console.log(`${row.username}: ${row['Links Posted']}`);
   });
 });
-  
+
+/*
+db.run("UPDATE post_count SET post_count = 1  WHERE user_id = 281696935579222017", function(err) {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log(`Post count updated for user with ID 281696935579222017`);
+});
+*/
+
 // Close the database connection
 db.close();

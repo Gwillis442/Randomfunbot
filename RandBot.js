@@ -138,9 +138,10 @@ client.on('messageCreate', (message) =>{
 
 client.on('messageCreate', (message) => {
   // Check if the message is in the 'the-algo' channel
-  if (message.channel.name === 'the-algo') {
+
     // Check if the message contains a TikTok, Instagram Reel, or YouTube Short link
-    const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com|youtu\.be)\/\S+/i.test(message.content);
+   const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com|youtu\.be|youtube\.com\/shorts)\/\S+/i.test(message.content);
+
 
     if (containsLink) {
       // Get the user ID from the message author
@@ -151,7 +152,6 @@ client.on('messageCreate', (message) => {
       const db = new sqlite3.Database('botDatabase.db');
       updatePostCount(db, userId, incrementValue);
     }
-  }
 });
 /*
 
