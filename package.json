@@ -14,6 +14,6 @@
     "discord-api-types": "^0.37.63",
     "discord.js": "^14.14.1",
     "discord.js-commando": "^0.12.3",
-    "oracledb": "^6.2.0"
+    "sqlite3": "^5.1.6"
   }
 }

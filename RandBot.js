@@ -1,10 +1,12 @@
 
 const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
 const { Client, GatewayIntentBits } = require('discord.js');
+const sqlite3 = require('sqlite3').verbose();
 const { token } = require('./config.json');
 const {emojiArray, } = require('./item-arrays'); // Import from ItemArrays.js
 const {rng, openLootBox, testRNG, modAlert} = require('./functions.js');
-const {userDataArray,arraySize,searchArray,insertArray} = require('./userData.js');
+const { insertUser } = require('./dbInsert.js');
+
 const client = new Client({ 
   intents: [
     GatewayIntentBits.Guilds,
@@ -129,9 +131,8 @@ client.on('messageCreate', (message) =>{
 
 client.on('messageCreate', (message) =>{
 
-  if(!searchArray(message.author.id)){
-    console.log(`${insertArray(message.author.id)}`);
-  }
+  const db = new sqlite3.Database('botDatabase.db');
+  insertUser(db, message.author.id, message.author.username);
 
 });
 /*
@@ -238,4 +239,4 @@ client.on('interactionCreate', async interaction => {
 
 
 
-client.login(token);
+client.login("MTE3MjAyNTUwOTU3MjUzMDIyNg.GfpzbC.br3NYgOxg8ZigxMszICvzkX73l_KjNpjXO4CHk");
