@@ -5,7 +5,7 @@ const sqlite3 = require('sqlite3').verbose();
 const {token } = require('./config.json');
 const {emojiArray, } = require('./item-arrays'); // Import from ItemArrays.js
 const {rng, openLootBox, testRNG, modAlert} = require('./functions.js');
-const {insertUser, updatePostCount } = require('./dbFunctions.js');
+const {insertUser, updatePostCount, algoPosts } = require('./dbFunctions.js');
 
 const client = new Client({ 
   intents: [
@@ -252,9 +252,12 @@ client.on('interactionCreate', async interaction => {
       content: `You got a **${randomItem.name}**!`,  
       components: [row],    
     });    
+  } else if(commandName === 'post_count'){
+    const db = new sqlite3.Database('botDatabase.db');
+    algoPosts(interaction, db);
   }
 });
 
 
 
-client.login("MTE3MjAyNTUwOTU3MjUzMDIyNg.GfpzbC.br3NYgOxg8ZigxMszICvzkX73l_KjNpjXO4CHk");
+client.login(token);

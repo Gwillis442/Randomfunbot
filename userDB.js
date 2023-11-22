@@ -1,5 +1,16 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('botDatabase.db');
+const query = `
+  SELECT
+    u.username,
+    pc.post_count AS "Links Posted"
+  FROM
+    users u
+  LEFT JOIN
+    post_count pc ON u.user_id = pc.user_id
+  ORDER BY
+    pc.post_count DESC;
+`;
 
 db.run(`
   CREATE TABLE IF NOT EXISTS users (
@@ -24,13 +35,6 @@ db.run(`
   )
 `);
 /*
-db.run("DELETE FROM users WHERE user_id = 198297361733255168", function(err) {
-  if (err) {
-    return console.error(err.message);
-  }
-  console.log(`User with ID 198297361733255168 deleted`);
-});
-*/
 db.all("SELECT name FROM sqlite_master WHERE type='table';", (err, tables) => {
   if (err) {
     console.error(err.message);
@@ -58,7 +62,20 @@ db.all("SELECT name FROM sqlite_master WHERE type='table';", (err, tables) => {
     });
   });
 });
+*/
 
+db.all(query, [], (err, rows) => {
+  if (err) {
+    console.error(err.message);
+    return;
+  }
+
+  // Display the result
+  console.log(`Links Posted in 'The-Algo' as of 11-21-2023:`);
+  rows.forEach((row) => {
+    console.log(`${row.username}: ${row['Links Posted']}`);
+  });
+});
   
 // Close the database connection
 db.close();
