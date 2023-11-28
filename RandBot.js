@@ -4,7 +4,7 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
 const {token } = require('./config.json');
 const {emojiArray, userBag, } = require('./item-arrays'); // Import from ItemArrays.js
-const {rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag} = require('./functions.js');
+const {rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag,displayBag} = require('./functions.js');
 const {insertUser, updatePostCount, algoPosts, populateBagFromDatabase,updateBagCount } = require('./dbFunctions.js');
 
 const client = new Client({ 
@@ -15,8 +15,10 @@ const client = new Client({
   ]
 });
 
+let isBotReady = false;
 client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}`);
+  console.log(`Logged in as ${client.user.tag}`);
+  if(!isBotReady){    
     //uncomment to test rng function
     //testRNG();
     const db = new sqlite3.Database('botDatabase.db');
@@ -26,7 +28,10 @@ client.on('ready', () => {
       } else {
         console.error('Error populating bag:', err);
       }
-    });
+      isBotReady = true;
+      });
+    }
+    displayBag();
   });
 
 // Set the username to target for message deletion
@@ -84,25 +89,34 @@ client.on('messageCreate', (message) => {
   }
 });
 */
+
 client.on('messageCreate', (message) => {
-  const channel = client.channels.cache.get('1164650721514369135');
   const messageDelete = rng(1, 100);
+  const db = new sqlite3.Database('botDatabase.db');
 
   if (messageDelete === 1) {
-    const bagPull = rng(0, userBag.length - 1);
-    const bagName = getUsernameFromBag(bagPull);
+    const bagPull = rng(0, (userBag.length - 1));
+    console.log(`ID Index: ${bagPull}`);
 
-    if (bagName === message.author.username) {
+    const bagId = getUsernameFromBag(bagPull);    
+    console.log(`ID pulled from bag: ${bagId}`);
+
+    if (bagId === message.author.Id) {
+      console.log(`${bagID} == ${message.author.id}`);
       message.delete()
         .then(deletedMessage => {
           console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
           popUsernameFromBag(bagPull);
+          updateBagCount(db, message.author.id, -1);
           modAlert(client, message);
         })
         .catch(error => {
           console.error('Error deleting message:', error);
         });
+    } else {
+      console.log(`${bagId} != ${message.author.id}:${message.author.username}`);
     }
+
   }
 });
 

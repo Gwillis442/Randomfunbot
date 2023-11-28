@@ -70,9 +70,7 @@ function insertUser(db, userId, username) {
         console.error(err.message);
         return callback(err);
       }
-  
-      // Clear the existing bag
-      let userBag = [];
+
   
       // Populate the bag based on the counts in bag_count table
       rows.forEach((row) => {
@@ -82,7 +80,6 @@ function insertUser(db, userId, username) {
         for (let i = 0; i < count; i++) {
           userBag.push(userId);
         }
-
 
     // Callback to indicate completion
     callback(null);

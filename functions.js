@@ -73,7 +73,7 @@ function pushUsernameToBag(username) {
 
 function displayBag(){
   for(const i = 0; i < userBag.length; i++){
-    console.log(userBag[i]);
+  console.log(`${userBag[i]}`);
   }
 }
 
@@ -110,4 +110,6 @@ module.exports = {
     popUsernameFromBag,
     getUsernameFromBag,
     pushUsernameToBag,
+    displayBag,
+
 };
