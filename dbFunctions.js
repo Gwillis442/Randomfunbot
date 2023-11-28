@@ -1,3 +1,5 @@
+const { userBag } = require('./item-arrays');
+
 const sqlite3 = require('sqlite3').verbose();
 //Database Built 11/21/2023
 function insertUser(db, userId, username) {
@@ -46,6 +48,48 @@ function insertUser(db, userId, username) {
     });
     db.close();
   }
+  function updateBagCount(db, userId, incrementValue) {
+    // Update the post_count for the user in the 'post_count' table
+    db.run("UPDATE bag_count SET bag_count = bag_count + ? WHERE user_id = ?", [incrementValue, userId], function(err) {
+      if (err) {
+        return console.error(err.message);
+      }
+      console.log(`bag count updated for user with ID ${userId}`);
+    });
+    db.close();
+  }
+
+  function populateBagFromDatabase(db, callback) {
+    const query = `
+      SELECT user_id, bag_count
+      FROM bag_count;
+    `;
+  
+    db.all(query, [], (err, rows) => {
+      if (err) {
+        console.error(err.message);
+        return callback(err);
+      }
+  
+      // Clear the existing bag
+      let userBag = [];
+  
+      // Populate the bag based on the counts in bag_count table
+      rows.forEach((row) => {
+        const userId = row.user_id;
+        const count = row.bag_count;
+  
+        for (let i = 0; i < count; i++) {
+          userBag.push(userId);
+        }
+
+
+    // Callback to indicate completion
+    callback(null);
+
+      });
+    });
+  }
 
   function algoPosts(interaction,db){
     const query = `
@@ -83,4 +127,7 @@ module.exports = {
     insertUser,
     updatePostCount,
     algoPosts,
+    updateBagCount,
+    populateBagFromDatabase,
+    userBag,
   };

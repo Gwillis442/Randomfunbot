@@ -1,3 +1,5 @@
+const { userBag } = require('./item-arrays');
+
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('botDatabase.db');
 const query = `
@@ -10,6 +12,15 @@ const query = `
     post_count pc ON u.user_id = pc.user_id
   ORDER BY
     pc.post_count DESC;
+`;
+const query1 = `
+  SELECT
+    u.username,
+    b.bag_count AS "bag count"
+  FROM
+    users u
+  LEFT JOIN
+    bag_count b ON u.user_id = b.user_id
 `;
 
 db.run(`
@@ -34,6 +45,15 @@ db.run(`
     foreign key (user_id) REFERENCES user(user_id)
   )
 `);
+
+db.run(`
+  CREATE TABLE IF NOT EXISTS bag_count (
+    user_id INTEGER PRIMARY KEY,
+    bag_count INTEGER,
+    foreign key (user_id) REFERENCES user(user_id)
+  )
+`);
+
 /*
 db.all("SELECT name FROM sqlite_master WHERE type='table';", (err, tables) => {
   if (err) {
@@ -77,12 +97,33 @@ db.all(query, [], (err, rows) => {
   });
 });
 
+db.all(query1, [], (err, rows) => {
+  if (err) {
+    console.error(err.message);
+    return;
+  }
+  console.log(`Number in Bag`);
+  rows.forEach((row) => {
+    console.log(`${row.username}: ${row['bag count']}`);
+  });
+});
+
+
+
 /*
-db.run("UPDATE post_count SET post_count = 1  WHERE user_id = 281696935579222017", function(err) {
+db.run("INSERT INTO bag_count (bag_count)SELECT post_cout FROM post_count;", function(err) {
   if (err) {
     return console.error(err.message);
   }
-  console.log(`Post count updated for user with ID 281696935579222017`);
+  console.log(`bag_count populated`);
+});
+*/
+/*
+db.run("UPDATE post_count SET post_count = post_count + 1 WHERE user_id = 283865139650756608", function(err) {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log(`post count updated for user with ID 283865139650756608`);
 });
 */
 

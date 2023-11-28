@@ -31,14 +31,18 @@ const lootBoxItems = [
 
 ];
 
+let userBag = [];
+
 const arraySize = 5;
 const emojiArray = Array(arraySize).fill(null);
     emojiArray[1] = '👍';
     emojiArray[2] = '👎';
     emojiArray[3] = '🤡';
     emojiArray[4] = '❤️';
+
   
   module.exports = {
     lootBoxItems,
-    emojiArray
+    emojiArray, 
+    userBag
   };

@@ -1,4 +1,4 @@
-const {lootBoxItems,} = require('./item-arrays'); // Import from ItemArrays.js
+const {lootBoxItems, userBag} = require('./item-arrays'); // Import from ItemArrays.js
 
 /*
 ==================================
@@ -45,6 +45,38 @@ function openLootBox(){
     }
   }
 
+  function getUsernameFromBag(index) {
+    // Check if the index is within valid bounds
+    if (index >= 0 && index < userBag.length) {
+      return userBag[index];
+    } else {
+      console.error('Invalid index:', index);
+      return null; // You might want to handle this case differently based on your requirements
+    }
+  }
+
+  function popUsernameFromBag(index) {
+    // Check if the index is within valid bounds
+    if (index >= 0 && index < userBag.length) {
+      // Remove and return the username at the specified index
+      return userBag.splice(index, 1)[0];
+    } else {
+      console.error('Invalid index:', index);
+      return null; // You might want to handle this case differently based on your requirements
+    }
+  }
+
+function pushUsernameToBag(username) {
+    userBag.push(username);
+    console.log(`${username} placed in bag`);
+  }
+
+function displayBag(){
+  for(const i = 0; i < userBag.length; i++){
+    console.log(userBag[i]);
+  }
+}
+
   /*
 ==================================
 TestRNG
@@ -75,4 +107,7 @@ module.exports = {
     rng,
     testRNG,
     modAlert,
+    popUsernameFromBag,
+    getUsernameFromBag,
+    pushUsernameToBag,
 };

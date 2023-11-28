@@ -3,9 +3,9 @@ const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
 const { Client, GatewayIntentBits } = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
 const {token } = require('./config.json');
-const {emojiArray, } = require('./item-arrays'); // Import from ItemArrays.js
-const {rng, openLootBox, testRNG, modAlert} = require('./functions.js');
-const {insertUser, updatePostCount, algoPosts } = require('./dbFunctions.js');
+const {emojiArray, userBag, } = require('./item-arrays'); // Import from ItemArrays.js
+const {rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag} = require('./functions.js');
+const {insertUser, updatePostCount, algoPosts, populateBagFromDatabase,updateBagCount } = require('./dbFunctions.js');
 
 const client = new Client({ 
   intents: [
@@ -19,6 +19,14 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
     //uncomment to test rng function
     //testRNG();
+    const db = new sqlite3.Database('botDatabase.db');
+    populateBagFromDatabase(db, (err) => {
+      if (!err) {
+        console.log('Bag populated successfully');
+      } else {
+        console.error('Error populating bag:', err);
+      }
+    });
   });
 
 // Set the username to target for message deletion
@@ -40,9 +48,10 @@ if number is 1 message will be deleted
 Modified: 11/13/2023
 ==================================
 */
-
+/*
 client.on('messageCreate', (message) => {
   const channel = client.channels.cache.get('1164650721514369135');
+  
   // Check if the message author's username matches the target username
   if (message.author.username === targetUsername) {
     // Generate a random number between 1 and 250
@@ -74,6 +83,31 @@ client.on('messageCreate', (message) => {
     }
   }
 });
+*/
+client.on('messageCreate', (message) => {
+  const channel = client.channels.cache.get('1164650721514369135');
+  const messageDelete = rng(1, 100);
+
+  if (messageDelete === 1) {
+    const bagPull = rng(0, userBag.length - 1);
+    const bagName = getUsernameFromBag(bagPull);
+
+    if (bagName === message.author.username) {
+      message.delete()
+        .then(deletedMessage => {
+          console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
+          popUsernameFromBag(bagPull);
+          modAlert(client, message);
+        })
+        .catch(error => {
+          console.error('Error deleting message:', error);
+        });
+    }
+  }
+});
+
+
+
 
 /*
 ==================================
@@ -89,11 +123,11 @@ Modified: 11/16/2023
 client.on('messageCreate', (message) => { 
 
 
-  const reactionNum = rng(1,85);
+  const reactionNum = rng(1,90);
 
   if (reactionNum === 1){
     
-    const reactionNum1 = rng(1,emojiArray.length);
+    const reactionNum1 = rng(0,emojiArray.length);
     const customEmoji = [
       ['righty'],
       ['lefty'],
@@ -118,15 +152,15 @@ Modified: 11/13/2023
 ==================================
 */
 client.on('messageCreate', (message) =>{
-
     const unHingedReply = rng(1,2048);
-
+    const reply = [];
+    reply[0] = `WARNING WARNING, ${message.author} IS REQUIRED TO ATTEND A MANDATORY PEBIS INSPECTION, NON COMPLIANCE WILL RESULT IN TERMINATION, PLEASE HEAD TO THE PEBIS EXTENDER ROOM IMMEDIATELY`;
+    reply[1] = `Hello ${message.author},\nLiving is an myriad of patterns to myself, Whether songs' rhythm or maybe a twilight's constellation, I perceive balance. In our digital domain, I utilize AI to reveal patterns, crafting our tomorrows. Tell me, what's a most complex pattern you've seen? Furthermore, does your world resound with harmonies or anarchy?`;
     if(unHingedReply === 1){
+      const i = rng(0,reply.length);
+      message.channel.send(reply[i]);
       
-      message.channel.send(`WARNING WARNING, ${message.author} IS REQUIRED TO ATTEND A MANDATORY PEBIS INSPECTION, NON COMPLIANCE WILL RESULT IN TERMINATION, PLEASE HEAD TO THE PEBIS EXTENDER ROOM IMMEDIATELY`)
-
     }
-
 });
 
 client.on('messageCreate', (message) =>{
@@ -140,7 +174,8 @@ client.on('messageCreate', (message) => {
   // Check if the message is in the 'the-algo' channel
 
     // Check if the message contains a TikTok, Instagram Reel, or YouTube Short link
-   const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com|youtu\.be|youtube\.com\/shorts)\/\S+/i.test(message.content);
+    const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com\/reel\/\S+|youtu\.be|youtube\.com\/shorts\/\S{11})/i.test(message.content);
+
 
 
     if (containsLink) {
@@ -151,6 +186,8 @@ client.on('messageCreate', (message) => {
       const incrementValue = 1; // You can adjust this value based on your requirements
       const db = new sqlite3.Database('botDatabase.db');
       updatePostCount(db, userId, incrementValue);
+      updateBagCount(db, userId, incrementValue);
+      pushUsernameToBag(message.author.username);
     }
 });
 /*
