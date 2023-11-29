@@ -4,7 +4,7 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
 const {token } = require('./config.json');
 const {emojiArray, userBag, } = require('./item-arrays'); // Import from ItemArrays.js
-const {rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag,displayBag} = require('./functions.js');
+const {rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag,displayBag,logWithTimestamp} = require('./functions.js');
 const {insertUser, updatePostCount, algoPosts, populateBagFromDatabase,updateBagCount } = require('./dbFunctions.js');
 
 const client = new Client({ 
@@ -17,14 +17,14 @@ const client = new Client({
 
 let isBotReady = false;
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}`);
+  logWithTimestamp(`Logged in as ${client.user.tag}`);
   if(!isBotReady){    
     //uncomment to test rng function
     //testRNG();
     const db = new sqlite3.Database('botDatabase.db');
     populateBagFromDatabase(db, (err) => {
       if (!err) {
-        console.log('Bag populated successfully');
+        logWithTimestamp('Bag populated successfully');
       } else {
         console.error('Error populating bag:', err);
       }
@@ -66,7 +66,7 @@ client.on('messageCreate', (message) => {
     if (singleTargetDelete === 1) {
       message.delete()
       .then(deletedMessage => {
-        console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
+        logWithTimestamp(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
 
         modAlert(client, message);
     
@@ -80,7 +80,7 @@ client.on('messageCreate', (message) => {
     if (multiTargetDelete === 1) {
       message.delete()
       .then(deletedMessage => {
-      console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);      
+      logWithTimestamp(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);      
     
       modAlert(client, message);
 
@@ -96,16 +96,16 @@ client.on('messageCreate', (message) => {
 
   if (messageDelete === 1) {
     const bagPull = rng(0, (userBag.length - 1));
-    console.log(`ID Index: ${bagPull}`);
+    logWithTimestamp(`ID Index: ${bagPull}`);
 
     const bagId = getUsernameFromBag(bagPull);    
-    console.log(`ID pulled from bag: ${bagId}`);
+    logWithTimestamp(`ID pulled from bag: ${bagId}`);
 
     if (bagId === message.author.Id) {
-      console.log(`${bagID} == ${message.author.id}`);
+      logWithTimestamp(`${bagID} == ${message.author.id}`);
       message.delete()
         .then(deletedMessage => {
-          console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
+          logWithTimestamp(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
           popUsernameFromBag(bagPull);
           updateBagCount(db, message.author.id, -1);
           modAlert(client, message);
@@ -114,7 +114,7 @@ client.on('messageCreate', (message) => {
           console.error('Error deleting message:', error);
         });
     } else {
-      console.log(`${bagId} != ${message.author.id}:${message.author.username}`);
+      logWithTimestamp(`${bagId} != ${message.author.id}:${message.author.username}`);
     }
 
   }
@@ -151,7 +151,7 @@ client.on('messageCreate', (message) => {
     //Server specific emojis
     emojiArray[0] = message.guild.emojis.cache.find(emoji => emoji.name === 'pepegun');      
     message.react(emojiArray[reactionNum]);
-    console.log(`Reacted to ${message.author.tag} message: ${message.content}`);
+    logWithTimestamp(`Reacted to ${message.author.tag} message: ${message.content}`);
 
       }
     
@@ -189,9 +189,6 @@ client.on('messageCreate', (message) => {
 
     // Check if the message contains a TikTok, Instagram Reel, or YouTube Short link
     const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com\/reel\/\S+|youtu\.be|youtube\.com\/shorts\/\S{11})/i.test(message.content);
-
-
-
     if (containsLink) {
       // Get the user ID from the message author
       const userId = message.author.id;
@@ -202,7 +199,7 @@ client.on('messageCreate', (message) => {
       updatePostCount(db, userId, incrementValue);
       updateBagCount(db, userId, incrementValue);
       db.close();
-      pushUsernameToBag(message.author.username);
+      pushUsernameToBag(message.author.Id);
     }
 });
 /*
@@ -215,7 +212,7 @@ client.on('messageCreate',(message) => {
     if (multiTargetDelete === 1) {
       message.delete()
       .then(deletedMessage => {
-      console.log(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);      
+      logWithTimestamp(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);      
         modAlert(client, message);
 
       });
@@ -241,14 +238,14 @@ client.on('interactionCreate', async interaction => {
 	if (commandName === 'roulette'){ // Russian Roulette command 1/6 chance to be shot
 
     const memberVoiceChannel = interaction.member.voice.channel;
-    console.log(`${interaction.user.tag} played roulette`);
+    logWithTimestamp(`${interaction.user.tag} played roulette`);
     if(chamber === bullet){
       await interaction.member.voice.setChannel(null);
       await interaction.reply(`*Bang* ${interaction.user} was shot!`);
-      //console.log(`${interaction.username} what shot`);
+      //logWithTimestamp(`${interaction.username} what shot`);
       bullet = rng(1,6);
       chamber = rng(1,6);
-      //console.log('Reseting bullet and chamber');
+      //logWithTimestamp('Reseting bullet and chamber');
 
     } else {
       await interaction.reply(`*click*`);
@@ -260,8 +257,8 @@ client.on('interactionCreate', async interaction => {
         chamber = 1;
 
       }
-      //console.log(`Chamber = ${chamber}`);
-      //console.log(`Bullet = ${bullet}`);
+      //logWithTimestamp(`Chamber = ${chamber}`);
+      //logWithTimestamp(`Bullet = ${bullet}`);
 
     }
 
@@ -270,8 +267,8 @@ client.on('interactionCreate', async interaction => {
       chamber = rng(1,6);
       bullet = rng(1,6);
       await interaction.reply(`${interaction.user} spun the cylinder.`);
-      //console.log(`Chamber = ${chamber}`);
-      //console.log(`Bullet = ${bullet}`);
+      //logWithTimestamp(`Chamber = ${chamber}`);
+      //logWithTimestamp(`Bullet = ${bullet}`);
 
   } else if(commandName === 'roll'){ // allows you to roll a random number between 2 user inputs
       const min = options.getString('min');
@@ -299,7 +296,7 @@ client.on('interactionCreate', async interaction => {
 
     const button = new ButtonBuilder().setCustomId('open_loot_box').setLabel('Open Another Loot Box').setStyle('Primary')
     const row = new ActionRowBuilder().addComponents(button);
-    console.log(`${interaction.username} opened a loot box`);
+    logWithTimestamp(`${interaction.username} opened a loot box`);
     await interaction.reply({
       content: `You got a **${randomItem.name}**!`,  
       components: [row],    

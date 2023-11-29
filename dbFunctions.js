@@ -1,4 +1,5 @@
 const { userBag } = require('./item-arrays');
+const {logWithTimestamp} = require('./functions.js');
 
 const sqlite3 = require('sqlite3').verbose();
 //Database Built 11/21/2023
@@ -15,7 +16,7 @@ function insertUser(db, userId, username) {
           if (err) {
             return console.error(err.message);
           }
-          console.log(`User ${username} added with ID ${this.lastID}`);
+          logWithTimestamp(`User ${username} added with ID ${this.lastID}`);
         });
   
         // Initialize post count for the user in the 'post_count' table
@@ -23,7 +24,7 @@ function insertUser(db, userId, username) {
           if (err) {
             return console.error(err.message);
           }
-          console.log(`Post count initialized for user ${username}`);
+          logWithTimestamp(`Post count initialized for user ${username}`);
         });
   
         // Initialize coin count for the user in the 'coin_count' table
@@ -31,7 +32,7 @@ function insertUser(db, userId, username) {
           if (err) {
             return console.error(err.message);
           }
-          console.log(`Coin count initialized for user ${username}`);
+          logWithTimestamp(`Coin count initialized for user ${username}`);
         });
       }
     });
@@ -44,7 +45,7 @@ function insertUser(db, userId, username) {
       if (err) {
         return console.error(err.message);
       }
-      console.log(`Post count updated for user with ID ${userId}`);
+      logWithTimestamp(`Post count updated for user with ID ${userId}`);
     });
   }
   function updateBagCount(db, userId, incrementValue) {
@@ -53,7 +54,7 @@ function insertUser(db, userId, username) {
       if (err) {
         return console.error(err.message);
       }
-      console.log(`bag count updated for user with ID ${userId}`);
+      logWithTimestamp(`bag count updated for user with ID ${userId}`);
     });
   }
 

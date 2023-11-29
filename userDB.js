@@ -102,7 +102,7 @@ db.all(query1, [], (err, rows) => {
     console.error(err.message);
     return;
   }
-  console.log(`Number in Bag`);
+  console.log(`Number in Bag:`);
   rows.forEach((row) => {
     console.log(`${row.username}: ${row['bag count']}`);
   });

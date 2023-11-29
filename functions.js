@@ -66,15 +66,20 @@ function openLootBox(){
     }
   }
 
-function pushUsernameToBag(username) {
-    userBag.push(username);
-    console.log(`${username} placed in bag`);
+function pushUsernameToBag(userid) {
+    userBag.push(userid);
+    logWithTimestamp(`${userid} placed in bag`);
   }
 
 function displayBag(){
   for(const i = 0; i < userBag.length; i++){
   console.log(`${userBag[i]}`);
   }
+}
+
+function logWithTimestamp(message) {
+  const timestamp = new Date().toLocaleString();
+  console.log(`[${timestamp}] ${message}`);
 }
 
   /*
@@ -111,5 +116,6 @@ module.exports = {
     getUsernameFromBag,
     pushUsernameToBag,
     displayBag,
+    logWithTimestamp,
 
 };
