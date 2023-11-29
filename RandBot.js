@@ -201,6 +201,7 @@ client.on('messageCreate', (message) => {
       const db = new sqlite3.Database('botDatabase.db');
       updatePostCount(db, userId, incrementValue);
       updateBagCount(db, userId, incrementValue);
+      db.close();
       pushUsernameToBag(message.author.username);
     }
 });

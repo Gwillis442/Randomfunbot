@@ -46,7 +46,6 @@ function insertUser(db, userId, username) {
       }
       console.log(`Post count updated for user with ID ${userId}`);
     });
-    db.close();
   }
   function updateBagCount(db, userId, incrementValue) {
     // Update the post_count for the user in the 'post_count' table
@@ -56,7 +55,6 @@ function insertUser(db, userId, username) {
       }
       console.log(`bag count updated for user with ID ${userId}`);
     });
-    db.close();
   }
 
   function populateBagFromDatabase(db, callback) {
