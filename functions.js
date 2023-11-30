@@ -72,14 +72,18 @@ function pushUsernameToBag(userid) {
 }
 
 function displayBag() {
-  let j = 0;
-  for (let i = 0; i < userBag.length; i++) {
-    if(userBag[i] =='283865139650756600'){
-      j++;
-    }
-    console.log(`${userBag[i]}`);
-  }
-    console.log(j);
+  // Create an object to store counts for each user
+  const userCounts = {};
+
+  // Count occurrences of each user ID in userBag
+  userBag.forEach((userId) => {
+    userCounts[userId] = (userCounts[userId] || 0) + 1;
+  });
+
+  // Display counts for each user
+  Object.entries(userCounts).forEach(([userId, count]) => {
+    console.log(`${userId}: ${count}`);
+  });
 }
 
 function logWithTimestamp(message) {

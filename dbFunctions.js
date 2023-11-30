@@ -76,12 +76,10 @@ function populateBagFromDatabase(db, callback) {
 
       for (let i = 0; i < count; i++) {
         userBag.push(userId);
-      }
-
-      // Callback to indicate completion
-      callback(null);
-
+      }    
     });
+       // Callback to indicate completion
+       callback(null);
   });
 }
 

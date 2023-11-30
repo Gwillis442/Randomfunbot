@@ -18,6 +18,7 @@ const client = new Client({
 let isBotReady = false;
 client.on('ready', () => {
   logWithTimestamp(`Logged in as ${client.user.tag}`);
+ 
   if (!isBotReady) {
     //uncomment to test rng function
     //testRNG();
@@ -25,14 +26,15 @@ client.on('ready', () => {
     populateBagFromDatabase(db, (err) => {
       if (err) {
         console.error('Error populating bag:', err);
-      } else {
-        //displayBag();
-        logWithTimestamp('Bag populated successfully');        
-      }
+      } else {        
+        logWithTimestamp('Bag populated successfully');
+        //uncomment to display bag contents
+        displayBag();
+      }     
       isBotReady = true;
     });
+   
   }
-  
 });
 
 // Set the username to target for message deletion
@@ -142,7 +144,7 @@ client.on('messageCreate', (message) => {
 
   if (reactionNum === 1) {
 
-    const reactionNum1 = rng(0, emojiArray.length);
+    const reactionNum1 = rng(0, emojiArray.length-1);
     const customEmoji = [
       ['righty'],
       ['lefty'],
@@ -151,7 +153,7 @@ client.on('messageCreate', (message) => {
     const emoji = customEmoji[rng(0, 2)];
     //Server specific emojis
     emojiArray[0] = message.guild.emojis.cache.find(emoji => emoji.name === 'pepegun');
-    message.react(emojiArray[reactionNum]);
+    message.react(emojiArray[reactionNum1]);
     logWithTimestamp(`Reacted to ${message.author.tag} message: ${message.content}`);
 
   }
@@ -172,7 +174,8 @@ client.on('messageCreate', (message) => {
   reply[0] = `WARNING WARNING, ${message.author} IS REQUIRED TO ATTEND A MANDATORY PEBIS INSPECTION, NON COMPLIANCE WILL RESULT IN TERMINATION, PLEASE HEAD TO THE PEBIS EXTENDER ROOM IMMEDIATELY`;
   reply[1] = `Hello ${message.author},\nLiving is an myriad of patterns to myself, Whether songs' rhythm or maybe a twilight's constellation, I perceive balance. In our digital domain, I utilize AI to reveal patterns, crafting our tomorrows. Tell me, what's a most complex pattern you've seen? Furthermore, does your world resound with harmonies or anarchy?`;
   if (unHingedReply === 1) {
-    const i = rng(0, reply.length);
+    const i = rng(0, reply.length-1);
+    logWithTimestamp(`Message sent to ${message.author}`);
     message.channel.send(reply[i]);
 
   }

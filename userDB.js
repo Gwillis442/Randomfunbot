@@ -85,7 +85,23 @@ db.all("SELECT name FROM sqlite_master WHERE type='table';", (err, tables) => {
   });
 });
 */
+const userIdToDelete = '1079857247208882300';
+db.serialize(() => {
+  // Delete from 'users' table
+  db.run(`DELETE FROM users WHERE user_id = ?`, [userIdToDelete]);
 
+  // Delete from 'post_count' table
+  db.run(`DELETE FROM post_count WHERE user_id = ?`, [userIdToDelete]);
+
+  // Delete from 'coin_count' table
+  db.run(`DELETE FROM coin_count WHERE user_id = ?`, [userIdToDelete]);
+
+  // Delete from 'coin_count' table
+  db.run(`DELETE FROM bag_count WHERE user_id = ?`, [userIdToDelete]);
+  // ... Repeat this pattern for each table ...
+
+  console.log(`User with ID ${userIdToDelete} deleted from all tables.`);
+});
 db.all(query, [], (err, rows) => {
   if (err) {
     console.error(err.message);
