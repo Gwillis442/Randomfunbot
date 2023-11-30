@@ -140,7 +140,7 @@ Modified: 11/16/2023
 client.on('messageCreate', (message) => {
 
 
-  const reactionNum = rng(1, 90);
+  const reactionNum = rng(1, 150);
 
   if (reactionNum === 1) {
 

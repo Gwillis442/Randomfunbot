@@ -140,13 +140,19 @@ db.run("INSERT INTO bag_count (bag_count)SELECT post_cout FROM post_count;", fun
 });
 */
 /*
-db.run("UPDATE bag_count SET bag_count = bag_count + 2 WHERE user_id = 474452715217354774", function(err) {
+db.run("UPDATE bag_count SET bag_count = bag_count + 1 WHERE user_id = 474452715217354774", function(err) {
   if (err) {
     return console.error(err.message);
   }
   console.log(`bag count updated for user with ID 474452715217354774`);
 });
-*/
 
+db.run("UPDATE post_count SET post_count = post_count + 1 WHERE user_id = 474452715217354774", function(err) {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log(`post count updated for user with ID 474452715217354774`);
+});
+*/
 // Close the database connection
 db.close();
