@@ -11,7 +11,7 @@ const query = `
   LEFT JOIN
     post_count pc ON u.user_id = pc.user_id
   ORDER BY
-    pc.post_count DESC;
+    CAST(pc.post_count AS INTEGER) DESC;
 `;
 const query1 = `
   SELECT
@@ -21,6 +21,8 @@ const query1 = `
     users u
   LEFT JOIN
     bag_count b ON u.user_id = b.user_id
+  ORDER BY
+    CAST(b.bag_count AS INTEGER) DESC;
 `;
 
 db.run(`
@@ -90,8 +92,11 @@ db.all(query, [], (err, rows) => {
     return;
   }
 
+  // Log the raw result
+  //console.log("Raw result:", rows);
+
   // Display the result
-  console.log(`tiktok/reel/short links Posted as of 11-21-2023:`);
+  console.log(`==============================\nlinks Posted as of 11-21-2023:\n==============================`);
   rows.forEach((row) => {
     console.log(`${row.username}: ${row['Links Posted']}`);
   });
@@ -102,7 +107,7 @@ db.all(query1, [], (err, rows) => {
     console.error(err.message);
     return;
   }
-  console.log(`Number in Bag:`);
+  console.log(`==============\nNumber in Bag:\n==============`);
   rows.forEach((row) => {
     console.log(`${row.username}: ${row['bag count']}`);
   });

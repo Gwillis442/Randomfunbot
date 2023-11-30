@@ -49,8 +49,8 @@ function updatePostCount(db, userId, incrementValue) {
   });
 }
 function updateBagCount(db, userId, incrementValue) {
-  // Update the post_count for the user in the 'post_count' table
-  db.run("UPDATE bag_count SET bag_count = bag_count + ? WHERE user_id = ?", [incrementValue, userId], function (err) {
+  // Update the post_count for the user in the 'bag_count' table  
+  db.run("UPDATE bag_count SET bag_count = CASE WHEN bag_count + ? > 1 THEN bag_count + ? ELSE 1 END WHERE user_id = ?", [incrementValue, userId], function (err) {
     if (err) {
       return console.error(err.message);
     }
@@ -95,7 +95,7 @@ function algoPosts(interaction, db) {
   LEFT JOIN
     post_count pc ON u.user_id = pc.user_id
   ORDER BY
-    pc.post_count DESC;
+    CAST(pc.post_count AS INTEGER) DESC;
 `;
 
   db.all(query, [], (err, rows) => {
@@ -108,7 +108,7 @@ function algoPosts(interaction, db) {
     const resultString = rows.map(row => `${row.username} Links Posted: ${row['Links Posted']}`).join('\n');
 
     // Reply to the interaction with the result
-    interaction.reply(resultString);
+    interaction.reply(`Links Posted as of 11-21-2023:\n${resultString}`);
 
     // Close the database connection
     db.close();

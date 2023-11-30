@@ -72,9 +72,14 @@ function pushUsernameToBag(userid) {
 }
 
 function displayBag() {
-  for (const i = 0; i < userBag.length; i++) {
+  let j = 0;
+  for (let i = 0; i < userBag.length; i++) {
+    if(userBag[i] =='283865139650756600'){
+      j++;
+    }
     console.log(`${userBag[i]}`);
   }
+    console.log(j);
 }
 
 function logWithTimestamp(message) {

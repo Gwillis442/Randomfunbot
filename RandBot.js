@@ -26,12 +26,13 @@ client.on('ready', () => {
       if (err) {
         console.error('Error populating bag:', err);
       } else {
+        //displayBag();
         logWithTimestamp('Bag populated successfully');        
       }
       isBotReady = true;
     });
   }
-  displayBag();
+  
 });
 
 // Set the username to target for message deletion
