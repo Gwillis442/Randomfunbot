@@ -2,7 +2,7 @@ const { userBag } = require('./item-arrays');
 
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('botDatabase.db');
-const query = `
+const linkQuery = `
   SELECT
     u.username,
     pc.post_count AS "Links Posted"
@@ -13,7 +13,7 @@ const query = `
   ORDER BY
     CAST(pc.post_count AS INTEGER) DESC;
 `;
-const query1 = `
+const bagQuery = `
   SELECT
     u.username,
     b.bag_count AS "bag count"
@@ -24,6 +24,31 @@ const query1 = `
   ORDER BY
     CAST(b.bag_count AS INTEGER) DESC;
 `;
+
+db.all(linkQuery, [], (err, rows) => {
+  if (err) {
+    console.error(err.message);
+    return;
+  }
+  // Log the raw result
+  //console.log("Raw result:", rows);
+  // Display the result
+  console.log(`==============================\nlinks Posted as of 11-21-2023:\n==============================`);
+  rows.forEach((row) => {
+    console.log(`${row.username}: ${row['Links Posted']}`);
+  });
+});
+
+db.all(bagQuery, [], (err, rows) => {
+  if (err) {
+    console.error(err.message);
+    return;
+  }
+  console.log(`==============\nNumber in Bag:\n==============`);
+  rows.forEach((row) => {
+    console.log(`${row.username}: ${row['bag count']}`);
+  });
+});
 
 db.run(`
   CREATE TABLE IF NOT EXISTS users (
@@ -85,51 +110,43 @@ db.all("SELECT name FROM sqlite_master WHERE type='table';", (err, tables) => {
   });
 });
 */
-const userIdToDelete = '1079857247208882300';
-db.serialize(() => {
-  // Delete from 'users' table
-  db.run(`DELETE FROM users WHERE user_id = ?`, [userIdToDelete]);
+/*
+const userIdToDelete = '1172025509572530226';
 
-  // Delete from 'post_count' table
-  db.run(`DELETE FROM post_count WHERE user_id = ?`, [userIdToDelete]);
+console.log(`Deleting user with ID ${userIdToDelete}`);
 
-  // Delete from 'coin_count' table
-  db.run(`DELETE FROM coin_count WHERE user_id = ?`, [userIdToDelete]);
+db.run('BEGIN TRANSACTION');
 
-  // Delete from 'coin_count' table
-  db.run(`DELETE FROM bag_count WHERE user_id = ?`, [userIdToDelete]);
-  // ... Repeat this pattern for each table ...
-
-  console.log(`User with ID ${userIdToDelete} deleted from all tables.`);
-});
-db.all(query, [], (err, rows) => {
-  if (err) {
-    console.error(err.message);
-    return;
-  }
-
-  // Log the raw result
-  //console.log("Raw result:", rows);
-
-  // Display the result
-  console.log(`==============================\nlinks Posted as of 11-21-2023:\n==============================`);
-  rows.forEach((row) => {
-    console.log(`${row.username}: ${row['Links Posted']}`);
-  });
+// Delete from 'users' table
+db.run(`DELETE FROM users WHERE user_id = ?`, [userIdToDelete], (err) => {
+  if (err) console.error('Error deleting from users table:', err.message);
+  else console.log(`Deleted from users table for user ID ${userIdToDelete}`);
 });
 
-db.all(query1, [], (err, rows) => {
-  if (err) {
-    console.error(err.message);
-    return;
-  }
-  console.log(`==============\nNumber in Bag:\n==============`);
-  rows.forEach((row) => {
-    console.log(`${row.username}: ${row['bag count']}`);
-  });
+// Delete from 'post_count' table
+db.run(`DELETE FROM post_count WHERE user_id = ?`, [userIdToDelete], (err) => {
+  if (err) console.error('Error deleting from post_count table:', err.message);
+  else console.log(`Deleted from post_count table for user ID ${userIdToDelete}`);
 });
 
+// Delete from 'coin_count' table
+db.run(`DELETE FROM coin_count WHERE user_id = ?`, [userIdToDelete], (err) => {
+  if (err) console.error('Error deleting from coin_count table:', err.message);
+  else console.log(`Deleted from coin_count table for user ID ${userIdToDelete}`);
+});
 
+// Delete from 'bag_count' table
+db.run(`DELETE FROM bag_count WHERE user_id = ?`, [userIdToDelete], (err) => {
+  if (err) console.error('Error deleting from bag_count table:', err.message);
+  else console.log(`Deleted from bag_count table for user ID ${userIdToDelete}`);
+});
+
+// Commit the transaction
+db.run('COMMIT', (err) => {
+  if (err) console.error('Error committing transaction:', err.message);
+  else console.log(`User with ID ${userIdToDelete} deleted from all tables.`);
+});
+*/
 
 /*
 db.run("INSERT INTO bag_count (bag_count)SELECT post_cout FROM post_count;", function(err) {
@@ -140,19 +157,20 @@ db.run("INSERT INTO bag_count (bag_count)SELECT post_cout FROM post_count;", fun
 });
 */
 /*
-db.run("UPDATE bag_count SET bag_count = bag_count + 1 WHERE user_id = 474452715217354774", function(err) {
+db.run("UPDATE bag_count SET bag_count = bag_count + 1 WHERE user_id = 283865139650756608", function(err) {
   if (err) {
     return console.error(err.message);
   }
-  console.log(`bag count updated for user with ID 474452715217354774`);
+  console.log(`bag count updated for user with ID 283865139650756608`);
 });
 
-db.run("UPDATE post_count SET post_count = post_count + 1 WHERE user_id = 474452715217354774", function(err) {
+db.run("UPDATE post_count SET post_count = post_count + 1 WHERE user_id = 283865139650756608", function(err) {
   if (err) {
     return console.error(err.message);
   }
-  console.log(`post count updated for user with ID 474452715217354774`);
+  console.log(`post count updated for user with ID 283865139650756608`);
 });
 */
+
 // Close the database connection
 db.close();

@@ -33,6 +33,13 @@ function openLootBox() {
 
 }
 
+/*
+==================================
+Mod Alert
+When called the function will send a message to the mod channel
+Modified: 11/14/2023
+==================================
+*/
 function modAlert(client, message) {
   const channel = client.channels.cache.get('1164650721514369135');
 
@@ -45,6 +52,13 @@ function modAlert(client, message) {
   }
 }
 
+/*
+==================================
+Bag Functions
+When called the function will add remove or retrieve a user from the bag
+Modified: 11/28/2023
+==================================
+*/
 function getUsernameFromBag(index) {
   // Check if the index is within valid bounds
   if (index >= 0 && index < userBag.length) {
@@ -71,6 +85,13 @@ function pushUsernameToBag(userid) {
   logWithTimestamp(`${userid} placed in bag`);
 }
 
+/*
+==================================
+Display Bag
+When called the function will display the contents of the bag
+Modified: 11/28/2023
+==================================
+*/
 function displayBag() {
   // Create an object to store counts for each user
   const userCounts = {};
@@ -86,6 +107,13 @@ function displayBag() {
   });
 }
 
+/*
+==================================
+Log With Timestamp
+When called the function will log the message with a timestamp
+Modified: 11/28/2023
+==================================
+*/
 function logWithTimestamp(message) {
   const timestamp = new Date().toLocaleString();
   console.log(`[${timestamp}] ${message}`);

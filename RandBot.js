@@ -15,11 +15,15 @@ const client = new Client({
   ]
 });
 
-let isBotReady = false;
+/*
+==================================
+Client Ready
+When the bot is ready it will log to the console
+Modified: 11/30/2023
+==================================
+*/
 client.on('ready', () => {
   logWithTimestamp(`Logged in as ${client.user.tag}`);
- 
-  if (!isBotReady) {
     //uncomment to test rng function
     //testRNG();
     const db = new sqlite3.Database('botDatabase.db');
@@ -29,12 +33,10 @@ client.on('ready', () => {
       } else {        
         logWithTimestamp('Bag populated successfully');
         //uncomment to display bag contents
-        displayBag();
+        //displayBag();
       }     
-      isBotReady = true;
-    });
-   
-  }
+    });   
+  
 });
 
 // Set the username to target for message deletion
@@ -93,6 +95,15 @@ client.on('messageCreate', (message) => {
 });
 */
 
+/*
+==================================
+Message Deletion
+The bot will generate a random number between 1 and 100
+if number is 1 an ID will be pulled from the bag
+if the ID pulled from the bag matches the author of the message the message will be deleted
+Modified: 11/30/2023
+==================================
+*/
 client.on('messageCreate', (message) => {
   const messageDelete = rng(1, 100);
   const db = new sqlite3.Database('botDatabase.db');
@@ -180,14 +191,34 @@ client.on('messageCreate', (message) => {
 
   }
 });
-
+/*
+==================================
+Inserting into database
+When a message is sent in chat the bot will check the database for the user
+if the user is not found the bot will insert the user into the database
+Modified: 11/30/2023
+==================================
+*/
 client.on('messageCreate', (message) => {
-
   const db = new sqlite3.Database('botDatabase.db');
-  insertUser(db, message.author.id, message.author.username);
+  const ignoredIds = ['1079857247208882257', '1172025509572530226']; // Specify the IDs to ignore
 
+  if (ignoredIds.includes(message.author.id)) {
+    return; // Ignore the specified IDs
+  } else {
+    insertUser(db, message.author.id, message.author.username);
+  }
+  db.close();
 });
 
+/*
+==================================
+Post Count
+When a message is sent in chat the bot will check the database for the user 
+if the user is found the bot will increment the users post count
+Modified: 11/30/2023
+==================================
+*/
 client.on('messageCreate', (message) => {
   // Check if the message is in the 'the-algo' channel
 
@@ -207,7 +238,6 @@ client.on('messageCreate', (message) => {
   }
 });
 /*
-
 client.on('messageCreate',(message) => {
   const channel = client.channels.cache.get('1164650721514369135');
   if(message.author.id === '198297361733255168'){
@@ -239,75 +269,68 @@ client.on('interactionCreate', async interaction => {
 
   const { commandName, options } = interaction;
 
-  if (commandName === 'roulette') { // Russian Roulette command 1/6 chance to be shot
-
-    const memberVoiceChannel = interaction.member.voice.channel;
-    logWithTimestamp(`${interaction.user.tag} played roulette`);
-    if (chamber === bullet) {
-      await interaction.member.voice.setChannel(null);
-      await interaction.reply(`*Bang* ${interaction.user} was shot!`);
-      //logWithTimestamp(`${interaction.username} what shot`);
-      bullet = rng(1, 6);
-      chamber = rng(1, 6);
-      //logWithTimestamp('Reseting bullet and chamber');
-
-    } else {
-      await interaction.reply(`*click*`);
-
-      chamber++;
-
-      if (chamber === 7) {
-
-        chamber = 1;
-
+  switch (commandName) {
+    case 'roulette': {
+      const memberVoiceChannel = interaction.member.voice.channel;
+      logWithTimestamp(`${interaction.user.tag} played roulette`);
+      if (chamber === bullet) {
+        await interaction.member.voice.setChannel(null);
+        await interaction.reply(`*Bang* ${interaction.user} was shot!`);
+        bullet = rng(1, 6);
+        chamber = rng(1, 6);
+      } else {
+        await interaction.reply(`*click*`);
+        chamber++;
+        if (chamber === 7) {
+          chamber = 1;
+        }
       }
-      //logWithTimestamp(`Chamber = ${chamber}`);
-      //logWithTimestamp(`Bullet = ${bullet}`);
-
+      break;
     }
-
-  } else if (commandName === 'spin_cylinder') {// command to reroll random numbers for bullet and chamber
-
-    chamber = rng(1, 6);
-    bullet = rng(1, 6);
-    await interaction.reply(`${interaction.user} spun the cylinder.`);
-    //logWithTimestamp(`Chamber = ${chamber}`);
-    //logWithTimestamp(`Bullet = ${bullet}`);
-
-  } else if (commandName === 'roll') { // allows you to roll a random number between 2 user inputs
-    const min = options.getString('min');
-    const max = options.getString('max');
-    const minNum = parseInt(min);
-    const maxNum = parseInt(max);
-    const result = rng(minNum, maxNum);
-    await interaction.reply(`Random number between ${minNum} and ${maxNum}: ${result}`);
-
-  } else if (commandName === 'death_roll') { //rolls a random number between 1 and user input until a 1 is rolled
-    const max = options.getString('max');
-    const maxNum = parseInt(max);
-    const result = rng(1, maxNum);
-
-    if (result === 1) {
-      await interaction.reply(`${interaction.user} rolled a ${result} and lost`);
-
-    } else {
-      await interaction.reply(`${interaction.user} rolled a ${result}`);
-
+    case 'spin_cylinder': {
+      chamber = rng(1, 6);
+      bullet = rng(1, 6);
+      await interaction.reply(`${interaction.user} spun the cylinder.`);
+      break;
     }
-
-  } else if (commandName === 'open_loot_box') {
-    var randomItem = openLootBox();
-
-    const button = new ButtonBuilder().setCustomId('open_loot_box').setLabel('Open Another Loot Box').setStyle('Primary')
-    const row = new ActionRowBuilder().addComponents(button);
-    logWithTimestamp(`${interaction.username} opened a loot box`);
-    await interaction.reply({
-      content: `You got a **${randomItem.name}**!`,
-      components: [row],
-    });
-  } else if (commandName === 'post_count') {
-    const db = new sqlite3.Database('botDatabase.db');
-    algoPosts(interaction, db);
+    case 'roll': {
+      const min = options.getString('min');
+      const max = options.getString('max');
+      const minNum = parseInt(min);
+      const maxNum = parseInt(max);
+      const result = rng(minNum, maxNum);
+      await interaction.reply(`Random number between ${minNum} and ${maxNum}: ${result}`);
+      break;
+    }
+    case 'death_roll': {
+      const max = options.getString('max');
+      const maxNum = parseInt(max);
+      const result = rng(1, maxNum);
+      if (result === 1) {
+        await interaction.reply(`${interaction.user} rolled a ${result} and lost`);
+      } else {
+        await interaction.reply(`${interaction.user} rolled a ${result}`);
+      }
+      break;
+    }
+    case 'open_loot_box': {
+      var randomItem = openLootBox();
+      const button = new ButtonBuilder().setCustomId('open_loot_box').setLabel('Open Another Loot Box').setStyle('Primary')
+      const row = new ActionRowBuilder().addComponents(button);
+      logWithTimestamp(`${interaction.username} opened a loot box`);
+      await interaction.reply({
+        content: `You got a **${randomItem.name}**!`,
+        components: [row],
+      });
+      break;
+    }
+    case 'post_count': {
+      const db = new sqlite3.Database('botDatabase.db');
+      algoPosts(interaction, db);
+      break;
+    }
+    default:
+      break;
   }
 });
 
