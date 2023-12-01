@@ -143,7 +143,7 @@ function testRNG() {
 
 }
 
-function gracefulShutdown() {
+function gracefulShutdown(db) {
   // Close the database connection
   db.close();
 

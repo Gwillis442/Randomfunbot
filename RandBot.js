@@ -104,7 +104,7 @@ client.on('messageCreate', (message) => {
 
   if (reactionNum === 1) {
     message.react(emojiArray[rng(0, emojiArray.length-1)]);
-    logWithTimestamp(`Reacted to ${message.author.tag} message: ${message.content}`);
+    logWithTimestamp(`Reacted to ${message.author.tag}'s message: ${message.content}`);
   }
 });
 
@@ -230,7 +230,7 @@ client.on('interactionCreate', async interaction => {
 client.login(token);
 
 // Handle SIGINT (Ctrl+C) and SIGTERM (terminate signal)
-process.on('SIGINT', gracefulShutdown);
-process.on('SIGTERM', gracefulShutdown);
+process.on('SIGINT', () => gracefulShutdown(db));
+process.on('SIGTERM', () => gracefulShutdown(db));
 
 
