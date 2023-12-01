@@ -1,9 +1,7 @@
-const { userBag } = require('./item-arrays');
-const { logWithTimestamp } = require('./functions.js');
+const { userBag } = require('../utilities/item-arrays.js');
+const { logWithTimestamp } = require('../utilities/functions.js');
 
 const sqlite3 = require('sqlite3').verbose();
-//Database Built 11/21/2023
-const db = new sqlite3.Database('botDatabase.db');
 
 /*
 ==================================
@@ -138,10 +136,55 @@ function algoPosts(interaction, db) {
   });
 }
 
+/*
+==================================
+Delete User
+When called the function will delete a user from the database
+Modified: 11/30/2023
+==================================
+*/
+function deleteUser(userid) {
+  // Delete a user from all tables in the database
+  console.log(`Deleting user with ID ${userid}`);
+
+  db.run('BEGIN TRANSACTION');
+
+  // Delete from 'users' table
+  db.run(`DELETE FROM users WHERE user_id = ?`, [userid], (err) => {
+      if (err) console.error('Error deleting from users table:', err.message);
+      else console.log(`Deleted from users table for user ID ${userid}`);
+  });
+
+  // Delete from 'post_count' table
+  db.run(`DELETE FROM post_count WHERE user_id = ?`, [userid], (err) => {
+      if (err) console.error('Error deleting from post_count table:', err.message);
+      else console.log(`Deleted from post_count table for user ID ${userid}`);
+  });
+
+  // Delete from 'coin_count' table
+  db.run(`DELETE FROM coin_count WHERE user_id = ?`, [userid], (err) => {
+      if (err) console.error('Error deleting from coin_count table:', err.message);
+      else console.log(`Deleted from coin_count table for user ID ${userid}`);
+  });
+
+  // Delete from 'bag_count' table
+  db.run(`DELETE FROM bag_count WHERE user_id = ?`, [userid], (err) => {
+      if (err) console.error('Error deleting from bag_count table:', err.message);
+      else console.log(`Deleted from bag_count table for user ID ${userid}`);
+  });
+
+  // Commit the transaction
+  db.run('COMMIT', (err) => {
+      if (err) console.error('Error committing transaction:', err.message);
+      else console.log(`User with ID ${userid} deleted from all tables.`);
+  });
+}
+
 
 module.exports = {
   insertUser,
   updateCount,
   algoPosts,
   populateBagFromDatabase,
+  deleteUser,
 };

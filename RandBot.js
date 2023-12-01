@@ -3,10 +3,10 @@ const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
 const { Client, GatewayIntentBits } = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
 const { token } = require('./config.json');
-const { emojiArray, userBag, } = require('./item-arrays'); // Import from ItemArrays.js
+const { emojiArray, userBag, } = require('./utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
-       gracefulShutdown } = require('./functions.js');
-const { insertUser, updateCount, algoPosts, populateBagFromDatabase} = require('./dbFunctions.js');
+       gracefulShutdown } = require('./utilities/functions.js');
+const { insertUser, updateCount, algoPosts, populateBagFromDatabase} = require('./database/dbFunctions.js');
 
 const client = new Client({
   intents: [
@@ -16,7 +16,15 @@ const client = new Client({
   ]
 });
 
-const db = new sqlite3.Database('botDatabase.db');
+//starting database
+const db = new sqlite3.Database('./database/botDatabase.db', (err) => {
+  if (err) {
+    console.error('Error opening database:', err);
+  } else {
+    console.log('Database opened successfully');
+  }
+});
+
 /*
 ==================================
 Client Ready
@@ -43,8 +51,6 @@ client.on('ready', () => {
 // var for both bullet and chamber for roulette
 var chamber = rng(1, 6);
 var bullet = rng(1, 6);
-
-
 
 /*
 ==================================
@@ -93,29 +99,13 @@ dependent on that number the bot will react to the message with the corrospondin
 Modified: 11/16/2023
 ==================================
 */
-
-//Creating random chance to have bot respond with 1 of 8 emotes
 client.on('messageCreate', (message) => {
-
-
   const reactionNum = rng(1, 150);
 
   if (reactionNum === 1) {
-
-    const reactionNum1 = rng(0, emojiArray.length-1);
-    const customEmoji = [
-      ['righty'],
-      ['lefty'],
-      ['pepegun'],
-    ];
-    const emoji = customEmoji[rng(0, 2)];
-    //Server specific emojis
-    emojiArray[0] = message.guild.emojis.cache.find(emoji => emoji.name === 'pepegun');
-    message.react(emojiArray[reactionNum1]);
+    message.react(emojiArray[rng(0, emojiArray.length-1)]);
     logWithTimestamp(`Reacted to ${message.author.tag} message: ${message.content}`);
-
   }
-
 });
 
 /*
@@ -160,10 +150,12 @@ client.on('messageCreate', (message) => {
       gif[6] = 'https://tenor.com/view/doubt-press-x-la-noire-meme-x-button-gif-19259237';
       gif[7] = 'https://tenor.com/view/if-you-say-so-ok-gif-9410059';
       gif[8] = 'https://tenor.com/view/ohhh-duh-why-didnt-i-think-of-that-gif-21849807';
+      gif[9] = 'https://tenor.com/view/snoop-dogg-dance-moves-yes-gif-16124908';
       const i = rng(0, gif.length-1);
       message.reply(`${gif[i]}`);
     }  
 });
+
 /*
 ==================================
 Inserting into database
@@ -173,127 +165,13 @@ Modified: 11/30/2023
 ==================================
 */
 client.on('messageCreate', (message) => {
-  const db = new sqlite3.Database('botDatabase.db');
   const ignoredIds = ['1079857247208882257', '1172025509572530226']; // Specify the IDs to ignore
 
   if (ignoredIds.includes(message.author.id)) {
     return; // Ignore the specified IDs
-  } else {
-    insertUser(db, message.author.id, message.author.username);
-   
   }
- 
-});
-
-/*
-==================================
-Post Count
-When a message is sent in chat the bot will check the database for the user 
-if the user is found the bot will increment the users post count
-Modified: 11/30/2023
-==================================
-*/
-client.on('messageCreate', (message) => {
-  // Check if the message is in the 'the-algo' channel
-
-  // Check if the message contains a TikTok, Instagram Reel, or YouTube Short link
-  const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com\/reel\/\S+|youtu\.be|youtube\.com\/shorts\/\S{11})/i.test(message.content);
-  if (containsLink) {
-    // Get the user ID from the message author
-    const userId = message.author.id;
-
-    // Call the function to update the post count (you might adjust the increment value)
-    const incrementValue = 1; // You can adjust this value based on your requirements
-    const db = new sqlite3.Database('botDatabase.db');
-    updateCount(db,'post_count','post_count', userId, incrementValue);
-    updateCount(db,'bag_count','bag_count', userId, incrementValue);
-    pushUsernameToBag(userId);
-  }
-});
-
-/*
-==================================
-Interaction builder
-Holds logic for the user using a / command
-Dependcies found in 'deploy-commands.js'
-Modified: 11/13/2023
-==================================
-*/
-
-client.on('interactionCreate', async interaction => {
-  if (!interaction.isCommand()) return;
-
-  const { commandName, options } = interaction;
-
-  switch (commandName) {
-    case 'roulette': {
-      const memberVoiceChannel = interaction.member.voice.channel;
-      logWithTimestamp(`${interaction.user.tag} played roulette`);
-      if (chamber === bullet) {
-        await interaction.member.voice.setChannel(null);
-        await interaction.reply(`*Bang* ${interaction.user} was shot!`);
-        bullet = rng(1, 6);
-        chamber = rng(1, 6);
-      } else {
-        await interaction.reply(`*click*`);
-        chamber++;
-        if (chamber === 7) {
-          chamber = 1;
-        }
-      }
-      break;
-    }
-    case 'spin_cylinder': {
-      chamber = rng(1, 6);
-      bullet = rng(1, 6);
-      await interaction.reply(`${interaction.user} spun the cylinder.`);
-      break;
-    }
-    case 'roll': {
-      const min = options.getString('min');
-      const max = options.getString('max');
-      const minNum = parseInt(min);
-      const maxNum = parseInt(max);
-      const result = rng(minNum, maxNum);
-      await interaction.reply(`Random number between ${minNum} and ${maxNum}: ${result}`);
-      break;
-    }
-    case 'death_roll': {
-      const max = options.getString('max');
-      const maxNum = parseInt(max);
-      const result = rng(1, maxNum);
-      if (result === 1) {
-        await interaction.reply(`${interaction.user} rolled a ${result} and lost`);
-      } else {
-        await interaction.reply(`${interaction.user} rolled a ${result}`);
-      }
-      break;
-    }
-    case 'open_loot_box': {
-      var randomItem = openLootBox();
-      const button = new ButtonBuilder()
-        .setCustomId('open_loot_box')
-        .setLabel('Open Another Loot Box')
-        .setStyle('Primary')
-        .setDisabled(false); // Enable the button
-
-      const row = new ActionRowBuilder().addComponents(button);
-      logWithTimestamp(`${interaction.username} opened a loot box`);
-      await interaction.reply({
-        content: `You got a **${randomItem.name}**!`,
-        components: [row],
-      });
-    
-      break;
-    }
-    case 'post_count': {
-      algoPosts(interaction, db);
-      db.close();
-      break;
-    }
-    default:
-      break;
-  }
+  // Add your code here
+  insertUser(db, message.author.id, message.author.username);
 });
 
 client.login(token);
