@@ -150,10 +150,6 @@ function algoPosts(interaction, db) {
 
     // Reply to the interaction with the result
     interaction.reply(`Links Posted as of 11-21-2023:\n${resultString}`);
-
-    // Close the database connection
-    db.close();
-
   });
 }
 

@@ -43,11 +43,11 @@ client.on('ready', () => {
 //const targetUsername = "kony911";
 
 
-// var for both bullet and chamber fo roulette
+// var for both bullet and chamber for roulette
 var chamber = rng(1, 6);
 var bullet = rng(1, 6);
 
-
+const db = new sqlite3.Database('botDatabase.db');
 /*
 ==================================
 Message Deletion
@@ -134,9 +134,6 @@ client.on('messageCreate', (message) => {
   }
 });
 
-
-
-
 /*
 ==================================
 Random Reaction
@@ -207,8 +204,9 @@ client.on('messageCreate', (message) => {
     return; // Ignore the specified IDs
   } else {
     insertUser(db, message.author.id, message.author.username);
+   
   }
-  db.close();
+ 
 });
 
 /*
@@ -315,25 +313,29 @@ client.on('interactionCreate', async interaction => {
     }
     case 'open_loot_box': {
       var randomItem = openLootBox();
-      const button = new ButtonBuilder().setCustomId('open_loot_box').setLabel('Open Another Loot Box').setStyle('Primary')
+      const button = new ButtonBuilder()
+        .setCustomId('open_loot_box')
+        .setLabel('Open Another Loot Box')
+        .setStyle('Primary')
+        .setDisabled(false); // Enable the button
+
       const row = new ActionRowBuilder().addComponents(button);
       logWithTimestamp(`${interaction.username} opened a loot box`);
       await interaction.reply({
         content: `You got a **${randomItem.name}**!`,
         components: [row],
       });
+    
       break;
     }
     case 'post_count': {
-      const db = new sqlite3.Database('botDatabase.db');
       algoPosts(interaction, db);
+      db.close();
       break;
     }
     default:
       break;
   }
 });
-
-
 
 client.login(token);
