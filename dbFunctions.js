@@ -50,7 +50,6 @@ function insertUser(db, userId, username) {
       });
     }
   });
-  db.close();
 }
 
 /*
@@ -60,30 +59,16 @@ When called the function will update the post count for a user in the database
 Modified: 11/30/2023
 ==================================
 */
-function updatePostCount(db, userId, incrementValue) {
-  // Update the post_count for the user in the 'post_count' table
-  db.run("UPDATE post_count SET post_count = post_count + ? WHERE user_id = ?", [incrementValue, userId], function (err) {
-    if (err) {
-      return console.error(err.message);
-    }
-    logWithTimestamp(`Post count updated for user with ID ${userId}`);
-  });
-}
+function updateCount(db, tableName, columnName, userId, incrementValue) {
+  // Prepare the SQL statement
+  let sql = `UPDATE ${tableName} SET ${columnName} = ${columnName} + ? WHERE user_id = ?`;
 
-/*
-==================================
-Update Bag Count
-When called the function will update the bag count for a user in the database
-Modified: 11/30/2023
-==================================
-*/
-function updateBagCount(db, userId, incrementValue) {
-  // Update the post_count for the user in the 'bag_count' table  
-  db.run("UPDATE bag_count SET bag_count = bag_count + ?, Where userid = ?", [incrementValue, userId], function (err) {
+  // Run the SQL statement with the provided parameters
+  db.run(sql, [incrementValue, userId], function (err) {
     if (err) {
       return console.error(err.message);
     }
-    logWithTimestamp(`bag count updated for user with ID ${userId}`);
+    logWithTimestamp(`${tableName} updated for user with ID ${userId}`);
   });
 }
 
@@ -156,7 +141,7 @@ function algoPosts(interaction, db) {
 
 module.exports = {
   insertUser,
-  updatePostCount,
+  updateCount,
   algoPosts,
   updateBagCount,
   populateBagFromDatabase,

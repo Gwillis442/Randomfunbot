@@ -112,7 +112,6 @@ function displayBag() {
 Log With Timestamp
 When called the function will log the message with a timestamp
 Modified: 11/28/2023
-==================================
 */
 function logWithTimestamp(message) {
   const timestamp = new Date().toLocaleString();
@@ -144,6 +143,14 @@ function testRNG() {
 
 }
 
+function gracefulShutdown() {
+  // Close the database connection
+  db.close();
+
+  // Exit the process
+  process.exit();
+}
+
 module.exports = {
   openLootBox,
   rng,
@@ -154,5 +161,6 @@ module.exports = {
   pushUsernameToBag,
   displayBag,
   logWithTimestamp,
+  gracefulShutdown,
 
 };

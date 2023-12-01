@@ -4,8 +4,9 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
 const { token } = require('./config.json');
 const { emojiArray, userBag, } = require('./item-arrays'); // Import from ItemArrays.js
-const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp } = require('./functions.js');
-const { insertUser, updatePostCount, algoPosts, populateBagFromDatabase, updateBagCount } = require('./dbFunctions.js');
+const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
+       gracefulShutdown } = require('./functions.js');
+const { insertUser, updateCount, algoPosts, populateBagFromDatabase, updateCount } = require('./dbFunctions.js');
 
 const client = new Client({
   intents: [
@@ -15,6 +16,7 @@ const client = new Client({
   ]
 });
 
+const db = new sqlite3.Database('botDatabase.db');
 /*
 ==================================
 Client Ready
@@ -26,7 +28,6 @@ client.on('ready', () => {
   logWithTimestamp(`Logged in as ${client.user.tag}`);
     //uncomment to test rng function
     //testRNG();
-    const db = new sqlite3.Database('botDatabase.db');
     populateBagFromDatabase(db, (err) => {
       if (err) {
         console.error('Error populating bag:', err);
@@ -39,61 +40,11 @@ client.on('ready', () => {
   
 });
 
-// Set the username to target for message deletion
-//const targetUsername = "kony911";
-
-
 // var for both bullet and chamber for roulette
 var chamber = rng(1, 6);
 var bullet = rng(1, 6);
 
-const db = new sqlite3.Database('botDatabase.db');
-/*
-==================================
-Message Deletion
-Given a specific username (hardcoded) the bot will generate a random number between 1 and 150 
-if number is 1 message will be deleted
-If not the specific username the bot will instead will generate a random number between 1 and 200
-if number is 1 message will be deleted
-Modified: 11/13/2023
-==================================
-*/
-/*
-client.on('messageCreate', (message) => {
-  const channel = client.channels.cache.get('1164650721514369135');
-  
-  // Check if the message author's username matches the target username
-  if (message.author.username === targetUsername) {
-    // Generate a random number between 1 and 250
-    const singleTargetDelete = rng(1,250);
-    
-    // If the random number is 1, delete the message
-    if (singleTargetDelete === 1) {
-      message.delete()
-      .then(deletedMessage => {
-        logWithTimestamp(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
 
-        modAlert(client, message);
-    
-      })
-      .catch(console.error);
-    }
-  } else { //delete for everyone else besides target
-    const multiTargetDelete = rng(1,300);
-
-     // If the random number is 1, delete the message
-    if (multiTargetDelete === 1) {
-      message.delete()
-      .then(deletedMessage => {
-      logWithTimestamp(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);      
-    
-      modAlert(client, message);
-
-      });
-    }
-  }
-});
-*/
 
 /*
 ==================================
@@ -106,7 +57,6 @@ Modified: 11/30/2023
 */
 client.on('messageCreate', (message) => {
   const messageDelete = rng(1, 100);
-  const db = new sqlite3.Database('botDatabase.db');
 
   if (messageDelete === 1) {
     const bagPull = rng(0, (userBag.length - 1));
@@ -121,7 +71,7 @@ client.on('messageCreate', (message) => {
         .then(deletedMessage => {
           logWithTimestamp(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
           popUsernameFromBag(bagPull);
-          updateBagCount(db, message.author.id, -1);
+          updateCount(db, message.author.id, -1);
           modAlert(client, message);
         })
         .catch(error => {
@@ -229,29 +179,11 @@ client.on('messageCreate', (message) => {
     // Call the function to update the post count (you might adjust the increment value)
     const incrementValue = 1; // You can adjust this value based on your requirements
     const db = new sqlite3.Database('botDatabase.db');
-    updatePostCount(db, userId, incrementValue);
-    updateBagCount(db, userId, incrementValue);
-    db.close();
+    updateCount(db,'post_count','post_count', userId, incrementValue);
+    updateCount(db,'bag_count','bag_count', userId, incrementValue);
     pushUsernameToBag(userId);
   }
 });
-/*
-client.on('messageCreate',(message) => {
-  const channel = client.channels.cache.get('1164650721514369135');
-  if(message.author.id === '198297361733255168'){
-    const multiTargetDelete = 1;//rng(1,300);
-     // If the random number is 1, delete the message
-    if (multiTargetDelete === 1) {
-      message.delete()
-      .then(deletedMessage => {
-      logWithTimestamp(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);      
-        modAlert(client, message);
-
-      });
-    }
-  }
-});
-*/
 
 /*
 ==================================
@@ -339,3 +271,9 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.login(token);
+
+// Handle SIGINT (Ctrl+C) and SIGTERM (terminate signal)
+process.on('SIGINT', gracefulShutdown);
+process.on('SIGTERM', gracefulShutdown);
+
+
