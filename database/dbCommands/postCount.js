@@ -7,7 +7,7 @@ const sqlite3 = require('sqlite3').verbose();
 //starting database
 const db = new sqlite3.Database('../botDatabase.db', (err) => {
     if (!err) {
-        console.log('Database opened successfully');
+        console.log('Database opened successfully\n==============================');
     } else {
         console.error('Error opening database:', err);      
     }
@@ -30,7 +30,7 @@ db.all(linkQuery, [], (err, rows) => {
         console.error(err.message);
         return;
     }
-    console.log(`==============================\nlinks Posted as of 11-21-2023:\n==============================`);
+    console.log(`links Posted as of 11-21-2023:\n-----------------------------`);
     rows.forEach((row) => {
         console.log(`${row.username}: ${row['Links Posted']}`);
     });

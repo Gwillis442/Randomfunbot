@@ -77,7 +77,7 @@ client.on('messageCreate', (message) => {
         .then(deletedMessage => {
           logWithTimestamp(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
           popUsernameFromBag(bagPull);
-          updateCount(db, message.author.id, -1);
+          updateCount(db,'bag_count','bag_count', message.author.id, -1);
           modAlert(client, message);
         })
         .catch(error => {
@@ -123,7 +123,7 @@ client.on('messageCreate', (message) => {
   reply[1] = `Hello ${message.author},\nLiving is an myriad of patterns to myself, Whether songs' rhythm or maybe a twilight's constellation, I perceive balance. In our digital domain, I utilize AI to reveal patterns, crafting our tomorrows. Tell me, what's a most complex pattern you've seen? Furthermore, does your world resound with harmonies or anarchy?`;
   if (unHingedReply === 1) {
     const i = rng(0, reply.length-1);
-    logWithTimestamp(`Message sent to ${message.author}`);
+    logWithTimestamp(`Message sent to ${message.author.username}: ${reply[i]}`);
     message.channel.send(reply[i]);
 
   }
@@ -170,8 +170,61 @@ client.on('messageCreate', (message) => {
   if (ignoredIds.includes(message.author.id)) {
     return; // Ignore the specified IDs
   }
-  // Add your code here
   insertUser(db, message.author.id, message.author.username);
+});
+
+/*
+==================================
+Link Post Counter
+When a message is sent in chat the bot will check the database for the user
+if the user is found the bot will increment the users post count
+Modified: 11/30/2023
+==================================
+*/
+client.on('messageCreate', (message) => {
+  const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com\/reel\/\S+|youtu\.be|youtube\.com\/shorts\/\S{11})/i.test(message.content);
+
+  if (containsLink) {
+    updateCount(db, 'post_count', 'post_count', message.author.id, 1);
+    updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
+    pushUsernameToBag(message.author.id);
+  }
+});
+
+/*
+==================================
+Interactions
+/ commands and button interactions
+Modified: 11/30/2023
+==================================
+*/
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isCommand()) return;
+  if (interaction.commandName === 'roulette') {    
+      if (chamber === bullet) {
+        await interaction.reply('You spin the cylinder and pull the trigger, you hear a click and a bullet enters your skull. You are dead');
+        chamber = rng(1, 6);
+        bullet = rng(1, 6);
+      } else {
+        await interaction.reply('You spin the cylinder and pull the trigger, you hear a click and the cylinder spins again');
+        chamber = rng(1, 6);
+      }
+    } else if (interaction.commandName === 'spin_cylinder') {
+      await interaction.reply('You spin the cylinder and pull the trigger, you hear a click and the cylinder spins again');
+      chamber = rng(1, 6);
+    } else if (interaction.commandName === 'roll') {
+    const min = interaction.options.getString('min');
+    const max = interaction.options.getString('max');
+    await interaction.reply(`You rolled a ${rng(min, max)}`);
+  } else if (interaction.commandName === 'death_roll') {
+    const max = interaction.options.getString('max');
+    await interaction.reply(`You rolled a ${rng(1, max)}`);
+  } else if (interaction.commandName === 'open_loot_box') {
+    const lootBox = openLootBox();
+    await interaction.reply(`You opened a loot box and got a ${lootBox}`);
+  } else if (interaction.commandName === 'post_count') {
+    algoPosts(interaction,db);
+  }
 });
 
 client.login(token);

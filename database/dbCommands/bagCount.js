@@ -9,7 +9,7 @@ const db = new sqlite3.Database('../botDatabase.db', (err) => {
     if (err) {
       console.error('Error opening database:', err);
     } else {
-      console.log('Database opened successfully');
+      console.log('Database opened successfully\n==============================');
     }
 });
 const bagQuery = `
@@ -28,7 +28,7 @@ db.all(bagQuery, [], (err, rows) => {
       console.error(err.message);
       return;
     }
-    console.log(`==============\nNumber in Bag:\n==============`);
+    console.log(`Number in Bag:\n--------------`);
     rows.forEach((row) => {
       console.log(`${row.username}: ${row['bag count']}`);
     });
