@@ -143,6 +143,5 @@ module.exports = {
   insertUser,
   updateCount,
   algoPosts,
-  updateBagCount,
   populateBagFromDatabase,
 };

@@ -6,7 +6,7 @@ const { token } = require('./config.json');
 const { emojiArray, userBag, } = require('./item-arrays'); // Import from ItemArrays.js
 const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
        gracefulShutdown } = require('./functions.js');
-const { insertUser, updateCount, algoPosts, populateBagFromDatabase, updateCount } = require('./dbFunctions.js');
+const { insertUser, updateCount, algoPosts, populateBagFromDatabase} = require('./dbFunctions.js');
 
 const client = new Client({
   intents: [
@@ -137,6 +137,32 @@ client.on('messageCreate', (message) => {
     message.channel.send(reply[i]);
 
   }
+});
+
+/*
+==================================
+Random Gif Response
+When a message is sent in chat the bot will roll a number between 1 and 4086
+if the number is 1 the bot will respond to the message with a hardcoded gif
+Modified: 11/30/2023
+==================================
+*/
+client.on('messageCreate', (message) => {
+    const gifReply = rng(1, 4086);
+    if(gifReply === 1){
+      const gif = [];
+      gif[0] = 'https://tenor.com/view/death-stare-black-snake-moan-samuel-l-jackson-shocked-wide-eye-gif-14648637';
+      gif[1] = 'https://tenor.com/view/reikouwu2-gif-20327386';
+      gif[2] = 'https://tenor.com/view/ew-gif-25919594';
+      gif[3] = 'https://tenor.com/view/sweating-nervous-wreck-gif-24688521';
+      gif[4] = 'https://tenor.com/view/josh-hutcherson-josh-hutcherson-whistle-edit-whistle-2014-meme-gif-1242113167680346055';
+      gif[5] = 'https://tenor.com/view/future-josh-hutcherson-tongue-out-gif-13846119';
+      gif[6] = 'https://tenor.com/view/doubt-press-x-la-noire-meme-x-button-gif-19259237';
+      gif[7] = 'https://tenor.com/view/if-you-say-so-ok-gif-9410059';
+      gif[8] = 'https://tenor.com/view/ohhh-duh-why-didnt-i-think-of-that-gif-21849807';
+      const i = rng(0, gif.length-1);
+      message.reply(`${gif[i]}`);
+    }  
 });
 /*
 ==================================
