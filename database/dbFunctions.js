@@ -143,7 +143,7 @@ When called the function will delete a user from the database
 Modified: 11/30/2023
 ==================================
 */
-function deleteUser(userid) {
+function deleteUser(userid,db) {
   // Delete a user from all tables in the database
   console.log(`Deleting user with ID ${userid}`);
 

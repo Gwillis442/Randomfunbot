@@ -1,3 +1,8 @@
+/*
+Edit Count
+When called the function will update the count for a user in the database
+Modified: 11/30/2023
+*/
 const { updateCount } = require('../dbFunctions.js');
 const sqlite3 = require('sqlite3').verbose();
 const readline = require('readline');
@@ -7,13 +12,12 @@ const rl = readline.createInterface({
 });
 //starting database
 const db = new sqlite3.Database('../botDatabase.db', (err) => {
-    if (err) {
-        console.error('Error opening database:', err);
-    } else {
+    if (!err) {
         console.log('Database opened successfully');
+    } else {
+        console.error('Error opening database:', err);      
     }
 });
-
 rl.question('Enter the table name: ', (tableName) => {
     rl.question('Enter the column name: ', (columnName) => {
         rl.question('Enter the user ID: ', (userId) => {

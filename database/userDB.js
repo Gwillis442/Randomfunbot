@@ -1,7 +1,14 @@
 const { userBag } = require('../utilities/item-arrays');
 
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./database/botDatabase.db');
+//starting database
+const db = new sqlite3.Database('../botDatabase.db', (err) => {
+  if (err) {
+      console.error('Error opening database:', err);
+  } else {
+      console.log('Database opened successfully');
+  }
+});
 
 db.run(`
   CREATE TABLE IF NOT EXISTS users (
@@ -72,4 +79,10 @@ db.run(`
 `);
 
 // Close the database connection
-db.close();
+db.close((err) => {
+  if (err) {
+      console.error(err.message);
+      return;
+  }
+  console.log('==============================\nClosed the database connection.');
+});

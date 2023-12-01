@@ -1,4 +1,8 @@
-
+/*
+Bag Count
+When ran will display the number of users in the bag
+Modified: 11/30/2023
+*/
 const sqlite3 = require('sqlite3').verbose();
 //starting database
 const db = new sqlite3.Database('../botDatabase.db', (err) => {

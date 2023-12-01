@@ -1,12 +1,16 @@
-
+/*
+Coin Count
+When ran will display the number of coins each user has
+Modified: 11/30/2023
+*/
 const sqlite3 = require('sqlite3').verbose();
 //starting database
 const db = new sqlite3.Database('../botDatabase.db', (err) => {
-    if (err) {
-      console.error('Error opening database:', err);
-    } else {
+  if (!err) {
       console.log('Database opened successfully');
-    }
+  } else {
+      console.error('Error opening database:', err);      
+  }
 });
 const coinQuery = `
   SELECT
