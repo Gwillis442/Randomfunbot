@@ -6,7 +6,7 @@ const { token } = require('./config.json');
 const { emojiArray, userBag, } = require('./utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
        gracefulShutdown } = require('./utilities/functions.js');
-const { insertUser, updateCount, algoPosts, populateBagFromDatabase} = require('./database/dbFunctions.js');
+const { insertUser, updateCount, algoPosts, populateBagFromDatabase,postCountCheck} = require('./database/dbFunctions.js');
 
 const client = new Client({
   intents: [
@@ -151,6 +151,7 @@ client.on('messageCreate', (message) => {
       gif[7] = 'https://tenor.com/view/if-you-say-so-ok-gif-9410059';
       gif[8] = 'https://tenor.com/view/ohhh-duh-why-didnt-i-think-of-that-gif-21849807';
       gif[9] = 'https://tenor.com/view/snoop-dogg-dance-moves-yes-gif-16124908';
+      gif[10] = 'https://tenor.com/view/confused-no-nope-gif-5413974953753901704';
       const i = rng(0, gif.length-1);
       message.reply(`${gif[i]}`);
     }  
@@ -188,6 +189,8 @@ client.on('messageCreate', (message) => {
     updateCount(db, 'post_count', 'post_count', message.author.id, 1);
     updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
     pushUsernameToBag(message.author.id);
+    postCountCheck(db, message.author.id, message);
+    
   }
 });
 

@@ -101,6 +101,44 @@ function populateBagFromDatabase(db, callback) {
        callback(null);
   });
 }
+/*
+==================================
+Post Count Check
+When called the function will check if the user has posted 69 times
+if the user has posted 69 times the bot will react to the message with a variety of emojis
+and reply to the message with a gif
+Modified: 11/30/2023
+==================================
+*/
+
+  function postCountCheck(db, user_id, message) {
+    const query = `
+    SELECT user_id, post_count
+    FROM post_count
+    WHERE user_id = ?;
+    `;
+    db.get(query, [user_id], (err, row) => {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      if (row && Number(row.post_count) == 69) {
+        message.reply(`WOW! ${message.author} this is your 69th sludge post!\nhttps://tenor.com/view/future-josh-hutcherson-tongue-out-gif-13846119`);
+        message.react('👍');
+        message.react('🔥');
+        message.react('👌');
+        message.react('😎');
+        message.react('🍆');
+        message.react('👀');
+        message.react('👅');
+        message.react('💦');
+        message.react('🤤');
+        message.react('🤙');
+        message.react('🤏');
+
+      }
+    });
+  }
 
 /*
 ==================================
@@ -187,4 +225,5 @@ module.exports = {
   algoPosts,
   populateBagFromDatabase,
   deleteUser,
+  postCountCheck,
 };

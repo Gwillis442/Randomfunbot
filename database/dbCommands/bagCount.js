@@ -15,7 +15,8 @@ const db = new sqlite3.Database('../botDatabase.db', (err) => {
 const bagQuery = `
   SELECT
     u.username,
-    b.bag_count AS "bag count"
+    b.bag_count AS "bag count",
+    SUM(b.bag_count) OVER () AS "total"
   FROM
     users u
   LEFT JOIN
@@ -32,8 +33,9 @@ db.all(bagQuery, [], (err, rows) => {
     rows.forEach((row) => {
       console.log(`${row.username}: ${row['bag count']}`);
     });
-  });
-  db.close((err) => {
+    console.log(`Total: ${rows[0]['total']}`); // Access the 'total' property of the first row
+});
+db.close((err) => {
     if (err) {
         console.error(err.message);
         return;
