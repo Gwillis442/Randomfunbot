@@ -104,9 +104,9 @@ function populateBagFromDatabase(db, callback) {
 /*
 ==================================
 Post Count Check
-When called the function will check if the user has posted 69 times
-if the user has posted 69 times the bot will react to the message with a variety of emojis
-and reply to the message with a gif
+When called the function will check if the user has posted a set number of times
+if the user has posted the set number of times the bot will react in various ways including emojis
+and replying to the message with gifs
 Modified: 11/30/2023
 ==================================
 */
@@ -136,6 +136,23 @@ Modified: 11/30/2023
         message.react('🤙');
         message.react('🤏');
 
+      }
+      if(row && Number(row.post_count) == 100) {
+        message.reply(`WOW! ${message.author} this is your 100th sludge post!\nSeek help.`);
+      }
+      if (row && Number(row.post_count) == 420) {
+        message.reply(`WOW! ${message.author} this is your 420th sludge post!\nhttps://tenor.com/view/snoop-dogg-dance-moves-yes-gif-16124908`);
+        message.react('👍');
+        message.react('🔥');
+        message.react('👌');
+        message.react('😎');
+        message.react('🍆');
+        message.react('👀');
+        message.react('👅');
+        message.react('💦');
+        message.react('🤤');
+        message.react('🤙');
+        message.react('🤏');
       }
     });
   }
