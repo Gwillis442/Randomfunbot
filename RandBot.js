@@ -183,7 +183,7 @@ Modified: 11/30/2023
 ==================================
 */
 client.on('messageCreate', (message) => {
-  const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com\/reel\/\S+|youtu\.be|youtube\.com\/shorts\/\S{11})/i.test(message.content);
+  const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))/i.test(message.content);
 
   if (containsLink) {
     updateCount(db, 'post_count', 'post_count', message.author.id, 1);
