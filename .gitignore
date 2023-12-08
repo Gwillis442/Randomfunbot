@@ -26,6 +26,9 @@ coverage
 # Config.json
 config.json
 
+#database.db 
+botDatabase.db
+
 # nyc test coverage
 .nyc_output
 
