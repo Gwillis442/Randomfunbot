@@ -41,10 +41,18 @@ emojiArray[2] = '👎';
 emojiArray[3] = '🤡';
 emojiArray[4] = '❤️';
 
+const johnArray = Array(arraySize).fill(null);
+johnArray[0] = '👎';
+johnArray[1] = '🤡';
+johnArray[2] = '😒';
+johnArray[3] = '💩';
+johnArray[4] = '🙄';
+
 
 
 module.exports = {
   lootBoxItems,
   emojiArray,
+  johnArray,
   userBag
 };

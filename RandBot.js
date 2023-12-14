@@ -1,9 +1,9 @@
 
 const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits,} = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
 const { token } = require('./config.json');
-const { emojiArray, userBag, } = require('./utilities/item-arrays.js'); // Import from ItemArrays.js
+const { emojiArray, johnArray, userBag, } = require('./utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
        gracefulShutdown } = require('./utilities/functions.js');
 const { insertUser, updateCount, algoPosts, populateBagFromDatabase,postCountCheck} = require('./database/dbFunctions.js');
@@ -42,7 +42,7 @@ client.on('ready', () => {
       } else {        
         logWithTimestamp('Bag populated successfully');
         //uncomment to display bag contents
-        //displayBag();
+        displayBag();
       }     
     });   
   
@@ -62,22 +62,23 @@ Modified: 11/30/2023
 ==================================
 */
 client.on('messageCreate', (message) => {
+  if(message.author.bot) return;
   const messageDelete = rng(1, 100);
 
   if (messageDelete === 1) {
     const bagPull = rng(0, (userBag.length - 1));
     logWithTimestamp(`ID Index: ${bagPull}`);
 
-    const bagId = getUsernameFromBag(bagPull);
+    const bagId = userBag[bagPull].id.toString();; // Get the correct ID from the bag
     logWithTimestamp(`ID pulled from bag: ${bagId}`);
 
-    if (bagId === message.author.Id) {
-      logWithTimestamp(`${bagID} == ${message.author.id}`);
+    if (bagId === message.author.id.toString()) {
+      logWithTimestamp(`${bagId} == ${message.author.id}`);
       message.delete()
         .then(deletedMessage => {
           logWithTimestamp(`Deleted message from ${deletedMessage.author.tag}: ${deletedMessage.content}`);
           popUsernameFromBag(bagPull);
-          updateCount(db,'bag_count','bag_count', message.author.id, -1);
+          updateCount(db, 'bag_count', 'bag_count', message.author.id, -1);
           modAlert(client, message);
         })
         .catch(error => {
@@ -100,11 +101,17 @@ Modified: 11/16/2023
 ==================================
 */
 client.on('messageCreate', (message) => {
+  if(message.author.bot) return;
   const reactionNum = rng(1, 150);
 
   if (reactionNum === 1) {
-    message.react(emojiArray[rng(0, emojiArray.length-1)]);
+    if(message.author.id !== '283865139650756608'){
+      message.react(emojiArray[rng(0, emojiArray.length-1)]);
+      logWithTimestamp(`Reacted to ${message.author.tag}'s message: ${message.content}`);
+    } else {
+    message.react(johnArray[rng(0, johnArray.length-1)]);
     logWithTimestamp(`Reacted to ${message.author.tag}'s message: ${message.content}`);
+    }
   }
 });
 
@@ -117,6 +124,8 @@ Modified: 11/13/2023
 ==================================
 */
 client.on('messageCreate', (message) => {
+  if(message.author.bot) return;
+
   const unHingedReply = rng(1, 2048);
   const reply = [];
   reply[0] = `WARNING WARNING, ${message.author} IS REQUIRED TO ATTEND A MANDATORY PEBIS INSPECTION, NON COMPLIANCE WILL RESULT IN TERMINATION, PLEASE HEAD TO THE PEBIS EXTENDER ROOM IMMEDIATELY`;
@@ -138,23 +147,26 @@ Modified: 11/30/2023
 ==================================
 */
 client.on('messageCreate', (message) => {
-    const gifReply = rng(1, 4086);
-    if(gifReply === 1){
-      const gif = [];
-      gif[0] = 'https://tenor.com/view/death-stare-black-snake-moan-samuel-l-jackson-shocked-wide-eye-gif-14648637';
-      gif[1] = 'https://tenor.com/view/reikouwu2-gif-20327386';
-      gif[2] = 'https://tenor.com/view/ew-gif-25919594';
-      gif[3] = 'https://tenor.com/view/sweating-nervous-wreck-gif-24688521';
-      gif[4] = 'https://tenor.com/view/josh-hutcherson-josh-hutcherson-whistle-edit-whistle-2014-meme-gif-1242113167680346055';
-      gif[5] = 'https://tenor.com/view/future-josh-hutcherson-tongue-out-gif-13846119';
-      gif[6] = 'https://tenor.com/view/doubt-press-x-la-noire-meme-x-button-gif-19259237';
-      gif[7] = 'https://tenor.com/view/if-you-say-so-ok-gif-9410059';
-      gif[8] = 'https://tenor.com/view/ohhh-duh-why-didnt-i-think-of-that-gif-21849807';
-      gif[9] = 'https://tenor.com/view/snoop-dogg-dance-moves-yes-gif-16124908';
-      gif[10] = 'https://tenor.com/view/confused-no-nope-gif-5413974953753901704';
-      const i = rng(0, gif.length-1);
-      message.reply(`${gif[i]}`);
-    }  
+  if(message.author.bot) return;
+
+  const gifReply = rng(1, 4086);
+  if(gifReply === 1){
+    const gif = [
+      'https://tenor.com/view/death-stare-black-snake-moan-samuel-l-jackson-shocked-wide-eye-gif-14648637',
+      'https://tenor.com/view/reikouwu2-gif-20327386',
+      'https://tenor.com/view/ew-gif-25919594',
+      'https://tenor.com/view/sweating-nervous-wreck-gif-24688521',
+      'https://tenor.com/view/josh-hutcherson-josh-hutcherson-whistle-edit-whistle-2014-meme-gif-1242113167680346055',
+      'https://tenor.com/view/future-josh-hutcherson-tongue-out-gif-13846119',
+      'https://tenor.com/view/doubt-press-x-la-noire-meme-x-button-gif-19259237',
+      'https://tenor.com/view/if-you-say-so-ok-gif-9410059',
+      'https://tenor.com/view/ohhh-duh-why-didnt-i-think-of-that-gif-21849807',
+      'https://tenor.com/view/snoop-dogg-dance-moves-yes-gif-16124908',
+      'https://tenor.com/view/confused-no-nope-gif-5413974953753901704'
+    ];
+    const i = rng(0, gif.length-1);
+    message.reply(`${gif[i]}`);
+  }  
 });
 
 /*
@@ -166,11 +178,8 @@ Modified: 11/30/2023
 ==================================
 */
 client.on('messageCreate', (message) => {
-  const ignoredIds = ['1079857247208882257', '1172025509572530226']; // Specify the IDs to ignore
+  if(message.author.bot) return;
 
-  if (ignoredIds.includes(message.author.id)) {
-    return; // Ignore the specified IDs
-  }
   insertUser(db, message.author.id, message.author.username);
 });
 
@@ -183,6 +192,7 @@ Modified: 11/30/2023
 ==================================
 */
 client.on('messageCreate', (message) => {
+  if(message.author.bot) return;
   const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))/i.test(message.content);
 
   if (containsLink) {
@@ -203,6 +213,8 @@ Modified: 11/30/2023
 */
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
+  if(message.author.bot) return;
+
   if (interaction.commandName === 'roulette') {    
       if (chamber === bullet) {
         await interaction.reply('You spin the cylinder and pull the trigger, you hear a click and a bullet enters your skull. You are dead');
@@ -212,19 +224,34 @@ client.on('interactionCreate', async interaction => {
         await interaction.reply('You spin the cylinder and pull the trigger, you hear a click and the cylinder spins again');
         chamber = rng(1, 6);
       }
-    } else if (interaction.commandName === 'spin_cylinder') {
+
+  } else if (interaction.commandName === 'spin_cylinder') {
       await interaction.reply('You spin the cylinder and pull the trigger, you hear a click and the cylinder spins again');
       chamber = rng(1, 6);
-    } else if (interaction.commandName === 'roll') {
+
+  } else if (interaction.commandName === 'roll') {
     const min = interaction.options.getString('min');
     const max = interaction.options.getString('max');
     await interaction.reply(`You rolled a ${rng(min, max)}`);
+
   } else if (interaction.commandName === 'death_roll') {
     const max = interaction.options.getString('max');
     await interaction.reply(`You rolled a ${rng(1, max)}`);
+
   } else if (interaction.commandName === 'open_loot_box') {
     const lootBox = openLootBox();
-    await interaction.reply(`You opened a loot box and got a ${lootBox}`);
+    const oneMore = new ButtonBuilder()
+      .setCustomId('open_loot_box')
+      .setLabel('Open Another Loot Box')
+      .setStyle('Primary');
+    const row = new ActionRowBuilder()
+      .addComponents(oneMore);
+    await interaction.reply({ 
+    content: `You opened a loot box and got a ${lootBox}`, 
+    files:[{attachment: './assets/shrimp_shark.png', name: 'shrimp_shark.png'}], 
+    components: [row] 
+});
+
   } else if (interaction.commandName === 'post_count') {
     algoPosts(interaction,db);
   }

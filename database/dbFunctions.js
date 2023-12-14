@@ -45,6 +45,7 @@ function insertUser(db, userId, username) {
           return console.error(err.message);
         }
         logWithTimestamp(`bag count initialized for user ${username}`);
+        updateCount(db, 'bag_count', 'bag_count', userId, 1);
       });
     }
   });
@@ -90,7 +91,7 @@ function populateBagFromDatabase(db, callback) {
     }
     // Populate the bag based on the counts in bag_count table
     rows.forEach((row) => {
-      const userId = row.user_id;
+      const userId = row.user_id.toString();
       const count = row.bag_count;
 
       for (let i = 0; i < count; i++) {
@@ -138,7 +139,7 @@ Modified: 11/30/2023
 
       }
       if(row && Number(row.post_count) == 100) {
-        message.reply(`WOW! ${message.author} this is your 100th sludge post!\nSeek help.`);
+        message.reply(`WOW! ${message.author} this is your 100th sludge post!\nSeek professional help.`);
       }
       if (row && Number(row.post_count) == 420) {
         message.reply(`WOW! ${message.author} this is your 420th sludge post!\nhttps://tenor.com/view/snoop-dogg-dance-moves-yes-gif-16124908`);

@@ -98,7 +98,8 @@ function displayBag() {
 
   // Count occurrences of each user ID in userBag
   userBag.forEach((userId) => {
-    userCounts[userId] = (userCounts[userId] || 0) + 1;
+    const userIdStr = userId.toString();
+    userCounts[userIdStr] = (userCounts[userIdStr] || 0) + 1;
   });
 
   // Display counts for each user
