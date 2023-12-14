@@ -33,20 +33,38 @@ const lootBoxItems = [
 
 let userBag = [];
 
-const arraySize = 5;
-const emojiArray = Array(arraySize).fill(null);
-emojiArray[0] = '🤔';
-emojiArray[1] = '👍';
-emojiArray[2] = '👎';
-emojiArray[3] = '🤡';
-emojiArray[4] = '❤️';
 
-const johnArray = Array(arraySize).fill(null);
-johnArray[0] = '👎';
-johnArray[1] = '🤡';
-johnArray[2] = '😒';
-johnArray[3] = '💩';
-johnArray[4] = '🙄';
+const emojiArray = [
+'🤔',
+'👍',
+'👎',
+'🤡',
+'❤️',
+'😂',
+'😒',
+];
+
+const johnArray = [
+'👎',
+'🤡',
+'😒',
+'💩',
+'🙄',
+'😑',
+'😶‍🌫️',
+'🤑',
+'🤢',
+'🤮',
+'🥸',
+'👺',
+'👹',
+'🐀',
+'🦨',
+'🐄',
+'🐖',
+'🐓',
+'🤓',
+];
 
 
 

@@ -42,7 +42,7 @@ client.on('ready', () => {
       } else {        
         logWithTimestamp('Bag populated successfully');
         //uncomment to display bag contents
-        displayBag();
+        //displayBag();
       }     
     });   
   
