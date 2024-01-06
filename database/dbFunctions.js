@@ -1,5 +1,5 @@
 const { userBag } = require('../utilities/item-arrays.js');
-const { logWithTimestamp } = require('../utilities/functions.js');
+const { logWithTimestamp, replyWithRetry, } = require('../utilities/functions.js');
 
 const sqlite3 = require('sqlite3').verbose();
 
@@ -91,7 +91,7 @@ function populateBagFromDatabase(db, callback) {
     }
     // Populate the bag based on the counts in bag_count table
     rows.forEach((row) => {
-      const userId = row.user_id.toString();
+      const userId = row.user_id;
       const count = row.bag_count;
 
       for (let i = 0; i < count; i++) {
@@ -166,29 +166,32 @@ Modified: 11/30/2023
 ==================================
 */
 function algoPosts(interaction, db) {
-  const query = `
-  SELECT
-    u.username,
-    pc.post_count AS "Links Posted"
-  FROM
-    users u
-  LEFT JOIN
-    post_count pc ON u.user_id = pc.user_id
-  ORDER BY
-    CAST(pc.post_count AS INTEGER) DESC;
-`;
+  // Send an initial response
+  replyWithRetry(interaction, ({ content: 'Processing...', fetchReply: true })).then(initialResponse => {
+    const query = `
+    SELECT
+      u.username,
+      pc.post_count AS "Links Posted"
+    FROM
+      users u
+    LEFT JOIN
+      post_count pc ON u.user_id = pc.user_id
+    ORDER BY
+      CAST(pc.post_count AS INTEGER) DESC;
+  `;
 
-  db.all(query, [], (err, rows) => {
-    if (err) {
-      console.error(err.message);
-      return;
-    }
+    db.all(query, [], (err, rows) => {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
 
-    // Format the result as a string
-    const resultString = rows.map(row => `${row.username}: ${row['Links Posted']}`).join('\n');
+      // Format the result as a string
+      const resultString = rows.map(row => `${row.username}: ${row['Links Posted']}`).join('\n');
 
-    // Reply to the interaction with the result
-    interaction.reply(`Links Posted as of 11-21-2023:\n${resultString}`);
+      // Edit the initial response with the result
+      initialResponse.edit(`Links Posted as of 11-21-2023:\n${resultString}`);
+    });
   });
 }
 

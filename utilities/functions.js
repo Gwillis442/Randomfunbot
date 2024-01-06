@@ -1,4 +1,5 @@
 const { lootBoxItems, userBag } = require('./item-arrays'); // Import from ItemArrays.js
+const Discord = require('discord.js');
 
 /*
 ==================================
@@ -119,6 +120,24 @@ function logWithTimestamp(message) {
   console.log(`[${timestamp}] ${message}`);
 }
 
+async function replyWithRetry(interaction, content, retries = 5) {
+  let response;
+  for (let i = 0; i < retries; i++) {
+    try {
+      response = await interaction.reply(content);
+      break;
+    } catch (error) {
+      if (error instanceof Discord.HTTPError && error.status === 503) {
+        console.log('Service unavailable, retrying...');
+        await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1))); // Wait before retrying
+      } else {
+        throw error; // If it's not a 503 error, rethrow it
+      }
+    }
+  }
+  return response;
+}
+
 /*
 ==================================
 TestRNG
@@ -163,5 +182,6 @@ module.exports = {
   displayBag,
   logWithTimestamp,
   gracefulShutdown,
+  replyWithRetry,
 
 };

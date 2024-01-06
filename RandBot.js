@@ -25,6 +25,8 @@ const db = new sqlite3.Database('./database/botDatabase.db', (err) => {
   }
 });
 
+const lastLinkPosted = {};
+
 /*
 ==================================
 Client Ready
@@ -69,10 +71,10 @@ client.on('messageCreate', (message) => {
     const bagPull = rng(0, (userBag.length - 1));
     logWithTimestamp(`ID Index: ${bagPull}`);
 
-    const bagId = userBag[bagPull].id.toString();; // Get the correct ID from the bag
+    const bagId = userBag[bagPull]; // Get the correct ID from the bag
     logWithTimestamp(`ID pulled from bag: ${bagId}`);
 
-    if (bagId === message.author.id.toString()) {
+    if (bagId === message.author.id) {
       logWithTimestamp(`${bagId} == ${message.author.id}`);
       message.delete()
         .then(deletedMessage => {
@@ -102,7 +104,7 @@ Modified: 11/16/2023
 */
 client.on('messageCreate', (message) => {
   if(message.author.bot) return;
-  const reactionNum = rng(1, 150);
+  const reactionNum = rng(1, 200);
 
   if (reactionNum === 1) {
     if(message.author.id !== '283865139650756608'){
@@ -193,14 +195,37 @@ Modified: 11/30/2023
 */
 client.on('messageCreate', (message) => {
   if(message.author.bot) return;
-  const containsLink = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))/i.test(message.content);
+  const linkRegex= /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))/i;
+  const containsLink = linkRegex.test(message.content);
+  const channel = client.channels.cache.get('1163516659202523248');
 
   if (containsLink) {
+    
+    const messageLink = message.content.match(linkRegex);
     updateCount(db, 'post_count', 'post_count', message.author.id, 1);
     updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
     pushUsernameToBag(message.author.id);
     postCountCheck(db, message.author.id, message);
+
+    if (message.member.roles.cache.some(role => role.name === 'Pesbi')) return;
+
+    if(message.channelId !== channel.id){
+
+      if(lastLinkPosted[message.author.id] === messageLink[0]){
+        message.delete();
+        return;
+      }
+
+      logWithTimestamp(`Link sent in ${message.channel.name} by ${message.author.username}`);
+      message.delete();
+      const messageContent = `From: **${message.author}** (Posted in: **${message.channel}**): ${message.content}`;
+      channel.send(messageContent);
+      updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
+
+    }
     
+    lastLinkPosted[message.author.id] = messageLink[0];
+
   }
 });
 
@@ -213,7 +238,6 @@ Modified: 11/30/2023
 */
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
-  if(message.author.bot) return;
 
   if (interaction.commandName === 'roulette') {    
       if (chamber === bullet) {
