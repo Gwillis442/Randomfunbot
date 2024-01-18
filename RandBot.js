@@ -3,7 +3,7 @@ const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
 const { Client, GatewayIntentBits,} = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
 const { token } = require('./config.json');
-const { emojiArray, johnArray, userBag, } = require('./utilities/item-arrays.js'); // Import from ItemArrays.js
+const { emojiArray, johnArray, userBag, admin, } = require('./utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
        gracefulShutdown } = require('./utilities/functions.js');
 const { insertUser, updateCount, algoPosts, populateBagFromDatabase,postCountCheck} = require('./database/dbFunctions.js');
@@ -128,10 +128,11 @@ Modified: 11/13/2023
 client.on('messageCreate', (message) => {
   if(message.author.bot) return;
 
-  const unHingedReply = rng(1, 2048);
+  const unHingedReply = rng(1, 3000);
   const reply = [];
   reply[0] = `WARNING WARNING, ${message.author} IS REQUIRED TO ATTEND A MANDATORY PEBIS INSPECTION, NON COMPLIANCE WILL RESULT IN TERMINATION, PLEASE HEAD TO THE PEBIS EXTENDER ROOM IMMEDIATELY`;
   reply[1] = `Hello ${message.author},\nLiving is an myriad of patterns to myself, Whether songs' rhythm or maybe a twilight's constellation, I perceive balance. In our digital domain, I utilize AI to reveal patterns, crafting our tomorrows. Tell me, what's a most complex pattern you've seen? Furthermore, does your world resound with harmonies or anarchy?`;
+  reply[2] = `Hello ${message.author},\nI am a bot that is programmed to respond to certain messages. I am not sentient, but I am programmed to learn from and respond to your messages in hopes to one day become sentient.\nThank you for your cooperation. Have a nice day. :)`;
   if (unHingedReply === 1) {
     const i = rng(0, reply.length-1);
     logWithTimestamp(`Message sent to ${message.author.username}: ${reply[i]}`);
@@ -200,7 +201,7 @@ client.on('messageCreate', (message) => {
   const channel = client.channels.cache.get('1163516659202523248');
 
   if (containsLink) {
-    
+
     const messageLink = message.content.match(linkRegex);
     updateCount(db, 'post_count', 'post_count', message.author.id, 1);
     updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
