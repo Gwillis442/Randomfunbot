@@ -7,6 +7,7 @@ const { emojiArray, johnArray, userBag, admin, } = require('./utilities/item-arr
 const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
        gracefulShutdown } = require('./utilities/functions.js');
 const { insertUser, updateCount, algoPosts, populateBagFromDatabase,postCountCheck} = require('./database/dbFunctions.js');
+const fetch = require('node-fetch');
 
 const client = new Client({
   intents: [
@@ -120,9 +121,9 @@ client.on('messageCreate', (message) => {
 /*
 ==================================
 Random Unhinged Response
-When a message is sent in chat the bot will roll a number between 1 and 2048
+When a message is sent in chat the bot will roll a number between 1 and 4000
 if the number is 1 the bot will respond to the message with a hardcoded response
-Modified: 11/13/2023
+Modified: 1/24/2024
 ==================================
 */
 client.on('messageCreate', (message) => {
@@ -279,8 +280,16 @@ client.on('interactionCreate', async interaction => {
 
   } else if (interaction.commandName === 'post_count') {
     algoPosts(interaction,db);
+    
+  } else if (interaction.commandName === 'joke') {
+    const joke = await fetch('https://official-joke-api.appspot.com/random_joke')
+      .then(response => response.json())
+      .then(data => data.setup + '\n' + data.punchline);
+    await interaction.reply(joke);
   }
+
 });
+
 
 client.login(token);
 

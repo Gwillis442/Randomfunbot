@@ -14,6 +14,7 @@ const commands = [
 			.addStringOption(option => option.setName('max').setDescription('Max Value').setRequired(true)),
 	new SlashCommandBuilder().setName('open_loot_box').setDescription('Open a loot box'),
 	new SlashCommandBuilder().setName('post_count').setDescription('List post count'),
+	new SlashCommandBuilder().setName('joke').setDescription('Get a random joke'),
 ]
 
 	.map(command => command.toJSON());
