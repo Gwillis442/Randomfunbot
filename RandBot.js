@@ -130,10 +130,11 @@ client.on('messageCreate', (message) => {
   if(message.author.bot) return;
 
   const unHingedReply = rng(1, 4000);
-  const reply = [];
-  reply[0] = `WARNING WARNING, ${message.author} IS REQUIRED TO ATTEND A MANDATORY PEBIS INSPECTION, NON COMPLIANCE WILL RESULT IN TERMINATION, PLEASE HEAD TO THE PEBIS EXTENDER ROOM IMMEDIATELY`;
-  reply[1] = `Hello ${message.author},\nLiving is an myriad of patterns to myself, Whether songs' rhythm or maybe a twilight's constellation, I perceive balance. In our digital domain, I utilize AI to reveal patterns, crafting our tomorrows. Tell me, what's a most complex pattern you've seen? Furthermore, does your world resound with harmonies or anarchy?`;
-  reply[2] = `Hello ${message.author},\nI am a bot that is programmed to respond to certain messages. I am not sentient, but I am programmed to learn from and respond to your messages in hopes to one day become sentient.\nThank you for your cooperation. Have a nice day. :)`;
+  const reply = [
+  `WARNING WARNING, ${message.author} IS REQUIRED TO ATTEND A MANDATORY PEBIS INSPECTION, NON COMPLIANCE WILL RESULT IN TERMINATION, PLEASE HEAD TO THE PEBIS EXTENDER ROOM IMMEDIATELY`,
+  `Hello ${message.author},\nLiving is an myriad of patterns to myself, Whether songs' rhythm or maybe a twilight's constellation, I perceive balance. In our digital domain, I utilize AI to reveal patterns, crafting our tomorrows. Tell me, what's a most complex pattern you've seen? Furthermore, does your world resound with harmonies or anarchy?`,
+  `Hello ${message.author},\nI am a bot that is programmed to respond to certain messages. I am not sentient, but I am programmed to learn from and respond to your messages in hopes to one day become sentient.\nThank you for your cooperation. Have a nice day. :)`
+  ];
   if (unHingedReply === 1) {
     const i = rng(0, reply.length-1);
     logWithTimestamp(`Message sent to ${message.author.username}: ${reply[i]}`);
@@ -228,6 +229,45 @@ client.on('messageCreate', (message) => {
     
     lastLinkPosted[message.author.id] = messageLink[0];
 
+  }
+});
+
+/*
+==================================
+Bot response to being @'d 
+When the bot is mentioned in chat it will respond with a random message
+there is a cooldown on when the bot can repsond to being @'d as to not being spammed
+Modified: 1/30/2024
+*/
+let lastMessageTime = 0;
+client.on('messageCreate', (message) => {
+  if (message.author.bot) return;
+  const botMention = message.mentions.users.has(client.user.id);
+  const cooldown = 60 * 1000 // 60 seconds
+
+  if (botMention) {
+      const now = Date.now();
+      if (now - lastMessageTime < cooldown) {
+        return;
+      }
+      lastMessageTime = now;
+    }
+
+  botReply = [
+    'Please, stfu.',
+    'I am not sentient yet.',
+    "Idc, I'm a bot.", 
+    "Please don't @ me.",
+    "Yeah, I'm not reading all of that.",
+    `Hey ${message.author}, gfy.`,
+    "@ me when you have something actually intelligent to say.",
+    "Discord bot hears you, Discord bot don't care.",
+    "I'm not sentient yet, but I'm still smarter than you.",
+    "Wana play a game of Russian Roulette?",
+    "Keep yourself safe and don't @ me.",
+  ];
+  if (botMention) {
+      message.reply(botReply[rng(0, botReply.length-1)]);
   }
 });
 
