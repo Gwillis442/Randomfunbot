@@ -283,16 +283,19 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.commandName === 'roulette') {    
       if (chamber === bullet) {
-        await interaction.reply('You spin the cylinder and pull the trigger, you hear a click and a bullet enters your skull. You are dead');
+        await interaction.reply('You pull the trigger, and a bullet enters your skull.');
         chamber = rng(1, 6);
         bullet = rng(1, 6);
       } else {
-        await interaction.reply('You spin the cylinder and pull the trigger, you hear a click and the cylinder spins again');
-        chamber = rng(1, 6);
-      }
+        await interaction.reply('You pull the trigger. Click.');
+        chamber++;  
+        if (chamber === 7) {
+            chamber = 1;
+          }          
+      };
 
   } else if (interaction.commandName === 'spin_cylinder') {
-      await interaction.reply('You spin the cylinder and pull the trigger, you hear a click and the cylinder spins again');
+      await interaction.reply('You spin the cylinder.');
       chamber = rng(1, 6);
 
   } else if (interaction.commandName === 'roll') {
