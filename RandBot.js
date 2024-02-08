@@ -317,7 +317,7 @@ client.on('interactionCreate', async interaction => {
     await interaction.reply(`You rolled a ${rng(1, max)}`);
 
   } else if (interaction.commandName === 'open_loot_box') {
-    const lootBox = openLootBox();
+    const lootbox = openLootBox();
     const oneMore = new ButtonBuilder()
       .setCustomId('open_loot_box')
       .setLabel('Open Another Loot Box')
@@ -325,8 +325,8 @@ client.on('interactionCreate', async interaction => {
     const row = new ActionRowBuilder()
       .addComponents(oneMore);
     await interaction.reply({ 
-    content: `You opened a loot box and got a ${lootBox}`, 
-    files:[{attachment: './assets/shrimp_shark.png', name: 'shrimp_shark.png'}], 
+      content: `You opened a loot box and got a ${lootbox.name}!`, 
+    files:[{attachment: `./assets/${lootbox.image || 'default.png'}`, name: (lootbox.image || 'default.png')}], 
     components: [row] 
 });
 
