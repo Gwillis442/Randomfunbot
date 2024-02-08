@@ -271,6 +271,15 @@ client.on('messageCreate', (message) => {
   }
 });
 
+client.on('messageCreate', (message) => {
+const link = "https://tenor.com/view/you-have-no-idea-gif-27149353";
+
+if(message.content === link)
+{
+  message.reply(link);
+}
+});
+
 /*
 ==================================
 Interactions
