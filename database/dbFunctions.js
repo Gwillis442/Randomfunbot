@@ -54,7 +54,7 @@ function insertUser(db, userId, username) {
 /*
 ==================================
 Update Post Count
-When called the function will update the post count for a user in the database
+When called the function will update the a given column in a table for a user in the database
 Modified: 11/30/2023
 ==================================
 */

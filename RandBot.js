@@ -336,21 +336,34 @@ client.on('interactionCreate', async interaction => {
       } catch (error) {
         console.error(error);
       };
-    } else if (interaction.commandName === 'loot_box_info') {
-      
-        await interaction.reply({
-         content: `Loot Box Information:
-          Series: 1
-          =====================
-          Cost: 50 coins
-          =====================
-          Common: 8 at 45% chance
-          Uncommon: 7 at 30% chance
-          Rare: 9 at 20% chance
-          Epic: 9 at 5% chance`
-        });
+    }else if (interaction.commandName === 'check_inventory') {
+      const user = interaction.user;
+      const coincount = await new Promise((resolve, reject) => {
+          db.get('SELECT coin_count FROM coin_count WHERE user_id = ?', [user.id], (err, row) => {
+              if (err) {
+                  reject(err);
+              } else {
+                  resolve(row);
+              }
+          });
+      });
+      await interaction.reply(`User: ${user.username}\nCoin Count: ${coincount ? coincount.coin_count : 'No coins found'}\n`);
+  
+  } else if (interaction.commandName === 'check_currency') {
 
-  } else if (interaction.commandName === 'post_count') {
+    const user = interaction.user;
+    const coincount = await new Promise((resolve, reject) => {
+        db.get('SELECT coin_count FROM coin_count WHERE user_id = ?', [user.id], (err, row) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(row);
+            }
+        });
+    });
+    await interaction.reply(`User: ${user.username}\nCoin Count: ${coincount ? coincount.coin_count : 'No coins found'}\n`);
+
+} else if (interaction.commandName === 'post_count') {
     algoPosts(interaction,db);
     
   } else if (interaction.commandName === 'joke') {
