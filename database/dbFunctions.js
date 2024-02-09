@@ -239,6 +239,36 @@ function deleteUser(userid,db) {
   });
 }
 
+/*
+==================================
+Coin Check
+When called the function will pull out the users coin count from the database
+==================================
+*/
+
+function coin_check(db, user_id, cost) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    SELECT coin_count
+    FROM coin_count
+    WHERE user_id = ?;
+    `;
+    db.get(query, [user_id], (err, row) => {
+      if (err) {
+        console.error(err.message);
+        reject(err);
+      }
+      if (row && Number(row.coin_count) >= cost) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
+}
+
+
+// Export the functions
 
 module.exports = {
   insertUser,
@@ -247,4 +277,5 @@ module.exports = {
   populateBagFromDatabase,
   deleteUser,
   postCountCheck,
+  coin_check,
 };

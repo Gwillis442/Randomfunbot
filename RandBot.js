@@ -6,7 +6,7 @@ const { token } = require('./config.json');
 const { emojiArray, johnArray, userBag, admin, } = require('./utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
        gracefulShutdown } = require('./utilities/functions.js');
-const { insertUser, updateCount, algoPosts, populateBagFromDatabase,postCountCheck} = require('./database/dbFunctions.js');
+const { insertUser, updateCount, algoPosts, populateBagFromDatabase,postCountCheck, coin_check} = require('./database/dbFunctions.js');
 const fetch = require('node-fetch');
 
 const client = new Client({
@@ -320,10 +320,18 @@ client.on('interactionCreate', async interaction => {
 
       try {
         const box = openLootBox(1, 1);
+        const result = await coin_check(db, interaction.user.id, 50);
+        if (result === false){          
+          await interaction.reply('You do not have enough coins to open a loot box');
+          return;
+        } else {
+          
+        updateCount(db, 'coin_count', 'coin_count', interaction.user.id, -50);
         await interaction.reply({
           content: `You opened a ${box.rarity}: ${box.name}!`,
           files: [{ attachment: `./assets/${box.type}/${box.image}`, name: (box.image) }]
         });
+      }
 
       } catch (error) {
         console.error(error);
