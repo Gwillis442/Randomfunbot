@@ -1,32 +1,60 @@
 
-const lootBoxItems = [
+const lootBoxArmorSeries_1= [
+  // Prehardmode Armors
 
-  commonItems = [
-    { name: 'Common Sword', image: 'common_sword1.png' },
-    { name: 'Common Shield' },
-    { name: 'Common Potion' },
-    { name: 'Common Armor' },
+  // Common Early game Armor
+  commonArmor = [
+    { name: 'Cactus Armor', image: 'Cactus_armor.png', rarity: 'commonArmor' },
+    { name: 'Wood Armor', image: 'Wood_armor.png', rarity: 'commonArmor'},
+    { name: 'Ebonwood Armor', image: 'Ebonwood_armor.png', rarity: 'commonArmor' },
+    { name: 'Shadewood Armor', image: 'Shadewood_armor.png', rarity: 'commonArmor'},
+    { name: 'Palm Wood Armor', image: 'Palm_wood_armor.png', rarity: 'commonArmor'},
+    { name: 'Boreal Wood Armor', image: 'Boreal_wood_armor.png', rarity: 'commonArmor'},
+    { name: 'Rich Mahogany Armor', image: 'Rich_mahogany_armor.png', rarity: 'commonArmor'},
+    { name: 'Ash Wood Armor', image: 'Ash_wood_armor.png', rarity: 'commonArmor'},
   ],
 
-  rareItems = [
-    { name: 'Rare Shield' },
-    { name: 'Rare Sword', image: 'rare_sword1.png'},
-    { name: 'Rare Potion' },
-    { name: 'Rare Armor' },
+  // Uncommon Early game Armor
+  uncommonArmor = [
+    { name: 'Tin Armor', image: 'Tin_armor.png', rarity: 'uncommonArmor' },
+    { name: 'Copper Armor', image: 'Copper_armor.png', rarity: 'uncommonArmor' },
+    { name: 'Lead Armor', image: 'Lead_armor.png', rarity: 'uncommonArmor' },
+    { name: 'Iron Armor', image: 'Iron_armor.png', rarity: 'uncommonArmor' },
+    { name: 'Angler Armor', image: 'Angler_armor.png', rarity: 'uncommonArmor' },
+    { name: 'Pumpkin Armor', image: 'Pumpkin_armor.png', rarity: 'uncommonArmor' },
+    { name: 'Raincoat Armor', image: 'Rain_armor.png', rarity: 'uncommonArmor' }, 
+
   ],
 
-  epicItems = [
-    { name: 'Epic Potion' },
-    { name: 'Epic Shield', image: 'epic_shield1.png'},
-    { name: 'Epic Sword' },
-    { name: 'Epic Armor' },
+  // Rare Early game Armor
+  rareArmor = [
+    { name: 'Gold Armor', image: 'Gold_armor.png', rarity: 'rareArmor'},
+    { name: 'Silver Armor', image: 'Silver_armor.png', rarity: 'rareArmor' },
+    { name: 'Platinum Armor', image: 'Platinum_armor.png', rarity: 'rareArmor'},
+    { name: 'Tungsten Armor', image: 'Tungsten_armor.png', rarity: 'rareArmor' },
+    { name: 'Fossil Armor', image: 'Fossil_armor.png', rarity: 'rareArmor' },
+    { name: 'Pink Snow Armor', image: 'Pink_snow_armor.png', rarity: 'rareArmor'},
+    { name: 'Snow Armor', image: 'Snow_armor.png', rarity: 'rareArmor'},
+    { name: 'Bee Armor', image: 'Bee_armor.png', rarity: 'rareArmor'},
+    { name: 'Ninja Armor', image: 'Ninja_armor.png', rarity: 'rareArmor'},
   ],
 
-  legendaryItems = [
-    { name: 'Legendary Armor' },
-    { name: 'Legendary Shield' },
-    { name: 'Legendary Sword', image: 'legendary_sword1.png'},
-    { name: 'Legendary Potion' },
+  // Epic Early game Armor
+  epicArmor = [
+    { name: 'Jungle Armor', image: 'Jungle_armor.png', rarity: 'epicArmor' },
+    { name: 'Obsidian Armor', image: 'Obsidian_armor.png', rarity: 'epicArmor' },
+    { name: 'Crimson Armor', image: 'Crimson_armor.png', rarity: 'epicArmor' },
+    { name: 'Shadow Armor', image: 'Shadow_armor.png', rarity: 'epicArmor' }, 
+    { name: 'Meteor Armor', image: 'Meteor_armor.png', rarity: 'epicArmor' },
+    { name: 'Necro Armor', image: 'Necro_armor.png', rarity: 'epicArmor' },
+    { name: 'Gladiator Armor', image: 'Gladiator_armor.png', rarity: 'epicArmor' },
+    { name: 'Ancient Shadow Armor', image: 'Ancient_shadow_armor.png', rarity: 'epicArmor'},
+    { name: 'Ancient Cobalt Armor', image: 'Ancient_cobalt_armor.png', rarity: 'epicArmor' }, 
+  ],
+  
+  // Legendary Early game Armor
+  legendaryArmor = [
+    { name: 'Molten Armor', image: 'Molten_armor.png', rarity: 'legendaryArmor' },
   ],
 
 ];
@@ -76,7 +104,7 @@ const admin = [
 
 
 module.exports = {
-  lootBoxItems,
+  lootBoxArmorSeries_1,
   emojiArray,
   johnArray,
   userBag,

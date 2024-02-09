@@ -26,6 +26,9 @@ coverage
 # Config.json
 config.json
 
+# assets
+*.png
+
 #database.db 
 botDatabase.db
 

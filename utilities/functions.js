@@ -1,4 +1,4 @@
-const { lootBoxItems, userBag } = require('./item-arrays'); // Import from ItemArrays.js
+const { lootBoxArmorSeries_1, userBag } = require('./item-arrays'); // Import from ItemArrays.js
 const Discord = require('discord.js');
 
 /*
@@ -19,20 +19,27 @@ allows for the opening of a 'lootbox' that gives the user a sense of pride and a
 Modified: 11/14/2023
 ==================================
 */
-function openLootBox() {
-  var num = rng(1, 100);
+function openLootBox(type, series) {
 
-  if (num == 1) {
-    return (lootBoxItems[3][rng(0, 3)]);
-  } else if (num < 1 && num <= 20) {
-    return (lootBoxItems[2][rng(0, 3)]);
-  } else if (num > 20 && num <= 50) {
-    return (lootBoxItems[1][rng(0, 3)]);
-  } else {
-    return (lootBoxItems[0][rng(0, 3)]);
+  const num = Math.random();
+  if (type == 1) {
+    if (series == 1) {
+        if (num < 0.001) { // 0.1% chance for Legendary
+          return lootBoxArmorSeries_1[4][rng(0, legendaryArmor.length - 1)];
+        } else if (num < 0.051) { // 5% chance for Epic
+          return lootBoxArmorSeries_1[3][rng(0, epicArmor.length - 1)];
+        } else if (num < 0.251) { // 20% chance for Rare
+          return lootBoxArmorSeries_1[2][rng(0, rareArmor.length - 1)];
+        } else if (num < 0.551) { // 30% chance for Uncommon
+          return lootBoxArmorSeries_1[1][rng(0, uncommonArmor.length - 1)];
+        } else { // Remaining chance (44.9%) for Common
+          return lootBoxArmorSeries_1[0][rng(0, commonArmor.length - 1)];
+        }
+      }
+    }
   }
 
-}
+
 
 /*
 ==================================

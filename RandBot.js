@@ -317,18 +317,17 @@ client.on('interactionCreate', async interaction => {
     await interaction.reply(`You rolled a ${rng(1, max)}`);
 
   } else if (interaction.commandName === 'open_loot_box') {
-    const lootbox = openLootBox();
-    const oneMore = new ButtonBuilder()
-      .setCustomId('open_loot_box')
-      .setLabel('Open Another Loot Box')
-      .setStyle('Primary');
-    const row = new ActionRowBuilder()
-      .addComponents(oneMore);
-    await interaction.reply({ 
-      content: `You opened a loot box and got a ${lootbox.name}!`, 
-    files:[{attachment: `./assets/${lootbox.image || 'default.png'}`, name: (lootbox.image || 'default.png')}], 
-    components: [row] 
-});
+
+      try {
+        const box = openLootBox(1, 1);
+        await interaction.reply({
+          content: `You opened a box and got ${box.name}!`,
+          files: [{ attachment: `./assets/${box.rarity}/${box.image}`, name: (box.image) }]
+        });
+
+      } catch (error) {
+        console.error(error);
+      };
 
   } else if (interaction.commandName === 'post_count') {
     algoPosts(interaction,db);
