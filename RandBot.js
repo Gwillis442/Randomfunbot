@@ -321,13 +321,26 @@ client.on('interactionCreate', async interaction => {
       try {
         const box = openLootBox(1, 1);
         await interaction.reply({
-          content: `You opened a box and got ${box.name}!`,
-          files: [{ attachment: `./assets/${box.rarity}/${box.image}`, name: (box.image) }]
+          content: `You opened a ${box.rarity}: ${box.name}!`,
+          files: [{ attachment: `./assets/${box.type}/${box.image}`, name: (box.image) }]
         });
 
       } catch (error) {
         console.error(error);
       };
+    } else if (interaction.commandName === 'loot_box_info') {
+      
+        await interaction.reply({
+         content: `Loot Box Information:
+          Series: 1
+          =====================
+          Cost: 50 coins
+          =====================
+          Common: 8 at 45% chance
+          Uncommon: 7 at 30% chance
+          Rare: 9 at 20% chance
+          Epic: 9 at 5% chance`
+        });
 
   } else if (interaction.commandName === 'post_count') {
     algoPosts(interaction,db);
