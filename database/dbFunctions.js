@@ -32,13 +32,6 @@ function insertUser(db, userId, username) {
         }
         logWithTimestamp(`Post count initialized for user ${username}`);
       });
-      // Initialize coin count for the user in the 'coin_count' table
-      db.run("INSERT INTO coin_count (user_id, coin_count) VALUES (?, 0)", [userId], function (err) {
-        if (err) {
-          return console.error(err.message);
-        }
-        logWithTimestamp(`Coin count initialized for user ${username}`);
-      });
       // Initialize bag count for the user in the 'bag_count' table
       db.run("INSERT INTO bag_count (user_id, bag_count) VALUES (?, 0)", [userId], function (err) {
         if (err) {

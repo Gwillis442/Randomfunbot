@@ -5,7 +5,8 @@ const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, token } = require('./config.json');
 
 const commands = [
-    new SlashCommandBuilder().setName('roulette').setDescription('Play Russian Roulette solo or with others'),
+    new SlashCommandBuilder().setName('roulette').setDescription('Play Russian Roulette solo or with others')
+			.addIntegerOption(option => option.setName('wager').setDescription('Amount of currency to wager').setRequired(true)),
 	new SlashCommandBuilder().setName('spin_cylinder').setDescription('Spin the cylinder'),
 	new SlashCommandBuilder().setName('roll').setDescription('Get a random number')
 			.addStringOption(option => option.setName('min').setDescription('Minimum value').setRequired(true))
@@ -14,7 +15,7 @@ const commands = [
 			.addStringOption(option => option.setName('max').setDescription('Max Value').setRequired(true)),
 	new SlashCommandBuilder().setName('open_loot_box').setDescription('Open a loot box'),
 	new SlashCommandBuilder().setName('loot_box_info').setDescription('Information on loot boxes'),
-	new SlashCommandBuilder().setName('check_currency').setDescription('Check your currency'),
+	new SlashCommandBuilder().setName('inventory').setDescription('Check your inventory'),
 	new SlashCommandBuilder().setName('post_count').setDescription('List post count'),
 	new SlashCommandBuilder().setName('joke').setDescription('Get a random joke'),
 ]
