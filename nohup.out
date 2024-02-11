@@ -1,0 +1,478 @@
+node:internal/modules/cjs/loader:1147
+  throw err;
+  ^
+
+Error: Cannot find module './monetization'
+Require stack:
+- /home/admin/Randomfunbot/node_modules/discord-api-types/payloads/v10/index.js
+- /home/admin/Randomfunbot/node_modules/discord-api-types/v10.js
+- /home/admin/Randomfunbot/node_modules/@discordjs/builders/dist/index.js
+- /home/admin/Randomfunbot/RandBot.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1144:15)
+    at Module._load (node:internal/modules/cjs/loader:985:27)
+    at Module.require (node:internal/modules/cjs/loader:1235:19)
+    at require (node:internal/modules/helpers:176:18)
+    at Object.<anonymous> (/home/admin/Randomfunbot/node_modules/discord-api-types/payloads/v10/index.js:37:14)
+    at Module._compile (node:internal/modules/cjs/loader:1376:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1435:10)
+    at Module.load (node:internal/modules/cjs/loader:1207:32)
+    at Module._load (node:internal/modules/cjs/loader:1023:12)
+    at Module.require (node:internal/modules/cjs/loader:1235:19) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/admin/Randomfunbot/node_modules/discord-api-types/payloads/v10/index.js',
+    '/home/admin/Randomfunbot/node_modules/discord-api-types/v10.js',
+    '/home/admin/Randomfunbot/node_modules/@discordjs/builders/dist/index.js',
+    '/home/admin/Randomfunbot/RandBot.js'
+  ]
+}
+
+Node.js v20.10.0
+node:internal/modules/cjs/loader:1147
+  throw err;
+  ^
+
+Error: Cannot find module './ThreadOnlyChannel'
+Require stack:
+- /home/admin/Randomfunbot/node_modules/discord.js/src/structures/ForumChannel.js
+- /home/admin/Randomfunbot/node_modules/discord.js/src/index.js
+- /home/admin/Randomfunbot/RandBot.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1144:15)
+    at Module._load (node:internal/modules/cjs/loader:985:27)
+    at Module.require (node:internal/modules/cjs/loader:1235:19)
+    at require (node:internal/modules/helpers:176:18)
+    at Object.<anonymous> (/home/admin/Randomfunbot/node_modules/discord.js/src/structures/ForumChannel.js:3:27)
+    at Module._compile (node:internal/modules/cjs/loader:1376:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1435:10)
+    at Module.load (node:internal/modules/cjs/loader:1207:32)
+    at Module._load (node:internal/modules/cjs/loader:1023:12)
+    at Module.require (node:internal/modules/cjs/loader:1235:19) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/admin/Randomfunbot/node_modules/discord.js/src/structures/ForumChannel.js',
+    '/home/admin/Randomfunbot/node_modules/discord.js/src/index.js',
+    '/home/admin/Randomfunbot/RandBot.js'
+  ]
+}
+
+Node.js v20.10.0
+Database opened successfully
+[2/10/2024, 7:08:26 PM] Logged in as Random Bot#0908
+[2/10/2024, 7:08:26 PM] Bag populated successfully
+[2/10/2024, 7:18:50 PM] Item 15 added to inventory for user 107992987673313280
+[Error: ENOENT: no such file or directory, stat '/home/admin/Randomfunbot/assets/uncommonArmor/Rain_armor.png'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/home/admin/Randomfunbot/assets/uncommonArmor/Rain_armor.png'
+}
+[2/10/2024, 7:18:55 PM] Item 19 added to inventory for user 474452715217354774
+[Error: ENOENT: no such file or directory, stat '/home/admin/Randomfunbot/assets/rareArmor/Tungsten_armor.png'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/home/admin/Randomfunbot/assets/rareArmor/Tungsten_armor.png'
+}
+node:internal/modules/cjs/loader:1147
+  throw err;
+  ^
+
+Error: Cannot find module './utilities/item-arrays.js'
+Require stack:
+- /home/admin/Randomfunbot/RandBot.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1144:15)
+    at Module._load (node:internal/modules/cjs/loader:985:27)
+    at Module.require (node:internal/modules/cjs/loader:1235:19)
+    at require (node:internal/modules/helpers:176:18)
+    at Object.<anonymous> (/home/admin/Randomfunbot/RandBot.js:6:52)
+    at Module._compile (node:internal/modules/cjs/loader:1376:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1435:10)
+    at Module.load (node:internal/modules/cjs/loader:1207:32)
+    at Module._load (node:internal/modules/cjs/loader:1023:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/admin/Randomfunbot/RandBot.js' ]
+}
+
+Node.js v20.10.0
+Database opened successfully
+[2/10/2024, 7:22:37 PM] Logged in as Random Bot#0908
+[2/10/2024, 7:22:37 PM] Bag populated successfully
+Database opened successfully
+[2/10/2024, 7:23:32 PM] Logged in as Random Bot#0908
+[2/10/2024, 7:23:32 PM] Bag populated successfully
+[2/10/2024, 7:24:33 PM] Item 11 added to inventory for user 198297361733255168
+[2/10/2024, 7:24:33 PM] Item 4 added to inventory for user 198297361733255168
+DiscordAPIError[10062]: Unknown interaction
+    at handleErrors (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:722:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async BurstHandler.runRequest (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:826:23)
+    at async _REST.request (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:1266:22)
+    at async ChatInputCommandInteraction.reply (/home/admin/Randomfunbot/node_modules/discord.js/src/structures/interfaces/InteractionResponses.js:111:5)
+    at async Client.<anonymous> (/home/admin/Randomfunbot/RandBot.js:404:9) {
+  requestBody: { files: [ [Object] ], json: { type: 4, data: [Object] } },
+  rawError: { message: 'Unknown interaction', code: 10062 },
+  code: 10062,
+  status: 404,
+  method: 'POST',
+  url: 'https://discord.com/api/v10/interactions/1206078293460131900/aW50ZXJhY3Rpb246MTIwNjA3ODI5MzQ2MDEzMTkwMDp5cHZFSGV3SGhqd29Bb0ZIWkRxS0RIMHlLNUtwbVhxN3NDS053TkxpbGxKOFhEa01NMTBER1JqcVZ4RXJXWklQbmlMZGQ1eWRWbWVxTzNQYzVtaVoycklmN3VkS2tYT2g1aVhqT1pnOVV4YXpyRHZSZXY0VGpxMWtKZWlwZnBhVw/callback'
+}
+[2/10/2024, 7:24:47 PM] Item 7 added to inventory for user 474452715217354774
+[2/10/2024, 7:24:47 PM] Item 9 added to inventory for user 474452715217354774
+[Error: ENOENT: no such file or directory, stat '/home/admin/Randomfunbot/assets/commonArmor/Rich_mahogany_armor.png'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/home/admin/Randomfunbot/assets/commonArmor/Rich_mahogany_armor.png'
+}
+node:events:492
+      throw er; // Unhandled 'error' event
+      ^
+
+DiscordAPIError[10062]: Unknown interaction
+    at handleErrors (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:722:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async BurstHandler.runRequest (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:826:23)
+    at async _REST.request (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:1266:22)
+    at async ChatInputCommandInteraction.reply (/home/admin/Randomfunbot/node_modules/discord.js/src/structures/interfaces/InteractionResponses.js:111:5)
+    at async Client.<anonymous> (/home/admin/Randomfunbot/RandBot.js:448:5)
+Emitted 'error' event on Client instance at:
+    at emitUnhandledRejectionOrErr (node:events:397:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:84:21) {
+  requestBody: {
+    files: [],
+    json: {
+      type: 4,
+      data: {
+        content: '```User: shiba442\n' +
+          'Coin Count: 5\n' +
+          'Items:\n' +
+          'Shadewood Armor: 2\n' +
+          'Palm Wood Armor: 3\n' +
+          'Rich Mahogany Armor: 2\n' +
+          'Ash Wood Armor: 2\n' +
+          'Tin Armor: 1\n' +
+          'Copper Armor: 1\n' +
+          'Lead Armor: 1\n' +
+          'Iron Armor: 1\n' +
+          'Angler Armor: 2\n' +
+          'Raincoat Armor: 1\n' +
+          'Gold Armor: 1\n' +
+          'Platinum Armor: 2\n' +
+          'Tungsten Armor: 2\n' +
+          'Pink Snow Armor: 2\n' +
+          'Bee Armor: 1\n' +
+          'Shadow Armor: 1```',
+        tts: false,
+        nonce: undefined,
+        embeds: undefined,
+        components: undefined,
+        username: undefined,
+        avatar_url: undefined,
+        allowed_mentions: undefined,
+        flags: 64,
+        message_reference: undefined,
+        attachments: undefined,
+        sticker_ids: undefined,
+        thread_name: undefined
+      }
+    }
+  },
+  rawError: { message: 'Unknown interaction', code: 10062 },
+  code: 10062,
+  status: 404,
+  method: 'POST',
+  url: 'https://discord.com/api/v10/interactions/1206078381305888838/aW50ZXJhY3Rpb246MTIwNjA3ODM4MTMwNTg4ODgzODptYWhoUW8weHQyVWRFTXVhS0oyU3FKem9WUnBmQ29FVFJnOGlrMTFWT0RYajd4MlNLdUtUajlrVzlEMWJwemVObEVmMTNjVk1YUTI2Q2IxZnVHcEdyeEtTNm81QWR6ZnJZSmRiM3Nzd0RJelN5NU9TUmZHVmRQNExGb1NMN0pvRA/callback'
+}
+
+Node.js v20.10.0
+[2/10/2024, 7:25:28 PM] Item 5 added to inventory for user 107992987673313280
+[Error: ENOENT: no such file or directory, stat '/home/admin/Randomfunbot/assets/commonArmor/Palm_wood_armor.png'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/home/admin/Randomfunbot/assets/commonArmor/Palm_wood_armor.png'
+}
+Database opened successfully
+[2/10/2024, 7:32:19 PM] Logged in as Random Bot#0908
+[2/10/2024, 7:32:19 PM] Bag populated successfully
+[2/10/2024, 7:56:11 PM] Item 17 added to inventory for user 283865139650756608
+[2/10/2024, 8:10:02 PM] Item 21 added to inventory for user 198297361733255168
+[Error: ENOENT: no such file or directory, stat '/home/admin/Randomfunbot/assets/rareArmor/Pink_snow_armor.png'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/home/admin/Randomfunbot/assets/rareArmor/Pink_snow_armor.png'
+}
+[2/10/2024, 8:13:59 PM] Item 19 added to inventory for user 198297361733255168
+[2/10/2024, 8:14:37 PM] Item 5 added to inventory for user 474452715217354774
+node:events:492
+      throw er; // Unhandled 'error' event
+      ^
+
+TypeError: fetch is not a function
+    at Client.<anonymous> (/home/admin/Randomfunbot/RandBot.js:494:24)
+    at Client.emit (node:events:514:28)
+    at InteractionCreateAction.handle (/home/admin/Randomfunbot/node_modules/discord.js/src/client/actions/InteractionCreate.js:97:12)
+    at module.exports [as INTERACTION_CREATE] (/home/admin/Randomfunbot/node_modules/discord.js/src/client/websocket/handlers/INTERACTION_CREATE.js:4:36)
+    at WebSocketManager.handlePacket (/home/admin/Randomfunbot/node_modules/discord.js/src/client/websocket/WebSocketManager.js:355:31)
+    at WebSocketManager.<anonymous> (/home/admin/Randomfunbot/node_modules/discord.js/src/client/websocket/WebSocketManager.js:239:12)
+    at WebSocketManager.emit (/home/admin/Randomfunbot/node_modules/@vladfrangu/async_event_emitter/dist/index.cjs:282:31)
+    at WebSocketShard.<anonymous> (/home/admin/Randomfunbot/node_modules/@discordjs/ws/dist/index.js:1173:51)
+    at WebSocketShard.emit (/home/admin/Randomfunbot/node_modules/@vladfrangu/async_event_emitter/dist/index.cjs:282:31)
+    at WebSocketShard.onMessage (/home/admin/Randomfunbot/node_modules/@discordjs/ws/dist/index.js:988:14)
+Emitted 'error' event on Client instance at:
+    at emitUnhandledRejectionOrErr (node:events:397:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:84:21)
+
+Node.js v20.10.0
+Database opened successfully
+[2/10/2024, 8:23:57 PM] Logged in as Random Bot#0908
+[2/10/2024, 8:23:57 PM] Bag populated successfully
+[2/10/2024, 8:26:18 PM] Item 16 added to inventory for user 107992987673313280
+[2/10/2024, 8:31:35 PM] Item 12 added to inventory for user 283865139650756608
+[2/10/2024, 8:31:47 PM] Item 7 added to inventory for user 283865139650756608
+[2/10/2024, 8:31:49 PM] Item 24 added to inventory for user 283865139650756608
+[2/10/2024, 8:31:51 PM] Item 4 added to inventory for user 283865139650756608
+[2/10/2024, 8:31:52 PM] Item 14 added to inventory for user 283865139650756608
+[2/10/2024, 8:31:54 PM] Item 12 added to inventory for user 283865139650756608
+[2/10/2024, 8:31:57 PM] Item 4 added to inventory for user 283865139650756608
+[2/10/2024, 8:31:59 PM] Item 2 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:02 PM] Item 5 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:04 PM] Item 14 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:07 PM] Item 18 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:09 PM] Item 11 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:12 PM] Item 5 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:14 PM] Item 24 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:17 PM] Item 8 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:19 PM] Item 14 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:22 PM] Item 2 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:24 PM] Item 20 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:27 PM] Item 2 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:29 PM] Item 25 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:32 PM] Item 1 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:34 PM] Item 17 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:37 PM] Item 4 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:39 PM] Item 4 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:42 PM] Item 15 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:44 PM] Item 21 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:47 PM] Item 13 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:49 PM] Item 14 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:52 PM] Item 12 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:54 PM] Item 8 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:57 PM] Item 15 added to inventory for user 283865139650756608
+[2/10/2024, 8:32:59 PM] Item 8 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:02 PM] Item 11 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:04 PM] Item 3 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:07 PM] Item 2 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:09 PM] Item 7 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:12 PM] Item 13 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:14 PM] Item 13 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:17 PM] Item 3 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:19 PM] Item 3 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:22 PM] Item 7 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:24 PM] Item 13 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:27 PM] Item 2 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:29 PM] Item 7 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:32 PM] Item 14 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:34 PM] Item 7 added to inventory for user 283865139650756608
+[2/10/2024, 8:33:37 PM] Item 20 added to inventory for user 283865139650756608
+[2/10/2024, 8:38:15 PM] Item 24 added to inventory for user 474452715217354774
+[2/10/2024, 8:41:34 PM] Item 29 added to inventory for user 107992987673313280
+[2/10/2024, 8:43:58 PM] Item 5 added to inventory for user 283865139650756608
+[2/10/2024, 8:49:39 PM] Item 31 added to inventory for user 474452715217354774
+[2/10/2024, 8:49:54 PM] Item 5 added to inventory for user 474452715217354774
+/home/admin/Randomfunbot/RandBot.js:10
+const fetch = require('node-fetch');
+              ^
+
+Error [ERR_REQUIRE_ESM]: require() of ES Module /home/admin/Randomfunbot/node_modules/node-fetch/src/index.js from /home/admin/Randomfunbot/RandBot.js not supported.
+Instead change the require of index.js in /home/admin/Randomfunbot/RandBot.js to a dynamic import() which is available in all CommonJS modules.
+    at Object.<anonymous> (/home/admin/Randomfunbot/RandBot.js:10:15) {
+  code: 'ERR_REQUIRE_ESM'
+}
+
+Node.js v20.10.0
+/home/admin/Randomfunbot/RandBot.js:10
+const fetch = require('node-fetch');
+              ^
+
+Error [ERR_REQUIRE_ESM]: require() of ES Module /home/admin/Randomfunbot/node_modules/node-fetch/src/index.js from /home/admin/Randomfunbot/RandBot.js not supported.
+Instead change the require of index.js in /home/admin/Randomfunbot/RandBot.js to a dynamic import() which is available in all CommonJS modules.
+    at Object.<anonymous> (/home/admin/Randomfunbot/RandBot.js:10:15) {
+  code: 'ERR_REQUIRE_ESM'
+}
+
+Node.js v20.10.0
+Database opened successfully
+[2/10/2024, 9:10:06 PM] Logged in as Random Bot#0908
+[2/10/2024, 9:10:06 PM] Bag populated successfully
+Database opened successfully
+[2/10/2024, 9:16:44 PM] Logged in as Random Bot#0908
+[2/10/2024, 9:16:44 PM] Bag populated successfully
+Database opened successfully
+[2/10/2024, 9:20:52 PM] Logged in as Random Bot#0908
+[2/10/2024, 9:20:52 PM] Bag populated successfully
+node:events:492
+      throw er; // Unhandled 'error' event
+      ^
+
+DiscordAPIError[10062]: Unknown interaction
+    at handleErrors (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:722:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async BurstHandler.runRequest (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:826:23)
+    at async _REST.request (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:1266:22)
+    at async ChatInputCommandInteraction.reply (/home/admin/Randomfunbot/node_modules/discord.js/src/structures/interfaces/InteractionResponses.js:111:5)
+    at async Client.<anonymous> (/home/admin/Randomfunbot/RandBot.js:359:7)
+Emitted 'error' event on Client instance at:
+    at emitUnhandledRejectionOrErr (node:events:397:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:84:21) {
+  requestBody: {
+    files: [],
+    json: {
+      type: 4,
+      data: {
+        content: 'The wager amount must be a positive integer.',
+        tts: false,
+        nonce: undefined,
+        embeds: undefined,
+        components: undefined,
+        username: undefined,
+        avatar_url: undefined,
+        allowed_mentions: undefined,
+        flags: undefined,
+        message_reference: undefined,
+        attachments: undefined,
+        sticker_ids: undefined,
+        thread_name: undefined
+      }
+    }
+  },
+  rawError: { message: 'Unknown interaction', code: 10062 },
+  code: 10062,
+  status: 404,
+  method: 'POST',
+  url: 'https://discord.com/api/v10/interactions/1206107600429650011/aW50ZXJhY3Rpb246MTIwNjEwNzYwMDQyOTY1MDAxMTpEZ2xPOGRBalNtUnRZY3o1b3l5djljcE52MFBmSlEyc0luUDlaWWpCOFpmU0FQdFpiNjR1eG9kWnF6ZUJBNThoeGpFOW9FR2ZYZW5kVm5DY1kzMzVKbG5la1BTR2QxUFIwbDVWcktheXpaRTRMZERBUVQ1Sml0bE1FQnowUDRkeg/callback'
+}
+
+Node.js v20.10.0
+node:events:492
+      throw er; // Unhandled 'error' event
+      ^
+
+DiscordAPIError[10062]: Unknown interaction
+    at handleErrors (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:722:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async BurstHandler.runRequest (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:826:23)
+    at async _REST.request (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:1266:22)
+    at async ChatInputCommandInteraction.reply (/home/admin/Randomfunbot/node_modules/discord.js/src/structures/interfaces/InteractionResponses.js:111:5)
+    at async Client.<anonymous> (/home/admin/Randomfunbot/RandBot.js:359:7)
+Emitted 'error' event on Client instance at:
+    at emitUnhandledRejectionOrErr (node:events:397:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:84:21) {
+  requestBody: {
+    files: [],
+    json: {
+      type: 4,
+      data: {
+        content: 'Not enough coins to wager',
+        tts: false,
+        nonce: undefined,
+        embeds: undefined,
+        components: undefined,
+        username: undefined,
+        avatar_url: undefined,
+        allowed_mentions: undefined,
+        flags: 64,
+        message_reference: undefined,
+        attachments: undefined,
+        sticker_ids: undefined,
+        thread_name: undefined
+      }
+    }
+  },
+  rawError: { message: 'Unknown interaction', code: 10062 },
+  code: 10062,
+  status: 404,
+  method: 'POST',
+  url: 'https://discord.com/api/v10/interactions/1206108030190751785/aW50ZXJhY3Rpb246MTIwNjEwODAzMDE5MDc1MTc4NTpNTGhOWm95TGJIbElBZGdScERCcmY0YzlPOWZRYVdmdmt3M1lyYVRaZWF0ZGJsc1FjVGdSOTc4U0FtQVZJTzhkYmJrVVJBV2t5NW9rZ004V2dWbktNSlNDVnh3WVMwY0R1ZXN1R0N3bWFQbnQ5SFpHRkpvVWphMDRRVW5vSVF5Mw/callback'
+}
+
+Node.js v20.10.0
+Database opened successfully
+[2/10/2024, 9:23:39 PM] Logged in as Random Bot#0908
+[2/10/2024, 9:23:39 PM] Bag populated successfully
+[2/10/2024, 9:25:51 PM] Item 5 added to inventory for user 198297361733255168
+[2/10/2024, 9:26:42 PM] Item 8 added to inventory for user 198297361733255168
+Database opened successfully
+[2/10/2024, 9:40:18 PM] Logged in as Random Bot#0908
+[2/10/2024, 9:40:18 PM] Bag populated successfully
+/home/admin/Randomfunbot/RandBot.js:365
+          wager = row.coin_count;
+                ^
+
+TypeError: Assignment to constant variable.
+    at Statement.<anonymous> (/home/admin/Randomfunbot/RandBot.js:365:17)
+    at Statement.replacement (/home/admin/Randomfunbot/node_modules/sqlite3/lib/trace.js:25:27)
+    at Statement.replacement (/home/admin/Randomfunbot/node_modules/sqlite3/lib/trace.js:25:27)
+
+Node.js v20.10.0
+Database opened successfully
+[2/10/2024, 10:04:06 PM] Logged in as Random Bot#0908
+[2/10/2024, 10:04:06 PM] Bag populated successfully
+[2/10/2024, 10:04:41 PM] Item 27 added to inventory for user 198297361733255168
+[2/10/2024, 10:04:48 PM] Item 19 added to inventory for user 198297361733255168
+[2/10/2024, 10:04:52 PM] Item 14 added to inventory for user 198297361733255168
+/home/admin/Randomfunbot/RandBot.js:366
+          wager = row.coin_count;
+                ^
+
+TypeError: Assignment to constant variable.
+    at Statement.<anonymous> (/home/admin/Randomfunbot/RandBot.js:366:17)
+    at Statement.replacement (/home/admin/Randomfunbot/node_modules/sqlite3/lib/trace.js:25:27)
+    at Statement.replacement (/home/admin/Randomfunbot/node_modules/sqlite3/lib/trace.js:25:27)
+
+Node.js v20.10.0
+node:internal/modules/cjs/loader:1147
+  throw err;
+  ^
+
+Error: Cannot find module '/home/admin/Randomfunbot/Randbot'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1144:15)
+    at Module._load (node:internal/modules/cjs/loader:985:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)
+    at node:internal/main/run_main_module:28:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.10.0
+Database opened successfully
+[2/10/2024, 10:07:06 PM] Logged in as Random Bot#0908
+[2/10/2024, 10:07:06 PM] Bag populated successfully
+[2/10/2024, 10:08:12 PM] Item 8 added to inventory for user 198297361733255168
+[2/10/2024, 10:08:15 PM] Item 4 added to inventory for user 198297361733255168
+[2/10/2024, 10:08:17 PM] Item 20 added to inventory for user 198297361733255168
+[2/10/2024, 10:09:49 PM] Item 1 added to inventory for user 107992987673313280
+[2/10/2024, 10:09:50 PM] Item 15 added to inventory for user 107992987673313280
+[2/10/2024, 10:09:52 PM] Item 8 added to inventory for user 107992987673313280
+[2/10/2024, 10:09:54 PM] Item 17 added to inventory for user 107992987673313280
+[2/10/2024, 10:09:57 PM] Item 9 added to inventory for user 107992987673313280
+[2/10/2024, 10:09:59 PM] Item 18 added to inventory for user 107992987673313280
+[2/10/2024, 10:10:02 PM] Item 32 added to inventory for user 107992987673313280
+[2/10/2024, 10:10:04 PM] Item 6 added to inventory for user 107992987673313280
+[2/10/2024, 10:10:07 PM] Item 13 added to inventory for user 107992987673313280
+[2/10/2024, 10:10:09 PM] Item 7 added to inventory for user 107992987673313280
+[2/10/2024, 10:10:12 PM] Item 12 added to inventory for user 107992987673313280
+[2/10/2024, 10:10:14 PM] Item 6 added to inventory for user 107992987673313280
+[2/10/2024, 10:10:17 PM] Item 8 added to inventory for user 107992987673313280
+[2/10/2024, 10:10:19 PM] Item 6 added to inventory for user 107992987673313280
+[2/10/2024, 10:10:42 PM] ID Index: 191
+[2/10/2024, 10:10:42 PM] ID pulled from bag: 283865139650756608
+[2/10/2024, 10:10:42 PM] 283865139650756608 != 198297361733255168:shiba442
+[2/10/2024, 10:11:21 PM] ID Index: 163
+[2/10/2024, 10:11:21 PM] ID pulled from bag: 283865139650756608
+[2/10/2024, 10:11:21 PM] 283865139650756608 != 474452715217354774:netflixus
+[2/10/2024, 10:11:25 PM] Item 8 added to inventory for user 474452715217354774
+[2/10/2024, 10:12:05 PM] Item 2 added to inventory for user 474452715217354774
+[2/10/2024, 10:12:10 PM] Item 19 added to inventory for user 474452715217354774
