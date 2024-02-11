@@ -354,6 +354,7 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.commandName === 'roulette') {
     const wager = interaction.options.getInteger('wager');
+    
     if (chamber === bullet) {
 
       await interaction.reply(`A bullet enters your skull. You lose everything.\nhttps://tenor.com/view/russian-roulette-cat-gun-you-died-dark-souls-gif-26086308`);
@@ -486,7 +487,7 @@ client.on('interactionCreate', async interaction => {
       await interaction.reply('You have already claimed your daily reward');
       return;
     } else {
-      updateCount(db, 'inventory', 'coin_count', interaction.user.id, 25);
+      updateCount(db, 'inventory', 'coin_count', interaction.user.id, 100);
       await interaction.reply('You have claimed your daily reward of 25 coins');
     }
 
