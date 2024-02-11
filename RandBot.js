@@ -1,11 +1,12 @@
 
-const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
-const { Client, GatewayIntentBits, } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder  } = require('@discordjs/builders');
+const { Client, GatewayIntentBits, EmbedBuilder, } = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
 const { token } = require('./config.json');
 const { emojiArray, johnArray, userBag, admin, } = require('./utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
   gracefulShutdown, dailyReward } = require('./utilities/functions.js');
+const { loot_box_info, lb_series_1, inventory } = require('./utilities/embedFunctions.js');
 const { insertUser, updateCount, algoPosts, populateBagFromDatabase, postCountCheck, coin_check, inventory_check, add_to_inventory } = require('./database/dbFunctions.js');
 const fetch = require('node-fetch');
 
@@ -353,178 +354,225 @@ Modified: 11/30/2023
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
 
-  if (interaction.commandName === 'roulette') {
+  switch (interaction.commandName) {
 
-    var wager = interaction.options.getInteger('wager');
-    if (wager == -1) {
-      db.get(`SELECT coin_count FROM inventory WHERE user_id = ?`, [interaction.user.id], (err, row) => {
-        if (err) {
-          console.error(err.message);
-          return;
-        }
-        if (row) {
-          wager = row.coin_count;
-        } else {
-          interaction.reply('You do not have any coins to wager.');
-          return;
-        }
-      });
-    }
+    // roulette command
+    // When called the function will check the users coin count
+    // if the user has enough coins the function will run a roulette game
+    // if the user does not have enough coins the function will return an error message
+    // Modified: 2/10/2024
+    case 'roulette':
 
-    if (wager < -1) {
-      await interaction.reply({ content: 'The wager amount must be a greater than -1.', ephemeral: true });
-      return;
-    }
-
-    const result = await coin_check(db, interaction.user.id, wager);
-    if (result === false) {
-      await interaction.reply({ content: `Not enough coins to wager`, ephemeral: true });
-      return;
-    }
-
-    if (chamber === bullet) {
-
-      await interaction.reply(`A bullet enters your skull. You lose everything.\nhttps://tenor.com/view/russian-roulette-cat-gun-you-died-dark-souls-gif-26086308`);
-      chamber = rng(1, 6);
-      bullet = rng(1, 6);
-
-      db.run(`UPDATE inventory SET coin_count = '0' WHERE user_id = ?`, [interaction.user.id], function (err) {
-        if (err) {
-          return console.log(err.message);
-        }
-      });
-
-    } else {
-      await interaction.reply(
-        `You pull the trigger. \n${wager} coins added to inventory.`);
-      updateCount(db, 'inventory', 'coin_count', interaction.user.id, wager);
-      chamber++;
-      if (chamber === 7) {
-        chamber = 1;
+      var wager = interaction.options.getInteger('wager');
+      if (wager == -1) {
+        db.get(`SELECT coin_count FROM inventory WHERE user_id = ?`, [interaction.user.id], (err, row) => {
+          if (err) {
+            console.error(err.message);
+            return;
+          }
+          if (row) {
+            wager = row.coin_count;
+          } else {
+            interaction.reply('You do not have any coins to wager.');
+            return;
+          }
+        });
       }
-    };
 
-  } else if (interaction.commandName === 'spin_cylinder') {
-    await interaction.reply('You spin the cylinder.');
-    chamber = rng(1, 6);
+      if (wager < -1) {
+        await interaction.reply({ content: 'The wager amount must be a greater than -1.', ephemeral: true });
+        return;
+      }
 
-  } else if (interaction.commandName === 'roll') {
-    const min = interaction.options.getString('min');
-    const max = interaction.options.getString('max');
-    await interaction.reply(`You rolled a ${rng(min, max)}`);
+      const result1 = await coin_check(db, interaction.user.id, wager);
+      if (result1 === false) {
+        await interaction.reply({ content: `Not enough coins to wager`, ephemeral: true });
+        return;
+      }
 
-  } else if (interaction.commandName === 'death_roll') {
-    const max = interaction.options.getString('max');
-    await interaction.reply(`You rolled a ${rng(1, max)}`);
+      if (chamber === bullet) {
 
-  } else if (interaction.commandName === 'open_loot_box') {
+        await interaction.reply(`A bullet enters your skull. You lose everything.\nhttps://tenor.com/view/russian-roulette-cat-gun-you-died-dark-souls-gif-26086308`);
+        chamber = rng(1, 6);
+        bullet = rng(1, 6);
 
-    try {
-      const result = await coin_check(db, interaction.user.id, 50);
+        db.run(`UPDATE inventory SET coin_count = '0' WHERE user_id = ?`, [interaction.user.id], function (err) {
+          if (err) {
+            return console.log(err.message);
+          }
+        });
+
+      } else {
+        await interaction.reply(
+          `You pull the trigger. \n${wager} coins added to inventory.`);
+        updateCount(db, 'inventory', 'coin_count', interaction.user.id, wager);
+        chamber++;
+        if (chamber === 7) {
+          chamber = 1;
+        }
+      };
+      break;
+
+    // spin cylinder command
+    // When called the function will return a random number between 1 and 6
+    // Modified: 2/10/2024
+    case 'spin_cylinder':
+      await interaction.reply('You spin the cylinder.');
+      chamber = rng(1, 6);
+      break;
+
+    // roll command
+    // When called the function will return a random number between the min and max value
+    // Modified: 2/10/2024
+    case 'roll':
+
+      const min = interaction.options.getString('min');
+      const max = interaction.options.getString('max');
+      await interaction.reply(`You rolled a ${rng(min, max)}`);
+      break;
+
+    // death roll command
+    // When called the function will return a random number between 1 and the max value
+    // Modified: 2/10/2024
+    case 'death_roll':
+      const max2 = interaction.options.getString('max');
+      await interaction.reply(`You rolled a ${rng(1, max)}`);
+      break;
+
+    // open loot box command
+    // When called the function will check if the user has enough coins to open a loot box
+    // if the user has enough coins the function will open a loot box and add the item to the users inventory
+    // Modified: 2/10/2024
+    case 'open_loot_box':
+      var result = await coin_check(db, interaction.user.id, 50);
       if (result === false) {
         await interaction.reply({ content: 'You do not have enough coins to open a loot box', ephemeral: true });
         return;
       } else {
-        updateCount(db, 'inventory', 'coin_count', interaction.user.id, -50);
-        const box = openLootBox('armor', 1);
-
-        add_to_inventory(db, interaction.user.id, box.id, 1);
-        await interaction.reply({
-          content: `You opened a ${box.rarity}: ${box.name}!`,
-          files: [{ attachment: `./assets/${box.type}/${box.image}`, name: (box.image) }]
-        });
+        const embed = open_loot_box();
+        await interaction.reply({ embeds: [embed]});
       }
 
-    } catch (error) {
-      console.error(error);
-    };
+      break;
 
-  } else if (interaction.commandName === 'inventory') {
-    const user = interaction.user;
-    const coincount = await new Promise((resolve, reject) => {
+    // inventory command
+    // When called the function will return the users inventory
+    // Modified: 2/10/2024
 
-      db.get('SELECT coin_count FROM inventory WHERE user_id = ?', [user.id], (err, row) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(row);
-        }
-      });
-    });
+    case 'inventory':
+      var inv = await inventory(interaction.user, db);
+      await interaction.reply({embeds: [inv], ephemeral: true });
+      break;
 
-    const items = await new Promise((resolve, reject) => {
+    // Loot Box Info Command
+    // When called the function will return an embed with information on loot boxes
+    // Modified: 2/11/2024
 
-      db.all(`
-      SELECT item.item_name, inventory_items.item_count
-      FROM inventory_items
-      INNER JOIN item ON inventory_items.item_id = item.item_id
-      WHERE inventory_items.inventory_id = (SELECT inventory_id FROM inventory WHERE user_id = ?)
-    `, [user.id], (err, rows) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(rows);
-        }
-      });
-    });
+    case 'loot_box_info':
+      const embed = loot_box_info();
+      const series1 = lb_series_1();
+      const components = new ButtonBuilder()
+        .setLabel('Series 1')
+        .setStyle('Primary')
+        .setCustomId('series_1');
+      const series_1 = new ActionRowBuilder()
+        .addComponents(components);
 
-    let itemsText = items.map(item => `${item.item_name}: ${item.item_count}`).join('\n');
-    if (itemsText === '') {
-      itemsText = 'No items found';
-    }
+      const response = await interaction.reply({ embeds: [embed], components: [series_1], ephemeral: true });
 
-    await interaction.reply({ content: `\`\`\`User: ${user.username}\nCoin Count: ${coincount ? coincount.coin_count : 'No coins found'}\nItems:\n${itemsText}\`\`\``, ephemeral: true });
+      const choice = await response.awaitMessageComponent({ time: 15000 });
+      if (choice.customId === 'series_1') {
+        await choice.update({ embeds: [series1], components: [] });
+      }
+      break;
 
-  } else if (interaction.commandName === 'loot_box_info') {
+    // post count command
+    // When called the function will return the post count of the user
+    // Modified: 2/11/2024
+    case 'post_count':
+      if (admin.some(adminUser => adminUser.id === interaction.user.id)) {
+        algoPosts(interaction, db);
+      }
+      else {
+        await interaction.reply('You do not have permission to use this command');
+      }
+      break;
 
-    await interaction.reply({
-      content: `\`\`\`
-  Loot Box Information:
-  Series: 1
+    // daily command
+    // When called the function will check if the user has claimed their daily reward
+    // Modified: 2/10/2024
+    case 'daily':
+      const result = await dailyReward(interaction.user.id, db);
+      if (result === false) {
+        await interaction.reply('You have already claimed your daily reward');
+        return;
+      } else {
+        updateCount(db, 'inventory', 'coin_count', interaction.user.id, 50);
+        await interaction.reply('You have claimed your daily reward of 50 coins');
+      }
+      break;
 
-  Armor Box
-  =====================
-  Cost: 50 coins
-  =====================
-  Common: 8 at 45% chance
-  Uncommon: 7 at 30% chance
-  Rare: 9 at 20% chance
-  Epic: 9 at 5% chance
+    // joke command
+    // When called the function will return a random joke
+    // Modified: 2/10/2024
+    case 'joke':
+      const joke = await fetch('https://official-joke-api.appspot.com/random_joke')
+        .then(response => response.json())
+        .then(data => data.setup + '\n' + data.punchline);
+      await interaction.reply(joke);
+      break;
+
+  case 'test_embed':
+
+  const channel = interaction.channel;
+  const component = new ButtonBuilder()
+  .setLabel('Click me')
+  .setStyle('Primary')
+  .setCustomId('click_me');
+  const rows = new ActionRowBuilder()
+    .addComponents(component);
+    const select = new StringSelectMenuBuilder()
+    .setCustomId('starter')
+    .setPlaceholder('Make a selection!')
+    .addOptions(
+      new StringSelectMenuOptionBuilder()
+        .setLabel('Bulbasaur')
+        .setDescription('The dual-type Grass/Poison Seed Pokémon.')
+        .setValue('bulbasaur'),
+      new StringSelectMenuOptionBuilder()
+        .setLabel('Charmander')
+        .setDescription('The Fire-type Lizard Pokémon.')
+        .setValue('charmander'),
+      new StringSelectMenuOptionBuilder()
+        .setLabel('Squirtle')
+        .setDescription('The Water-type Tiny Turtle Pokémon.')
+        .setValue('squirtle'),
+    );
+
+  const choose = new ActionRowBuilder()
+    .addComponents(select);
+
+    const exampleEmbed = new EmbedBuilder()
+    .setColor(0x0099FF)
+    .setTitle('Some title')
+    .setURL('https://discord.js.org/')
+    .setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
+    .setDescription('Some description here')
+    .setThumbnail('https://i.imgur.com/AfFp7pu.png')
+    .addFields(
+      { name: 'Regular field title', value: 'Some value here' },
+      { name: '\u200B', value: '\u200B' },
+      { name: 'Inline field title', value: 'Some value here', inline: true },
+      { name: 'Inline field title', value: 'Some value here', inline: true },
+    )
+    .addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
+    .setImage('https://i.imgur.com/AfFp7pu.png')
+    .setTimestamp()
+    .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
   
-  Weapon Box
-  =====================
-  Coming Soon
-  
-  Creature Box
-  =====================
-  Coming Soon\`\`\``, ephemeral: true
-    });
-
-  } else if (interaction.commandName === 'post_count') {
-    if (admin.some(adminUser => adminUser.id === interaction.user.id)) {
-      algoPosts(interaction, db);
-    }
-    else {
-      await interaction.reply('You do not have permission to use this command');
-    }
-
-  } else if (interaction.commandName === 'daily') {
-    const result = await dailyReward(interaction.user.id, db);
-    if (result === false) {
-      await interaction.reply('You have already claimed your daily reward');
-      return;
-    } else {
-      updateCount(db, 'inventory', 'coin_count', interaction.user.id, 50);
-      await interaction.reply('You have claimed your daily reward of 50 coins');
-    }
-
-  } else if (interaction.commandName === 'joke') {
-    const joke = await fetch('https://official-joke-api.appspot.com/random_joke')
-      .then(response => response.json())
-      .then(data => data.setup + '\n' + data.punchline);
-    await interaction.reply(joke);
+  channel.send({ embeds: [exampleEmbed], components: [rows, choose] });
+    break;
   }
-
 });
 
 

@@ -19,6 +19,8 @@ const commands = [
 	new SlashCommandBuilder().setName('daily').setDescription('Claim your daily coins'),
 	new SlashCommandBuilder().setName('post_count').setDescription('List post count'),
 	new SlashCommandBuilder().setName('joke').setDescription('Get a random joke'),
+	new SlashCommandBuilder().setName('coin_flip').setDescription('Flip a coin'),
+	new SlashCommandBuilder().setName('test_embed').setDescription('Test embeds'),
 ]
 
 	.map(command => command.toJSON());
