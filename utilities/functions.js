@@ -22,7 +22,7 @@ Modified: 11/14/2023
 function openLootBox(type, series) {
 
   const num = Math.random();
-  if (type == 1) {
+  if (type === 'armor') {
     if (series == 1) {
         if (num < 0.001) { // 0.1% chance for Legendary
           return lootBoxArmorSeries_1[4][rng(0, legendaryArmor.length - 1)];
@@ -38,7 +38,6 @@ function openLootBox(type, series) {
       }
     }
   }
-
 
 
 /*
@@ -147,6 +146,36 @@ async function replyWithRetry(interaction, content, retries = 5) {
 
 /*
 ==================================
+Daily Reward
+When called the function will check if the user has claimed their daily reward
+Modified: 2/10/2024
+==================================
+*/
+
+async function dailyReward(userId, db) {
+  return new Promise((resolve, reject) => {
+    db.get(`SELECT last_claimed FROM daily WHERE user_id = ?`, [userId], (err, row) => {
+      if (err) {
+        reject(err);
+      } else if (row) {
+        const lastClaimed = new Date(row.last_claimed);
+        const now = new Date();
+        const diffInHours = Math.abs(now - lastClaimed) / 36e5;
+
+        if (diffInHours >= 24) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      } else {
+        resolve(false);
+      }
+    });
+  });
+}
+
+/*
+==================================
 TestRNG
 Function to test the RNG function
 Modified: 11/14/2023
@@ -190,5 +219,6 @@ module.exports = {
   logWithTimestamp,
   gracefulShutdown,
   replyWithRetry,
+  dailyReward,
 
 };

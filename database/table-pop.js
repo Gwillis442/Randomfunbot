@@ -88,3 +88,22 @@ db.run(`
   INSERT INTO series(series_num, series_name, series_desc)
   VALUES(1, 'Pre_Hardmode Terraria', 'Things from the game Terraria before hardmode')`)
 
+  db.all(`SELECT user_id FROM users`, [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    rows.forEach((row) => {
+      db.run(
+        `INSERT INTO daily (user_id, last_claimed, streak, total_claimed)
+         VALUES (?, ?, ?, ?)`,
+        [row.user_id, new Date(), 0, 0],
+        function(err) {
+          if (err) {
+            return console.log(err.message);
+          }
+          console.log(`Row(s) inserted: ${this.changes}`);
+        }
+      );
+    });
+  });
+

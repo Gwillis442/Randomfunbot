@@ -11,18 +11,21 @@ const db = new sqlite3.Database('./botDatabase.db', (err) => {
 });
 
 // Fetch all user IDs from the 'users' table
-db.all('SELECT user_id FROM users', [], (err, rows) => {
+db.all(`SELECT user_id FROM users`, [], (err, rows) => {
   if (err) {
     throw err;
   }
-
-  // For each user ID, insert it and a default coin count into the 'inventory' table
   rows.forEach((row) => {
-    db.run(`INSERT INTO inventory(user_id, coin_count) VALUES(?, ?)`, [row.user_id, 100], function(err) {
-      if (err) {
-        return console.log(err.message);
+    db.run(
+      `INSERT INTO daily (user_id, last_claimed, streak, total_claimed)
+       VALUES (?, ?, ?, ?)`,
+      [row.user_id, new Date(), 0, 0],
+      function(err) {
+        if (err) {
+          return console.log(err.message);
+        }
+        console.log(`Row(s) inserted: ${this.changes}`);
       }
-      console.log(`A row has been inserted with rowid ${this.lastID}`);
-    });
+    );
   });
 });

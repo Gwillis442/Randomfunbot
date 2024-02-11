@@ -40,6 +40,13 @@ function insertUser(db, userId, username) {
         logWithTimestamp(`bag count initialized for user ${username}`);
         updateCount(db, 'bag_count', 'bag_count', userId, 1);
       });
+      // Initialize coin count for the user in the 'inventory' table
+      db.run("INSERT INTO inventory (user_id, coin_count) VALUES (?, 100)", [userId], function (err) {
+        if (err) {
+          return console.error(err.message);
+        }
+        logWithTimestamp(`Coin count initialized for user ${username}`);
+      });
     }
   });
 }
@@ -60,7 +67,6 @@ function updateCount(db, tableName, columnName, userId, incrementValue) {
     if (err) {
       return console.error(err.message);
     }
-    logWithTimestamp(`${tableName} updated for user with ID ${userId}`);
   });
 }
 
@@ -213,12 +219,6 @@ function deleteUser(userid,db) {
       else console.log(`Deleted from post_count table for user ID ${userid}`);
   });
 
-  // Delete from 'coin_count' table
-  db.run(`DELETE FROM coin_count WHERE user_id = ?`, [userid], (err) => {
-      if (err) console.error('Error deleting from coin_count table:', err.message);
-      else console.log(`Deleted from coin_count table for user ID ${userid}`);
-  });
-
   // Delete from 'bag_count' table
   db.run(`DELETE FROM bag_count WHERE user_id = ?`, [userid], (err) => {
       if (err) console.error('Error deleting from bag_count table:', err.message);
@@ -243,7 +243,7 @@ function coin_check(db, user_id, cost) {
   return new Promise((resolve, reject) => {
     const query = `
     SELECT coin_count
-    FROM coin_count
+    FROM inventory
     WHERE user_id = ?;
     `;
     db.get(query, [user_id], (err, row) => {
@@ -259,7 +259,56 @@ function coin_check(db, user_id, cost) {
     });
   });
 }
+/*
+==================================
+Add to Inventory
+When called the function will add an item to the users inventory
+==================================
+*/
+function add_to_inventory(db, user_id, item_id, item_count) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    INSERT OR REPLACE INTO inventory_items (inventory_id, item_id, item_count)
+    VALUES (
+      (SELECT inventory_id FROM inventory WHERE user_id = ?),
+      ?,
+      COALESCE((SELECT item_count FROM inventory_items WHERE inventory_id = (SELECT inventory_id FROM inventory WHERE user_id = ?) AND item_id = ?), 0) + ?
+    );
+    `;
+    db.run(query, [user_id, item_id, user_id, item_id, item_count], function (err) {
+      if (err) {
+        console.error(err.message);
+        reject(err);
+      }
+      resolve(this.lastID);
+    });
+    logWithTimestamp(`Item ${item_id} added to inventory for user ${user_id}`);
+  });
+ 
+}
 
+/*
+==================================
+inventory Check
+When called the function will pull out the users inventory from the database
+==================================
+*/
+function inventory_check(db, user_id) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    SELECT item_id, item_count
+    FROM inventory_items
+    WHERE inventory_id = (SELECT inventory_id FROM inventory WHERE user_id = ?);
+    `;
+    db.all(query, [user_id], (err, rows) => {
+      if (err) {
+        console.error(err.message);
+        reject(err);
+      }
+      resolve(rows);
+    });
+  });
+}
 
 // Export the functions
 
@@ -271,4 +320,6 @@ module.exports = {
   deleteUser,
   postCountCheck,
   coin_check,
+  inventory_check,
+  add_to_inventory,
 };
