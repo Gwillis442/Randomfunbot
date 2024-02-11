@@ -15,7 +15,9 @@
     "discord.js": "^14.14.1",
     "discord.js-commando": "^0.12.3",
     "fetch": "^1.1.0",
+    "index.js": "^0.0.3",
     "node": "^21.6.1",
+    "node-fetch": "^2.7.0",
     "sqlite3": "^5.1.6"
   }
 }

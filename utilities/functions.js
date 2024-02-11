@@ -24,7 +24,7 @@ function openLootBox(type, series) {
   const num = Math.random();
   if (type === 'armor') {
     if (series == 1) {
-        if (num < 0.001) { // 0.1% chance for Legendary
+        if (num < 0.0001) { // 0.1% chance for Legendary
           return lootBoxArmorSeries_1[4][rng(0, legendaryArmor.length - 1)];
         } else if (num < 0.051) { // 5% chance for Epic
           return lootBoxArmorSeries_1[3][rng(0, epicArmor.length - 1)];

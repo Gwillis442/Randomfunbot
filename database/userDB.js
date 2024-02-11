@@ -10,22 +10,30 @@ const db = new sqlite3.Database('./botDatabase.db', (err) => {
   }
 });
 
-// Fetch all user IDs from the 'users' table
-db.all(`SELECT user_id FROM users`, [], (err, rows) => {
+/*
+db.run(`DELETE FROM inventory_items`, function(err) {
   if (err) {
-    throw err;
+    return console.log(err.message);
   }
-  rows.forEach((row) => {
-    db.run(
-      `INSERT INTO daily (user_id, last_claimed, streak, total_claimed)
-       VALUES (?, ?, ?, ?)`,
-      [row.user_id, new Date(), 0, 0],
-      function(err) {
-        if (err) {
-          return console.log(err.message);
-        }
-        console.log(`Row(s) inserted: ${this.changes}`);
-      }
-    );
-  });
+  console.log(`Row(s) deleted: ${this.changes}`);
+});
+*/
+
+/*
+db.run(`UPDATE inventory SET coin_count = 100`, function(err) {
+  if (err) {
+    return console.log(err.message);
+  }
+  console.log(`Row(s) updated: ${this.changes}`);
+});
+*/
+
+let date = new Date();
+date.setHours(date.getHours() - 25);
+
+db.run(`UPDATE daily SET last_claimed = ?`, date, function(err) {
+  if (err) {
+    return console.log(err.message);
+  }
+  console.log(`Row(s) updated: ${this.changes}`);
 });

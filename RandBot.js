@@ -172,7 +172,8 @@ client.on('messageCreate', (message) => {
       'https://tenor.com/view/if-you-say-so-ok-gif-9410059',
       'https://tenor.com/view/ohhh-duh-why-didnt-i-think-of-that-gif-21849807',
       'https://tenor.com/view/snoop-dogg-dance-moves-yes-gif-16124908',
-      'https://tenor.com/view/confused-no-nope-gif-5413974953753901704'
+      'https://tenor.com/view/confused-no-nope-gif-5413974953753901704',
+      `https://tenor.com/view/jarvis-iron-man-goon-gif-5902471035652079804`
     ];
     const i = rng(0, gif.length - 1);
     updateCount(db, 'inventory', 'coin_count', message.author.id, 20);
@@ -223,7 +224,7 @@ client.on('messageCreate', (message) => {
       updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
     }
 
-    if (admin.some(adminUser => adminUser.id === interaction.user.id)) {
+    if (admin.some(adminUser => adminUser.id === message.author.id)) {
       return;
     }
 
@@ -283,7 +284,7 @@ client.on('messageCreate', (message) => {
   ];
   if (botMention) {
 
-    updateCount(db, 'inventory', 'coin_count', message.author.id, 5);
+    updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
 
     message.reply(botReply[rng(0, botReply.length - 1)]);
   }
@@ -353,8 +354,34 @@ client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
 
   if (interaction.commandName === 'roulette') {
-    const wager = interaction.options.getInteger('wager');
-    
+
+    var wager = interaction.options.getInteger('wager');
+    if (wager == -1) {
+      db.get(`SELECT coin_count FROM inventory WHERE user_id = ?`, [interaction.user.id], (err, row) => {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        if (row) {
+          wager = row.coin_count;
+        } else {
+          interaction.reply('You do not have any coins to wager.');
+          return;
+        }
+      });
+    }
+
+    if (wager < -1) {
+      await interaction.reply({ content: 'The wager amount must be a greater than -1.', ephemeral: true });
+      return;
+    }
+
+    const result = await coin_check(db, interaction.user.id, wager);
+    if (result === false) {
+      await interaction.reply({ content: `Not enough coins to wager`, ephemeral: true });
+      return;
+    }
+
     if (chamber === bullet) {
 
       await interaction.reply(`A bullet enters your skull. You lose everything.\nhttps://tenor.com/view/russian-roulette-cat-gun-you-died-dark-souls-gif-26086308`);
@@ -369,8 +396,8 @@ client.on('interactionCreate', async interaction => {
 
     } else {
       await interaction.reply(
-        `You pull the trigger. \n${Math.floor(wager / 2)} coins added to inventory.`);
-      updateCount(db, 'inventory', 'coin_count', interaction.user.id, Math.floor(wager / 2));
+        `You pull the trigger. \n${wager} coins added to inventory.`);
+      updateCount(db, 'inventory', 'coin_count', interaction.user.id, wager);
       chamber++;
       if (chamber === 7) {
         chamber = 1;
@@ -395,7 +422,7 @@ client.on('interactionCreate', async interaction => {
     try {
       const result = await coin_check(db, interaction.user.id, 50);
       if (result === false) {
-        await interaction.reply('You do not have enough coins to open a loot box');
+        await interaction.reply({ content: 'You do not have enough coins to open a loot box', ephemeral: true });
         return;
       } else {
         updateCount(db, 'inventory', 'coin_count', interaction.user.id, -50);
@@ -481,14 +508,14 @@ client.on('interactionCreate', async interaction => {
       await interaction.reply('You do not have permission to use this command');
     }
 
-  }else if(interaction.commandName === 'daily'){
+  } else if (interaction.commandName === 'daily') {
     const result = await dailyReward(interaction.user.id, db);
     if (result === false) {
       await interaction.reply('You have already claimed your daily reward');
       return;
     } else {
-      updateCount(db, 'inventory', 'coin_count', interaction.user.id, 100);
-      await interaction.reply('You have claimed your daily reward of 25 coins');
+      updateCount(db, 'inventory', 'coin_count', interaction.user.id, 50);
+      await interaction.reply('You have claimed your daily reward of 50 coins');
     }
 
   } else if (interaction.commandName === 'joke') {

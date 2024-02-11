@@ -29,6 +29,15 @@ config.json
 # assets
 *.png
 
+# Ignore node_modules directory
+.node_modules
+
+# Ignore discord.js
+.discord.js
+
+# Ignore index.js
+.index.js
+
 #database.db 
 botDatabase.db
 
