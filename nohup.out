@@ -476,3 +476,103 @@ Database opened successfully
 [2/10/2024, 10:11:25 PM] Item 8 added to inventory for user 474452715217354774
 [2/10/2024, 10:12:05 PM] Item 2 added to inventory for user 474452715217354774
 [2/10/2024, 10:12:10 PM] Item 19 added to inventory for user 474452715217354774
+[2/10/2024, 10:17:16 PM] Item 23 added to inventory for user 198297361733255168
+[2/10/2024, 10:17:19 PM] Item 1 added to inventory for user 198297361733255168
+[2/10/2024, 10:17:26 PM] Item 15 added to inventory for user 198297361733255168
+[2/10/2024, 10:17:32 PM] Item 15 added to inventory for user 198297361733255168
+[2/10/2024, 10:17:36 PM] Item 21 added to inventory for user 198297361733255168
+Database opened successfully
+[2/10/2024, 10:23:22 PM] Logged in as Random Bot#0908
+[2/10/2024, 10:23:22 PM] Bag populated successfully
+node:events:492
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: SQLITE_ERROR: ambiguous column name: item_id
+--> in Database#all('\n' +
+  '      SELECT item.item_name, inventory_items.item_count\n' +
+  '      FROM inventory_items\n' +
+  '      INNER JOIN item ON inventory_items.item_id = item.item_id\n' +
+  '      WHERE inventory_items.inventory_id = (SELECT inventory_id FROM inventory WHERE user_id = ?)\n' +
+  '      ORDER BY item_id\n' +
+  '    ', [ '198297361733255168' ], [Function (anonymous)])
+    at items (/home/admin/Randomfunbot/RandBot.js:457:10)
+    at new Promise (<anonymous>)
+    at Client.<anonymous> (/home/admin/Randomfunbot/RandBot.js:455:25)
+Emitted 'error' event on Client instance at:
+    at emitUnhandledRejectionOrErr (node:events:397:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:84:21) {
+  errno: 1,
+  code: 'SQLITE_ERROR',
+  __augmented: true
+}
+
+Node.js v20.10.0
+Database opened successfully
+[2/10/2024, 10:24:43 PM] Logged in as Random Bot#0908
+[2/10/2024, 10:24:43 PM] Bag populated successfully
+node:events:492
+      throw er; // Unhandled 'error' event
+      ^
+
+DiscordAPIError[10062]: Unknown interaction
+    at handleErrors (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:722:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async BurstHandler.runRequest (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:826:23)
+    at async _REST.request (/home/admin/Randomfunbot/node_modules/@discordjs/rest/dist/index.js:1266:22)
+    at async ChatInputCommandInteraction.reply (/home/admin/Randomfunbot/node_modules/discord.js/src/structures/interfaces/InteractionResponses.js:111:5)
+    at async Client.<anonymous> (/home/admin/Randomfunbot/RandBot.js:398:7)
+Emitted 'error' event on Client instance at:
+    at emitUnhandledRejectionOrErr (node:events:397:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:84:21) {
+  requestBody: {
+    files: [],
+    json: {
+      type: 4,
+      data: {
+        content: 'You pull the trigger. \n170 coins added to inventory.',
+        tts: false,
+        nonce: undefined,
+        embeds: undefined,
+        components: undefined,
+        username: undefined,
+        avatar_url: undefined,
+        allowed_mentions: undefined,
+        flags: undefined,
+        message_reference: undefined,
+        attachments: undefined,
+        sticker_ids: undefined,
+        thread_name: undefined
+      }
+    }
+  },
+  rawError: { message: 'Unknown interaction', code: 10062 },
+  code: 10062,
+  status: 404,
+  method: 'POST',
+  url: 'https://discord.com/api/v10/interactions/1206123892880449566/aW50ZXJhY3Rpb246MTIwNjEyMzg5Mjg4MDQ0OTU2Njo4dlNvdkFDU09JcWFkQXFZVXMydVFyd2ZvbXN0MW1KeGhFZ015WUNiQ1pVQnJYeVl1VXVsWGUyNlh3bjQ5SDFxZHZKNXoyaXpQcFo0dnBteVNnb21KQmxneXBVODFndDkydHF0QmdOMGFHYnhHRWJzUnVTYTZCcGVGU0Fmd3pJZQ/callback'
+}
+
+Node.js v20.10.0
+[2/11/2024, 12:12:45 AM] Item 5 added to inventory for user 198297361733255168
+[2/11/2024, 2:21:48 AM] 474452715217354774 placed in bag
+/home/admin/Randomfunbot/RandBot.js:227
+    if (admin.some(adminUser => adminUser.id === interaction.user.id)) {
+                                                 ^
+
+ReferenceError: interaction is not defined
+    at /home/admin/Randomfunbot/RandBot.js:227:50
+    at Array.some (<anonymous>)
+    at Client.<anonymous> (/home/admin/Randomfunbot/RandBot.js:227:15)
+    at Client.emit (node:events:526:35)
+    at MessageCreateAction.handle (/home/admin/Randomfunbot/node_modules/discord.js/src/client/actions/MessageCreate.js:28:14)
+    at module.exports [as MESSAGE_CREATE] (/home/admin/Randomfunbot/node_modules/discord.js/src/client/websocket/handlers/MESSAGE_CREATE.js:4:32)
+    at WebSocketManager.handlePacket (/home/admin/Randomfunbot/node_modules/discord.js/src/client/websocket/WebSocketManager.js:355:31)
+    at WebSocketManager.<anonymous> (/home/admin/Randomfunbot/node_modules/discord.js/src/client/websocket/WebSocketManager.js:239:12)
+    at WebSocketManager.emit (/home/admin/Randomfunbot/node_modules/@vladfrangu/async_event_emitter/dist/index.cjs:282:31)
+    at WebSocketShard.<anonymous> (/home/admin/Randomfunbot/node_modules/@discordjs/ws/dist/index.js:1173:51)
+
+Node.js v20.10.0
+Database opened successfully
+[2/11/2024, 8:19:32 AM] Logged in as Random Bot#0908
+[2/11/2024, 8:19:32 AM] Bag populated successfully

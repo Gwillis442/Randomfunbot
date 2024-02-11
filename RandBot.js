@@ -224,7 +224,7 @@ client.on('messageCreate', (message) => {
       updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
     }
 
-    if (admin.some(adminUser => adminUser.id === interaction.user.id)) {
+    if (admin.some(adminUser => adminUser.id === message.author.id)) {
       return;
     }
 
@@ -284,7 +284,7 @@ client.on('messageCreate', (message) => {
   ];
   if (botMention) {
 
-    updateCount(db, 'inventory', 'coin_count', message.author.id, 5);
+    updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
 
     message.reply(botReply[rng(0, botReply.length - 1)]);
   }
@@ -372,15 +372,15 @@ client.on('interactionCreate', async interaction => {
     }
 
     if (wager < -1) {
-      await interaction.reply({content: 'The wager amount must be a greater than -1.', ephemeral: true});
+      await interaction.reply({ content: 'The wager amount must be a greater than -1.', ephemeral: true });
       return;
-    }  
-    
+    }
+
     const result = await coin_check(db, interaction.user.id, wager);
-    if(result === false){
-      await interaction.reply({content:`Not enough coins to wager`, ephemeral: true});
+    if (result === false) {
+      await interaction.reply({ content: `Not enough coins to wager`, ephemeral: true });
       return;
-    } 
+    }
 
     if (chamber === bullet) {
 
@@ -422,7 +422,7 @@ client.on('interactionCreate', async interaction => {
     try {
       const result = await coin_check(db, interaction.user.id, 50);
       if (result === false) {
-        await interaction.reply({content:'You do not have enough coins to open a loot box', ephemeral: true});
+        await interaction.reply({ content: 'You do not have enough coins to open a loot box', ephemeral: true });
         return;
       } else {
         updateCount(db, 'inventory', 'coin_count', interaction.user.id, -50);
@@ -508,7 +508,7 @@ client.on('interactionCreate', async interaction => {
       await interaction.reply('You do not have permission to use this command');
     }
 
-  }else if(interaction.commandName === 'daily'){
+  } else if (interaction.commandName === 'daily') {
     const result = await dailyReward(interaction.user.id, db);
     if (result === false) {
       await interaction.reply('You have already claimed your daily reward');
