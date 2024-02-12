@@ -10,24 +10,24 @@ const db = new sqlite3.Database('./botDatabase.db', (err) => {
   }
 });
 
-/*
+
 db.run(`DELETE FROM inventory_items`, function(err) {
   if (err) {
     return console.log(err.message);
   }
   console.log(`Row(s) deleted: ${this.changes}`);
 });
-*/
 
-/*
+
+
 db.run(`UPDATE inventory SET coin_count = 100`, function(err) {
   if (err) {
     return console.log(err.message);
   }
   console.log(`Row(s) updated: ${this.changes}`);
 });
-*/
 
+/*
 let date = new Date();
 date.setHours(date.getHours() - 25);
 
@@ -37,3 +37,4 @@ db.run(`UPDATE daily SET last_claimed = ?`, date, function(err) {
   }
   console.log(`Row(s) updated: ${this.changes}`);
 });
+*/

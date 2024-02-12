@@ -445,12 +445,7 @@ client.on('interactionCreate', async interaction => {
     // Modified: 2/10/2024
     case 'open_loot_box':      
 
-        var correct_coin = await coin_check(db, interaction.user.id, 50);
-        if (correct_coin === false) {
-          await interaction.reply({ content: 'You do not have enough coins to open a loot box', ephemeral: true });
-          return;
-        } else {
-          const embed = choose_series();
+          const series = choose_series();
           const box_series_1 = new ButtonBuilder()
           .setLabel('Series 1')
           .setStyle('Primary')
@@ -459,7 +454,7 @@ client.on('interactionCreate', async interaction => {
           const choose_series_1 = new ActionRowBuilder()
           .addComponents(box_series_1);
   
-          await interaction.reply({ embeds: [embed], components: [choose_series_1] });
+          await interaction.reply({ embeds: [series], components: [choose_series_1] });
         
           const filter = i => i.user.id === interaction.user.id;
           const collector = interaction.channel.createMessageComponentCollector({ filter, time: 15000 });
@@ -467,6 +462,8 @@ client.on('interactionCreate', async interaction => {
           collector.on('collect', async i => {
             console.log('Collected interaction:', i.customId);
             if (i.customId === 'choose_series_1') {
+
+
               const type = choose_type();
 
               const box_armor_s1 = new ButtonBuilder()
@@ -485,15 +482,22 @@ client.on('interactionCreate', async interaction => {
           
               boxCollector.on('collect', async i => {
                 console.log('Collected box interaction:', i.customId);
+
+                var correct_coin = await coin_check(db, interaction.user.id, 50);
+
+                if (correct_coin === false) {
+                  await i.update({ content: 'You do not have enough coins to open a loot box', embeds: [], components: [], ephemeral: true });
+                  return;
+                } else {
+                updateCount(db, 'inventory', 'coin_count', interaction.user.id, -50);
                 const result = await open_loot_box(db, interaction.user.id, 1, 'armor');
                 const { embed, attachment } = result;
                 await i.update({embeds: [embed], files: [attachment]})
-                    .catch(console.error);
+                    .catch(console.error);     
+              }         
             });
             }
           });
-        }
-
       break;
 
     // inventory command
@@ -502,6 +506,7 @@ client.on('interactionCreate', async interaction => {
 
     case 'inventory':
       var inv = await inventory(interaction.user, db);
+
       await interaction.reply({embeds: [inv], ephemeral: true });
       break;
 
@@ -613,7 +618,7 @@ client.on('interactionCreate', async interaction => {
   
   channel.send({ embeds: [exampleEmbed], components: [rows, choose] });
     break;
-  }
+    }
 });
 
 

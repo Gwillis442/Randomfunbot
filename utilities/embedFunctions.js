@@ -89,7 +89,6 @@ function choose_type() {
 
 async function open_loot_box(db, user,series, choice) {
     
-    updateCount(db, 'inventory', 'coin_count', user.id, -50);
     const box = openLootBox(choice, series);
 
     add_to_inventory(db, user.id, box.id, 1);
