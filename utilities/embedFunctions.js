@@ -61,8 +61,7 @@ async function inventory(user, db) {
 
     const embed = new EmbedBuilder()
         .setColor('#0099ff')
-        .setTitle('Inventory')
-        .setDescription(`Here is your inventory ${user.username}!`)
+        .setTitle(`Inventory of ${user.username}` )
         .addFields(
             { name: 'Coins', value: `${coins.coin_count}` },
             { name: 'Inventory Items', value: `${itemsText}` }
@@ -95,20 +94,20 @@ async function open_loot_box(db, user,series, choice) {
 
     add_to_inventory(db, user.id, box.id, 1);
 
-    const attachment = new AttachmentBuilder(`./assets/${box.type}/${box.image}`)
+    const attachment = new AttachmentBuilder(`./assets/${box.type}/${box.image}`, 'loot_box.png')
 
     const embed = new EmbedBuilder()
         .setColor('#0099ff')
-        .setTitle('Loot Box Opened')
-        .setDescription(`You have opened a ${box.rarity} ${box.type} loot box!`)
-        .setThumbnail(`attachment://${box.image}`)
+        .setTitle('Loot Box')
+        .setDescription(`You have opened a loot box!`)
+        .setImage('attachment://loot_box.png')
         .addFields(
             { name: 'Item Name', value: `${box.name}` },
             { name: 'Item Rarity', value: `${box.rarity}` }
         )
         .setTimestamp()  
 
-        return embed;
+        return {embed, attachment};
 }
 
     module.exports = {

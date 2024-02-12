@@ -485,10 +485,11 @@ client.on('interactionCreate', async interaction => {
           
               boxCollector.on('collect', async i => {
                 console.log('Collected box interaction:', i.customId);
-                const item = await open_loot_box(db, interaction.user.id, 1, 'armor');
-                await i.update({embeds: [item]})
-                  .catch(console.error);
-              });
+                const result = await open_loot_box(db, interaction.user.id, 1, 'armor');
+                const { embed, attachment } = result;
+                await i.update({embeds: [embed], files: [attachment]})
+                    .catch(console.error);
+            });
             }
           });
         }
