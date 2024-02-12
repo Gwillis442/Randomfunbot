@@ -467,7 +467,7 @@ client.on('interactionCreate', async interaction => {
               const type = choose_type();
 
               const box_armor_s1 = new ButtonBuilder()
-                .setLabel('Armor')
+                .setLabel('Armor 50c')
                 .setStyle('Primary')
                 .setCustomId('armor_s1');
 
