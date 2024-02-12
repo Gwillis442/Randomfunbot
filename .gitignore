@@ -48,6 +48,9 @@ jspm_packages/
 # nohup.out
 nohup.out
 
+#nohup.out
+nohup.out
+
 # nyc test coverage
 .nyc_output
 
