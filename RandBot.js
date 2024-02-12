@@ -6,7 +6,7 @@ const { token } = require('./config.json');
 const { emojiArray, johnArray, userBag, admin, } = require('./utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
   gracefulShutdown, dailyReward } = require('./utilities/functions.js');
-const { loot_box_info, lb_series_1, inventory } = require('./utilities/embedFunctions.js');
+const { loot_box_info, lb_series_1, inventory, choose_series, choose_type, open_loot_box} = require('./utilities/embedFunctions.js');
 const { insertUser, updateCount, algoPosts, populateBagFromDatabase, postCountCheck, coin_check, inventory_check, add_to_inventory } = require('./database/dbFunctions.js');
 const fetch = require('node-fetch');
 
@@ -443,15 +443,55 @@ client.on('interactionCreate', async interaction => {
     // When called the function will check if the user has enough coins to open a loot box
     // if the user has enough coins the function will open a loot box and add the item to the users inventory
     // Modified: 2/10/2024
-    case 'open_loot_box':
-      var result = await coin_check(db, interaction.user.id, 50);
-      if (result === false) {
-        await interaction.reply({ content: 'You do not have enough coins to open a loot box', ephemeral: true });
-        return;
-      } else {
-        const embed = open_loot_box();
-        await interaction.reply({ embeds: [embed]});
-      }
+    case 'open_loot_box':      
+
+        var correct_coin = await coin_check(db, interaction.user.id, 50);
+        if (correct_coin === false) {
+          await interaction.reply({ content: 'You do not have enough coins to open a loot box', ephemeral: true });
+          return;
+        } else {
+          const embed = choose_series();
+          const box_series_1 = new ButtonBuilder()
+          .setLabel('Series 1')
+          .setStyle('Primary')
+          .setCustomId('choose_series_1');
+  
+          const choose_series_1 = new ActionRowBuilder()
+          .addComponents(box_series_1);
+  
+          await interaction.reply({ embeds: [embed], components: [choose_series_1] });
+        
+          const filter = i => i.user.id === interaction.user.id;
+          const collector = interaction.channel.createMessageComponentCollector({ filter, time: 15000 });
+        
+          collector.on('collect', async i => {
+            console.log('Collected interaction:', i.customId);
+            if (i.customId === 'choose_series_1') {
+              const type = choose_type();
+
+              const box_armor_s1 = new ButtonBuilder()
+                .setLabel('Armor')
+                .setStyle('Primary')
+                .setCustomId('armor_s1');
+
+              const armor_s1 = new ActionRowBuilder()
+                .addComponents(box_armor_s1);
+
+              await i.update({ embeds: [type], components: [armor_s1] })
+                .catch(console.error);
+
+              const boxFilter = i => i.customId === 'armor_s1' && i.user.id === interaction.user.id;
+              const boxCollector = interaction.channel.createMessageComponentCollector({ filter: boxFilter, time: 15000 });
+          
+              boxCollector.on('collect', async i => {
+                console.log('Collected box interaction:', i.customId);
+                const item = await open_loot_box(db, interaction.user.id, 1, 'armor');
+                await i.update({embeds: [item]})
+                  .catch(console.error);
+              });
+            }
+          });
+        }
 
       break;
 

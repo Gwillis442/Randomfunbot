@@ -1,5 +1,7 @@
-const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('@discordjs/builders');
-const { EmbedBuilder, } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder,} = require('@discordjs/builders');
+const { EmbedBuilder,  AttachmentBuilder  } = require('discord.js');
+const { openLootBox  } = require('./functions.js');
+const { add_to_inventory, updateCount } = require('../database/dbFunctions.js');
 
 
 
@@ -69,43 +71,52 @@ async function inventory(user, db) {
     return embed;
     }
 
-function choose_loot_box() {
-    const row = new ActionRowBuilder()
-        .addComponents(
-            new StringSelectMenuBuilder()
-                .setCustomId('choose_loot_box')
-                .setPlaceholder('Choose a loot box')
-                .addOptions(
-                    new StringSelectMenuOptionBuilder()
-                        .setLabel('Series 1')
-                        .setValue('series_1')
-                )
-        );
-    return row;
+function choose_series() {
+    embed = new EmbedBuilder()
+    .setColor('#0099ff')
+    .setTitle('Choose a Loot Box')
+    .setDescription('Choose a series of loot box to open')
+    return embed;
 }
 
-async function open_loot_box(db, user) {
+function choose_type() {
+    embed = new EmbedBuilder()
+        .setColor('#0099ff')
+        .setTitle('Choose a Loot Box')
+        .setDescription('Choose a type of loot box to open')
+        return embed;
 
+}
+
+async function open_loot_box(db, user,series, choice) {
+    
     updateCount(db, 'inventory', 'coin_count', user.id, -50);
-    const box = openLootBox('armor', 1);
+    const box = openLootBox(choice, series);
 
     add_to_inventory(db, user.id, box.id, 1);
-    await interaction.reply({
-        content: `You opened a ${box.rarity}: ${box.name}!`,
-        files: [{ attachment: `./assets/${box.type}/${box.image}`, name: (box.image) }]
-    });
+
+    const attachment = new AttachmentBuilder(`./assets/${box.type}/${box.image}`)
+
     const embed = new EmbedBuilder()
         .setColor('#0099ff')
-        .setTitle('Loot Box')
-        .setDescription()
-        .setTimestamp()
+        .setTitle('Loot Box Opened')
+        .setDescription(`You have opened a ${box.rarity} ${box.type} loot box!`)
+        .setThumbnail(`attachment://${box.image}`)
+        .addFields(
+            { name: 'Item Name', value: `${box.name}` },
+            { name: 'Item Rarity', value: `${box.rarity}` }
+        )
+        .setTimestamp()  
 
-    return [embed];
+        return embed;
 }
 
     module.exports = {
         loot_box_info,
         lb_series_1,
         inventory,
+        choose_series,
+        choose_type,
+        open_loot_box
 
     }
