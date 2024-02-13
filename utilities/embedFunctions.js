@@ -90,7 +90,7 @@ function choose_type() {
 async function open_loot_box(db, user,series, choice) {
     
     const box = openLootBox(choice, series);
-
+    
     add_to_inventory(db, user.id, box.id, 1);
 
     const attachment = new AttachmentBuilder(`./assets/${box.type}/${box.image}`, 'loot_box.png')
