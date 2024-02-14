@@ -10,7 +10,6 @@ const client = new Client({
 	],
 });
 
-client.login(token);
 const sqlite3 = require('sqlite3').verbose();
 //starting database
 const db = new sqlite3.Database('./botDatabase.db', (err) => {

@@ -11,8 +11,24 @@ const buttons = {
             .setStyle('Primary')
             .setCustomId('choose_series_1');
 
-
         return box_series_1;  // Return the ActionRow
+    },
+
+    info_Series_S1: () => {
+      const info_Series_1 = new ButtonBuilder()
+      .setLabel('Series 1')
+      .setStyle('Primary')
+      .setCustomId('info_series_1');
+
+      return info_Series_1;  // Return the ActionRow
+    },
+
+    pick_Series_S2: () => {
+        const box_series_2 = new ButtonBuilder()
+            .setLabel('Series 2')
+            .setStyle('Primary')
+            .setDisabled(true)
+            .setCustomId('choose_series_2');
     },
 
     armor_Box_S1: () => {
@@ -36,11 +52,11 @@ const buttons = {
         return box_weapon_s1;  // Return the ActionRow
     },
 
-    back_button: (previous) => {
+    back_button: () => {
         const back = new ButtonBuilder()
         .setLabel('Back')
         .setStyle('Secondary')
-        .setCustomId(`${previous}`);
+        .setCustomId('back');
 
 
         return back;  // Return the ActionRow
@@ -70,10 +86,48 @@ const buttons = {
         .setStyle('Primary')
         .setCustomId('loot_box_info');
 
-        return loot_box_info;  // Return the ActionRow
+        return loot_box_info;  // Return the Button
     },
 }
 
+const actionRows = {
+
+  custom_Row: (...buttons) => {
+    
+    return new ActionRowBuilder().addComponents(...buttons);
+    
+  },
+
+  series_Row: () => {new ActionRowBuilder()
+  .addComponents(buttons.pick_Series_S1(), buttons.pick_Series_S2(), buttons.pick_Series_S3());
+  return series_Row;
+  },
+
+  boxes_Row: () => { new ActionRowBuilder()
+  .addComponents(buttons.armor_Box_S1(), buttons.weapon_box_s1(), buttons.back_button());
+  return boxes_Row;
+  },
+
+lootBoxInfoRow: () => { new ActionRowBuilder()
+  .addComponents(buttons.loot_box_info(), buttons.inventory(), buttons.back_button());
+  return lootBoxInfoRow;
+},
+
+armor_Box_S1_Row: () => { new ActionRowBuilder()
+  .addComponents(buttons.armor_Box_S1(), buttons.back_button());
+  return armor_Box_S1_Row;
+},
+
+inventory_Row: () => { new ActionRowBuilder()
+  .addComponents(buttons.back_button());
+  return inventory_Row;
+},
+
+}
+
+
+
 module.exports = { 
     buttons,
+    actionRows
  };
