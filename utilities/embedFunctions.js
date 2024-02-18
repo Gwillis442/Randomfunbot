@@ -109,7 +109,7 @@ async function inventory(user, db) {
       });
     });
 
-    let itemsText = items.map(item => `${item.item_link}: ${item.item_count}`).join('\n');
+    let itemsText = items.map(item => `${item.item_name}: ${item.item_count}`).join('\n');
     if (itemsText === '') {
         itemsText = 'No items found';
     }
