@@ -1,6 +1,6 @@
 
 const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder  } = require('@discordjs/builders');
-const { truncate } = require('fs');
+
 
 
 function button_builder(label, style, disabled, customId) {

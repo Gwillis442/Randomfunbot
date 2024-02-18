@@ -1,6 +1,6 @@
 const { userBag } = require('../utilities/item-arrays.js');
 const { logWithTimestamp, replyWithRetry, } = require('../utilities/functions.js');
-const { leaderboard_coins } = require('../utilities/embedFunctions.js');
+
 
 const sqlite3 = require('sqlite3').verbose();
 
@@ -69,6 +69,25 @@ function updateCount(db, tableName, columnName, userId, incrementValue) {
       return console.error(err.message);
     }
   });
+}
+
+/*
+=================================
+set Value
+When called the function will set the value for a user in the database
+Modified: 11/30/2023
+*/
+function setCount(db, tableName, columnName, userId, value) {
+  // Prepare the SQL statement
+  let sql = `UPDATE ${tableName} SET ${columnName} = ? WHERE user_id = ?`;
+
+  // Run the SQL statement with the provided parameters
+  db.run(sql, [value, userId], function (err) {
+    if (err) {
+      return console.error(err.message);
+    }
+  });
+  console.log(`Set ${columnName} to ${value} for user ${userId}`);
 }
 
 /*
@@ -359,4 +378,5 @@ module.exports = {
   add_to_inventory,
   highest_Coins,
   total_Items,
+  setCount,
 };

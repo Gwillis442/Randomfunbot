@@ -4,10 +4,10 @@ const { Client, GatewayIntentBits, EmbedBuilder, } = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
 const { token } = require('./config.json');
 const { emojiArray, johnArray, userBag, admin, } = require('../utilities/item-arrays.js'); // Import from ItemArrays.js
-const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
+const { rng, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
   gracefulShutdown, dailyReward } = require('../utilities/functions.js');
 const { loot_box_info, lb_series_1, inventory, choose_series, choose_type, open_loot_box, leaderboard_coins, leaderboard_items} = require('../utilities/embedFunctions.js');
-const { insertUser, updateCount, algoPosts, populateBagFromDatabase, postCountCheck, coin_check, inventory_check, add_to_inventory } = require('../database/dbFunctions.js');
+const { insertUser, updateCount, algoPosts, populateBagFromDatabase, postCountCheck, coin_check, setCount } = require('../database/dbFunctions.js');
 const fetch = require('node-fetch');
 const { buttons, actionRows } = require('../utilities/interactionBuilders.js');
 
@@ -618,11 +618,13 @@ client.on('interactionCreate', async interaction => {
     // Modified: 2/10/2024
     case 'daily':
       const result = await dailyReward(interaction.user.id, db);
+    
       if (result === false) {
         await interaction.reply('You have already claimed your daily reward');
         return;
       } else {
         updateCount(db, 'inventory', 'coin_count', interaction.user.id, 50);
+        setCount(db, 'daily', 'last_claimed', interaction.user.id, new Date());
         await interaction.reply('You have claimed your daily reward of 50 coins');
       }
       break;
