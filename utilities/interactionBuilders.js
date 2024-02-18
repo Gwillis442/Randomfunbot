@@ -2,7 +2,15 @@
 const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder  } = require('@discordjs/builders');
 const { truncate } = require('fs');
 
-
+/*
+function button_builder(label, sytle, disabled, customId) {
+  const button = new ButtonBuilder()
+  .setLabel(label)
+  .setStyle(style)
+  .setDisabled(disabled)
+  .setCustomId('choose_series_2');
+}
+*/
 
 const buttons = {
     pick_Series_S1: () => {
@@ -15,6 +23,7 @@ const buttons = {
     },
 
     info_Series_S1: () => {
+
       const info_Series_1 = new ButtonBuilder()
       .setLabel('Series 1')
       .setStyle('Primary')
