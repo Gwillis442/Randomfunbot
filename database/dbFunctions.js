@@ -1,5 +1,6 @@
 const { userBag } = require('../utilities/item-arrays.js');
 const { logWithTimestamp, replyWithRetry, } = require('../utilities/functions.js');
+const { leaderboard_coins } = require('../utilities/embedFunctions.js');
 
 const sqlite3 = require('sqlite3').verbose();
 
@@ -310,6 +311,40 @@ function inventory_check(db, user_id) {
   });
 }
 
+function highest_Coins(db) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    SELECT user_id, coin_count
+    FROM inventory
+    ORDER BY coin_count DESC;
+    `;
+    db.all(query, [], (err, rows) => {
+      if (err) {
+        console.error(err.message);
+        reject(err);
+      }
+      resolve(rows);
+    });
+  });
+}
+
+function total_Items(db) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    SELECT COUNT(*) FROM inventory_items;
+    `;
+    db.get(query, [], (err, row) => {
+      if (err) {
+        console.error(err.message);
+        reject(err);
+      }
+      resolve(row);
+    });
+  });
+
+}
+
+
 // Export the functions
 
 module.exports = {
@@ -322,4 +357,6 @@ module.exports = {
   coin_check,
   inventory_check,
   add_to_inventory,
+  highest_Coins,
+  total_Items,
 };

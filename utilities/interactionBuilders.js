@@ -88,7 +88,27 @@ const buttons = {
 
         return loot_box_info;  // Return the Button
     },
-}
+
+    leaderboard_coins: () => {
+
+        const leaderboard_coins = new ButtonBuilder()
+        .setLabel('Leaderboard Coins')
+        .setStyle('Primary')
+        .setCustomId('leaderboard_coins');
+
+        return leaderboard_coins;  // Return the Button
+        },
+
+    leaderboard_items: () => {
+        const leaderboard_items = new ButtonBuilder()
+        .setLabel('Leaderboard Items')
+        .setStyle('Primary')
+        .setCustomId('leaderboard_items');
+
+        return leaderboard_items;  // Return the Button
+        },
+
+      }
 
 const actionRows = {
 

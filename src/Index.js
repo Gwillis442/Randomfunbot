@@ -6,7 +6,7 @@ const { token } = require('./config.json');
 const { emojiArray, johnArray, userBag, admin, } = require('../utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, openLootBox, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
   gracefulShutdown, dailyReward } = require('../utilities/functions.js');
-const { loot_box_info, lb_series_1, inventory, choose_series, choose_type, open_loot_box} = require('../utilities/embedFunctions.js');
+const { loot_box_info, lb_series_1, inventory, choose_series, choose_type, open_loot_box, leaderboard_coins, leaderboard_items} = require('../utilities/embedFunctions.js');
 const { insertUser, updateCount, algoPosts, populateBagFromDatabase, postCountCheck, coin_check, inventory_check, add_to_inventory } = require('../database/dbFunctions.js');
 const fetch = require('node-fetch');
 const { buttons, actionRows } = require('../utilities/interactionBuilders.js');
@@ -493,8 +493,6 @@ client.on('interactionCreate', async interaction => {
         const box_Row_S1 = actionRows.custom_Row(buttons.armor_Box_S1(), buttons.weapon_box_s1(), buttons.back_button());
           history.push({ embeds: [choose_type()], files: [], components: [box_Row_S1] });
           await i.update({ embeds: [choose_type()], files: [], components: [box_Row_S1]});
-  
-          console.log(history);
           break;
 
       case 'choose_series_2':
@@ -577,6 +575,30 @@ client.on('interactionCreate', async interaction => {
       if (choice.customId === 'series_1') {
         await choice.update({ embeds: [series1], components: [] });
       }
+      break;
+
+    // leaderboard command
+    // When called the function will return the top 10 users by item count
+    // Modified: 2/10/2024
+    case 'leaderboard':
+      
+      const row = actionRows.custom_Row(buttons.leaderboard_coins(), buttons.leaderboard_items());
+      await interaction.reply({ content: 'Coming Soon.', components: [] });
+      
+      const lb_Filter = i => i.user.id === interaction.user.id;
+      const lb_Collector = interaction.channel.createMessageComponentCollector({ lb_Filter, time: 60000 });
+      const embedCoins = leaderboard_coins(db);
+
+      lb_Collector.on('collect', async i => {
+          switch(i.customId) {
+              case 'leaderboard_coins':
+                  await i.update({ embeds: [embedCoins], components: [] });
+                  break;
+              case 'leaderboard_items':
+                  await i.update({ embeds: [leaderboard_items(db)], components: [] });
+                  break;
+          }
+      });
       break;
 
     // post count command

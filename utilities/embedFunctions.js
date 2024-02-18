@@ -1,7 +1,8 @@
 const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder,} = require('@discordjs/builders');
 const { EmbedBuilder,  AttachmentBuilder  } = require('discord.js');
 const { openLootBox  } = require('./functions.js');
-const { add_to_inventory, updateCount } = require('../database/dbFunctions.js');
+const { add_to_inventory, updateCount, total_Items, highest_Coins, } = require('../database/dbFunctions.js');
+const res = require('express/lib/response.js');
 
 
 
@@ -38,6 +39,60 @@ async function inventory(user, db) {
         });
     });
 
+    const total_items = await new Promise((resolve, reject) => {
+        db.get('SELECT COUNT(*) FROM inventory_items WHERE inventory_id = (SELECT inventory_id FROM inventory WHERE user_id = ?)', [user.id], (err, row) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(row);
+            }
+        });
+    });
+
+    const item_common = await new Promise((resolve, reject) => {
+        db.get('SELECT COUNT(*) FROM inventory_items WHERE inventory_id = (SELECT inventory_id FROM inventory WHERE user_id = ?) AND item_id IN (SELECT item_id FROM item WHERE item_rarity = "common")', [user.id], (err, row) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(row);
+            }
+        });
+    });
+
+    const item_uncommon = await new Promise((resolve, reject) => {
+        db.get('SELECT COUNT(*) FROM inventory_items WHERE inventory_id = (SELECT inventory_id FROM inventory WHERE user_id = ?) AND item_id IN (SELECT item_id FROM item WHERE item_rarity = "uncommon")', [user.id], (err, row) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(row);
+            }
+         });
+     });
+
+     const item_rare = await new Promise((resolve, reject) => {
+        db.get('SELECT COUNT(*) FROM inventory_items WHERE inventory_id = (SELECT inventory_id FROM inventory WHERE user_id = ?) AND item_id IN (SELECT item_id FROM item WHERE item_rarity = "rare")', [user.id], (err, row) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(row);
+            }
+         });
+     });
+
+     const item_epic = await new Promise((resolve, reject) => {
+        db.get('SELECT COUNT(*) FROM inventory_items WHERE inventory_id = (SELECT inventory_id FROM inventory WHERE user_id = ?) AND item_id IN (SELECT item_id FROM item WHERE item_rarity = "epic")', [user.id], (err, row) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(row);
+            }
+         });
+     });
+    
+
     const items = await new Promise((resolve, reject) => {
 
         db.all(`
@@ -62,13 +117,21 @@ async function inventory(user, db) {
     const embed = new EmbedBuilder()
         .setColor('#0099ff')
         .setTitle(`Inventory of ${user.username}` )
-        .addFields(
-            { name: 'Coins', value: `${coins.coin_count}` },
-            { name: 'Inventory Items', value: `${itemsText}` }
+        .setFields(
+            { name: 'Coins:', value: `${coins.coin_count}`},
+            { name: 'Total Items:', value: `${total_items['COUNT(*)']} / 34`},
+            { name: 'Commons', value: `${item_common['COUNT(*)']} / 8`, inline: true},
+            { name: 'Uncommons', value: `${item_uncommon['COUNT(*)']} / 7`, inline: true},
+            { name: '\u200B', value: '\u200B' },
+            { name: 'Rares', value: `${item_rare['COUNT(*)']} / 9`, inline: true},
+            { name: 'Epics', value: `${item_epic['COUNT(*)']} / 9`, inline: true}
         )
-        .setTimestamp();
+        .setFooter(
+            { text: `Items in Inventory:\n${itemsText}\n` }
+        )
     return embed;
     }
+
 
 function choose_series() {
     embed = new EmbedBuilder()
@@ -107,7 +170,49 @@ async function open_loot_box(db, user,series, choice) {
         .setTimestamp()  
 
         return {embed, attachment};
+
 }
+
+async function leaderboard_coins(db) {
+   
+    const coins = await new Promise((resolve, reject) => {
+    db.all('SELECT user_id, coin_count FROM inventory ORDER BY coin_count DESC LIMIT 10', (err, rows) => {
+        if (err) {
+            reject(err);
+        }
+        resolve(rows);
+    });
+});
+
+    let most_coins = coins.map(coin => `${coin.user_id}: ${coin.coin_count}`).join('\n');
+    if (most_coins === '') {
+        most_coins = 'No coins found';
+    }
+
+        const embed = new EmbedBuilder()
+        .setColor('#0099ff')
+        .setTitle('Leaderboard Coins')
+        .setDescription('Top 10 users with the most coins')
+        .setFooter({text: `${most_coins}`})
+        .setTimestamp()
+        return embed;        
+        
+}
+
+async function leaderboard_items(db) {
+    var fields = total_Items(db);
+    let resolvedFields = await fields;
+
+        const embed = new EmbedBuilder()
+        .setColor('#0099ff')
+        .setTitle('Leaderboard Items')
+        .setDescription('Top 10 users with the most items')
+        .setFooter({text: `${resolvedFields}`})
+        .setTimestamp()
+
+        return embed;
+}
+
 
     module.exports = {
         loot_box_info,
@@ -115,6 +220,8 @@ async function open_loot_box(db, user,series, choice) {
         inventory,
         choose_series,
         choose_type,
-        open_loot_box
+        open_loot_box,
+        leaderboard_coins,
+        leaderboard_items,
 
     }

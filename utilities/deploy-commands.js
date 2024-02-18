@@ -2,7 +2,7 @@
 const { ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { clientId, guildId, token } = require('../config.json');
+const { clientId, guildId, token } = require('../src/config.json');
 
 const commands = [
     new SlashCommandBuilder().setName('roulette').setDescription('Win Coins! or lose it all...')
@@ -16,6 +16,7 @@ const commands = [
 	new SlashCommandBuilder().setName('open_loot_box').setDescription('Open a loot box'),
 	new SlashCommandBuilder().setName('loot_box_info').setDescription('Information on loot boxes'),
 	new SlashCommandBuilder().setName('inventory').setDescription('Check your inventory'),
+	new SlashCommandBuilder().setName('leaderboard').setDescription('Check the leaderboard for coins'),
 	new SlashCommandBuilder().setName('daily').setDescription('Claim your daily coins'),
 	new SlashCommandBuilder().setName('post_count').setDescription('List post count'),
 	new SlashCommandBuilder().setName('joke').setDescription('Get a random joke'),
