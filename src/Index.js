@@ -470,7 +470,7 @@ client.on('interactionCreate', async interaction => {
     const choosingSeries1 = actionRows.custom_Row(buttons.pick_Series_S1())
     const choosingSeries2 = actionRows.custom_Row(buttons.inventory());
     await interaction.reply({ embeds: [choose_series()], file: [], components: [choosingSeries1, choosingSeries2] });
-    history.push({ embeds: [choose_series()], files: [], components: [choosingSeries1,choosingSeries2] });
+    history.push({ embeds: [choose_series()], components: [choosingSeries1,choosingSeries2] });
 
     const filter = i => i.user.id === interaction.user.id;
     const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
@@ -491,23 +491,23 @@ client.on('interactionCreate', async interaction => {
       
       case 'choose_series_1':
         const box_Row_S1 = actionRows.custom_Row(buttons.armor_Box_S1(), buttons.weapon_box_s1(), buttons.back_button());
-          history.push({ embeds: [choose_type()], files: [], components: [box_Row_S1] });
-          await i.update({ embeds: [choose_type()], files: [], components: [box_Row_S1]});
+          history.push({ embeds: [choose_type()], components: [box_Row_S1] });
+          await i.update({ embeds: [choose_type()], components: [box_Row_S1]});
           break;
 
       case 'choose_series_2':
-          await i.update({ embeds: [choose_type()], files: [], components: [buttons.armor_Box_S2(), buttons.weapon_box_s2(), buttons.back_button(previousInteractionId)], inline: true });
+          await i.update({ embeds: [choose_type()], components: [buttons.armor_Box_S2(), buttons.weapon_box_s2(), buttons.back_button(previousInteractionId)], inline: true });
           break;
 
       case 'choose_series_3':
-          await i.update({ embeds: [choose_type()], files: [], components: [buttons.armor_Box_S3(), buttons.weapon_box_s3(), buttons.back_button(previousInteractionId)]});
+          await i.update({ embeds: [choose_type()], components: [buttons.armor_Box_S3(), buttons.weapon_box_s3(), buttons.back_button(previousInteractionId)]});
           break;
 
       case 'inventory':
           const inventoryRow = actionRows.custom_Row(buttons.back_button());
           var inv = await inventory(interaction.user, db);
-          await i.update({embeds: [inv], files: [], components: [inventoryRow]});
-          history.push({ embeds: [inv], files: [], components: [inventoryRow] });
+          await i.update({embeds: [inv], components: [inventoryRow]});
+          history.push({ embeds: [inv], components: [inventoryRow] });
           break;
       }
     });
@@ -522,7 +522,7 @@ client.on('interactionCreate', async interaction => {
 
         var correct_coin = await coin_check(db, i.user.id, 75);
         if (correct_coin === false) {
-          await i.update({ content: 'You do not have enough coins to open a loot box', embeds: [], files: [], components: []});
+          await i.update({ content: 'You do not have enough coins to open a loot box', embeds: [], components: []});
           return;
         } else {
 
@@ -531,7 +531,7 @@ client.on('interactionCreate', async interaction => {
           const result = await open_loot_box(db, i.user.id, 1, 'armor');
           const boxButtons = actionRows.custom_Row(buttons.armor_Box_S1(),buttons.back_button());
           const { embed, attachment } = result;
-          await i.update({embeds: [embed], files: [attachment], components: [boxButtons]})
+          await i.update({embeds: [embed], components: [boxButtons]})
               .catch(console.error);
         }
         break;

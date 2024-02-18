@@ -2,7 +2,7 @@
 const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder  } = require('@discordjs/builders');
 const { truncate } = require('fs');
 
-/*
+
 function button_builder(label, sytle, disabled, customId) {
   const button = new ButtonBuilder()
   .setLabel(label)
@@ -10,7 +10,6 @@ function button_builder(label, sytle, disabled, customId) {
   .setDisabled(disabled)
   .setCustomId('choose_series_2');
 }
-*/
 
 const buttons = {
     pick_Series_S1: () => {
@@ -158,5 +157,6 @@ inventory_Row: () => { new ActionRowBuilder()
 
 module.exports = { 
     buttons,
-    actionRows
+    actionRows,
+    button_builder,
  };

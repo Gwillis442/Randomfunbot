@@ -4,56 +4,56 @@ const lootBoxArmorSeries_1= [
 
   // Common Early game Armor
   commonArmor = [
-    { name: 'Cactus Armor', image: 'Cactus_armor.png', type: 'commonArmor', rarity: 'common', id: 1},
-    { name: 'Wood Armor', image: 'Wood_armor.png', type: 'commonArmor', rarity: 'common', id: 2},
-    { name: 'Ebonwood Armor', image: 'Ebonwood_armor.png', type: 'commonArmor', rarity: 'common', id: 3},
-    { name: 'Shadewood Armor', image: 'Shadewood_armor.png', type: 'commonArmor', rarity: 'common', id: 4},
-    { name: 'Palm Wood Armor', image: 'Palm_wood_armor.png', type: 'commonArmor', rarity: 'common', id: 5},
-    { name: 'Boreal Wood Armor', image: 'Boreal_wood_armor.png', type: 'commonArmor', rarity: 'common', id: 6},
-    { name: 'Rich Mahogany Armor', image: 'Rich_mahogany_armor.png', type: 'commonArmor', rarity: 'common' , id: 7},
-    { name: 'Ash Wood Armor', image: 'Ash_wood_armor.png', type: 'commonArmor', rarity: 'common', id: 8},
+    { name: 'Cactus Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/4/48/Cactus_armor.png', rarity: 'common', id: 1},
+    { name: 'Wood Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/e/ef/Wood_armor.png', rarity: 'common', id: 2},
+    { name: 'Ebonwood Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/9/9b/Ebonwood_armor.png', rarity: 'common', id: 3},
+    { name: 'Shadewood Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/9/94/Shadewood_armor.png', rarity: 'common', id: 4},
+    { name: 'Palm Wood Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/8/8d/Palm_Wood_armor.png', rarity: 'common', id: 5},
+    { name: 'Boreal Wood Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/6/69/Boreal_Wood_armor.png', rarity: 'common', id: 6},
+    { name: 'Rich Mahogany Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/0/0d/Rich_Mahogany_armor.png', rarity: 'common' , id: 7},
+    { name: 'Ash Wood Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/2/24/Ash_Wood_armor.png', rarity: 'common', id: 8},
   ],
 
   // Uncommon Early game Armor
   uncommonArmor = [
-    { name: 'Tin Armor', image: 'Tin_armor.png', type: 'uncommonArmor', rarity: 'uncommon', id: 9},
-    { name: 'Copper Armor', image: 'Copper_armor.png', type: 'uncommonArmor', rarity: 'uncommon', id: 10},
-    { name: 'Lead Armor', image: 'Lead_armor.png', type: 'uncommonArmor', rarity: 'uncommon', id: 11},
-    { name: 'Iron Armor', image: 'Iron_armor.png', type: 'uncommonArmor', rarity: 'uncommon', id: 12},
-    { name: 'Angler Armor', image: 'Angler_armor.png', type: 'uncommonArmor', rarity: 'uncommon', id: 13},
-    { name: 'Pumpkin Armor', image: 'Pumpkin_armor.png', type: 'uncommonArmor', rarity: 'uncommon', id: 14},
-    { name: 'Raincoat Armor', image: 'Rain_armor.png', type: 'uncommonArmor', rarity: 'uncommon', id: 15}
+    { name: 'Tin Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/d/d1/Tin_armor.png', rarity: 'uncommon', id: 9},
+    { name: 'Copper Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/9/9d/Copper_armor.png', rarity: 'uncommon', id: 10},
+    { name: 'Lead Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/2/24/Lead_armor.png', rarity: 'uncommon', id: 11},
+    { name: 'Iron Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/6/67/Iron_armor.png', rarity: 'uncommon', id: 12},
+    { name: 'Angler Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/9/90/Angler_armor.png', rarity: 'uncommon', id: 13},
+    { name: 'Pumpkin Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/3/37/Pumpkin_armor.png', rarity: 'uncommon', id: 14},
+    { name: 'Raincoat Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/8/8b/Rain_armor.png', rarity: 'uncommon', id: 15}
   ],
 
   // Rare Early game Armor
   rareArmor = [
-    { name: 'Gold Armor', image: 'Gold_armor.png', type: 'rareArmor', rarity: 'rare', id: 16},
-    { name: 'Silver Armor', image: 'Silver_armor.png', type: 'rareArmor', rarity: 'rare', id: 17},
-    { name: 'Platinum Armor', image: 'Platinum_armor.png', type: 'rareArmor', rarity: 'rare', id: 18},
-    { name: 'Tungsten Armor', image: 'Tungsten_armor.png', type: 'rareArmor', rarity: 'rare', id: 19},
-    { name: 'Fossil Armor', image: 'Fossil_armor.png', type: 'rareArmor', rarity: 'rare', id: 20},
-    { name: 'Pink Snow Armor', image: 'Pink_snow_armor.png', type: 'rareArmor', rarity: 'rare', id: 21},
-    { name: 'Snow Armor', image: 'Snow_armor.png', type: 'rareArmor', rarity: 'rare', id: 22},
-    { name: 'Bee Armor', image: 'Bee_armor.png', type: 'rareArmor', rarity: 'rare', id: 23},
-    { name: 'Ninja Armor', image: 'Ninja_armor.png', type: 'rareArmor', rarity: 'rare', id: 24},
+    { name: 'Gold Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/3/30/Gold_armor.png', rarity: 'rare', id: 16},
+    { name: 'Silver Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/8/8a/Silver_armor.png', rarity: 'rare', id: 17},
+    { name: 'Platinum Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/9/94/Platinum_armor.png', rarity: 'rare', id: 18},
+    { name: 'Tungsten Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/4/4d/Tungsten_armor.png', rarity: 'rare', id: 19},
+    { name: 'Fossil Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/f/f1/Fossil_armor.png', rarity: 'rare', id: 20},
+    { name: 'Pink Snow Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/9/98/Pink_Snow_armor.png', rarity: 'rare', id: 21},
+    { name: 'Snow Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/8/81/Snow_armor.png', rarity: 'rare', id: 22},
+    { name: 'Bee Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/3/3d/Bee_armor.png', rarity: 'rare', id: 23},
+    { name: 'Ninja Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/7/73/Ninja_armor.png', rarity: 'rare', id: 24},
   ],
 
   // Epic Early game Armor
   epicArmor = [
-    { name: 'Jungle Armor', image: 'Jungle_armor.png', type: 'epicArmor', rarity: 'epic', id: 25},
-    { name: 'Obsidian Armor', image: 'Obsidian_armor.png', type: 'epicArmor', rarity: 'epic', id: 26},
-    { name: 'Crimson Armor', image: 'Crimson_armor.png', type: 'epicArmor', rarity: 'epic', id: 27},
-    { name: 'Shadow Armor', image: 'Shadow_armor.png', type: 'epicArmor', rarity: 'epic', id: 28}, 
-    { name: 'Meteor Armor', image: 'Meteor_armor.png', type: 'epicArmor', rarity: 'epic', id: 29},
-    { name: 'Necro Armor', image: 'Necro_armor.png', type: 'epicArmor', rarity: 'epic', id: 30},
-    { name: 'Gladiator Armor', image: 'Gladiator_armor.png', type: 'epicArmor', rarity: 'epic', id: 31},
-    { name: 'Ancient Shadow Armor', image: 'Ancient_shadow_armor.png', type: 'epicArmor', rarity: 'epic', id: 32},
-    { name: 'Ancient Cobalt Armor', image: 'Ancient_cobalt_armor.png', type: 'epicArmor', rarity: 'epic', id: 33}, 
+    { name: 'Jungle Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/d/d4/Jungle_armor.png', rarity: 'epic', id: 25},
+    { name: 'Obsidian Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/e/ea/Obsidian_armor.png', rarity: 'epic', id: 26},
+    { name: 'Crimson Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/a/a1/Crimson_armor.png', rarity: 'epic', id: 27},
+    { name: 'Shadow Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/c/c5/Shadow_armor.png', rarity: 'epic', id: 28}, 
+    { name: 'Meteor Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/d/d9/Meteor_armor.png', rarity: 'epic', id: 29},
+    { name: 'Necro Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/d/d3/Necro_armor.png', rarity: 'epic', id: 30},
+    { name: 'Gladiator Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/8/8a/Gladiator_armor.png', rarity: 'epic', id: 31},
+    { name: 'Ancient Shadow Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/5/5a/Ancient_Shadow_armor.png', rarity: 'epic', id: 32},
+    { name: 'Ancient Cobalt Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/c/c8/Ancient_Cobalt_armor.png', rarity: 'epic', id: 33}, 
   ],
   
   // Legendary Early game Armor
   legendaryArmor = [
-    { name: 'Molten Armor', image: 'Molten_armor.png', type: 'legendaryArmor', rarity: 'legendary', id: 34},
+    { name: 'Molten Armor', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/f/f1/Molten_armor.png', rarity: 'legendary', id: 34},
   ],
 
 ];

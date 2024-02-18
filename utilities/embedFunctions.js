@@ -156,20 +156,18 @@ async function open_loot_box(db, user,series, choice) {
     
     add_to_inventory(db, user, box.id, 1);
 
-    const attachment = new AttachmentBuilder(`../assets/${box.type}/${box.image}`, 'loot_box.png')
-
     const embed = new EmbedBuilder()
         .setColor('#0099ff')
         .setTitle('Loot Box')
+        .setThumbnail(box.link)
         .setDescription(`You have opened a loot box!`)
-        .setImage('attachment://loot_box.png')
         .addFields(
             { name: 'Item Name', value: `${box.name}` },
             { name: 'Item Rarity', value: `${box.rarity}` }
         )
         .setTimestamp()  
 
-        return {embed, attachment};
+        return {embed};
 
 }
 
