@@ -70,5 +70,9 @@ db.run(`
 
   });
 
+  db.run(
+    'Alter table item add column item_link TEXT'
+  );
+
 // close the database connection
 db.close();

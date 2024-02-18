@@ -3,12 +3,12 @@ const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMe
 const { truncate } = require('fs');
 
 
-function button_builder(label, sytle, disabled, customId) {
+function button_builder(label, style, disabled, customId) {
   const button = new ButtonBuilder()
   .setLabel(label)
   .setStyle(style)
   .setDisabled(disabled)
-  .setCustomId('choose_series_2');
+  .setCustomId(customId);
 }
 
 const buttons = {
