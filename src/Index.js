@@ -441,10 +441,9 @@ client.on('interactionCreate', async interaction => {
       break;
 
     // roll command
-    // When called the function will return a random number between the min and max value
+    // When called the function will return a random number between the min and max values
     // Modified: 2/10/2024
     case 'roll':
-
       const min = interaction.options.getString('min');
       const max = interaction.options.getString('max');
       await interaction.reply(`You rolled a ${rng(min, max)}`);
