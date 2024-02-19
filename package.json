@@ -9,10 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/rest": "^2.1.0",
+    "@discordjs/rest": "^2.0.0",
+    "@napi-rs/canvas": "^0.1.47",
     "@sapphire/shapeshift": "^3.9.6",
     "discord-api-types": "^0.37.63",
-    "discord.js": "^14.14.1",
+    "discord.js": "^14.12.1",
     "discord.js-commando": "^0.12.3",
     "fetch": "^1.1.0",
     "index.js": "^0.0.3",
