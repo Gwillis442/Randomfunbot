@@ -2,7 +2,6 @@ const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMe
 const { EmbedBuilder,  AttachmentBuilder  } = require('discord.js');
 const { openLootBox  } = require('./functions.js');
 const { add_to_inventory, total_Items } = require('../database/dbFunctions.js');
-const res = require('express/lib/response.js');
 
 
 
