@@ -6,7 +6,9 @@ Uses node to locally host the bot for use on the server.
 Hoping to add:
 	
 Expanding the loot boxes
+
 adding a way to 'equip' and display what is pulled from boxes
+
 reworking of the coin system to make them worth more
 
 
