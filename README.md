@@ -5,13 +5,9 @@ Uses node to locally host the bot for use on the server.
 
 Hoping to add:
 	
-  '/' commands to change different variables including specific usernames, probabilities and to use other functions
-	
-  Web hosted rather then locally
-	
-  More fun random events 
-	
-  more ways to screw with 'Kony911'
+Expanding the loot boxes
+adding a way to 'equip' and display what is pulled from boxes
+reworking of the coin system to make them worth more
 
 
   
