@@ -22,6 +22,7 @@ const commands = [
 	new SlashCommandBuilder().setName('joke').setDescription('Get a random joke'),
 	new SlashCommandBuilder().setName('coin_flip').setDescription('Flip a coin'),
 	new SlashCommandBuilder().setName('test_embed').setDescription('Test embeds'),
+	new SlashCommandBuilder().setName('create_canvas').setDescription('Create a canvas'),
 ]
 
 	.map(command => command.toJSON());

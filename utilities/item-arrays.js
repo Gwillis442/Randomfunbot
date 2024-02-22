@@ -58,6 +58,30 @@ const lootBoxArmorSeries_1= [
 
 ];
 
+const biomes = [
+  { name: 'Forest', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/f/fb/BiomeBannerForest.png', id: 1},
+  { name: 'Jungle', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/7/7e/BiomeBannerJungle.png', id: 2},
+  { name: 'Desert', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/e/e5/BiomeBannerDesert.png', id: 3},
+  { name: 'Ocean', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/c/c2/BiomeBannerOcean.png', id: 4},
+  { name: 'Snow', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/a/aa/BiomeBannerSnow.png', id: 5},
+  { name: 'Underground', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/c/cb/BiomeBannerUnderground.png', id: 6},
+  { name: 'Cavern', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/2/26/BiomeBannerCavern.png', id: 7},
+  { name: 'Corruption', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/4/4c/BiomeBannerCorruption.png', id: 8},
+  { name: 'Crimson', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/0/04/BiomeBannerCrimson.png', id: 9},
+  { name: 'Hallow', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/1/1b/BiomeBannerHallow.png', id: 10},
+  { name: 'Dungeon', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/b/b1/BiomeBannerDungeon.png', id: 11},
+  { name: 'Jungle Temple', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/c/c7/BiomeBannerJungleTemple.png', id: 12},
+  { name: 'Underworld', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/a/a0/BiomeBannerUnderworld.png', id: 13},
+  { name: 'Mushroom', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/8/87/BiomeBannerGlowingMushroom.png', id: 14},
+  { name: 'Underground_Desert', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/0/05/BiomeBannerUndergroundDesert.png', id: 15},
+  { name: 'Underground_Jungle', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/6/64/BiomeBannerUndergroundJungle.png', id: 16},
+  { name: 'Underground_Corruption', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/2/27/BiomeBannerUndergroundCorruption.png', id: 17},
+  { name: 'Underground_Crimson', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/e/ea/BiomeBannerUndergroundCrimson.png', id: 18},
+  { name: 'Underground_Hallow', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/e/ed/BiomeBannerUndergroundHallow.png', id: 19},
+  { name: 'Ice', link: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/e/e7/BiomeBannerIce.png', id: 20},
+
+];
+
 let userBag = [];
 
 

@@ -1,5 +1,5 @@
 
-const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder  } = require('@discordjs/builders');
+const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, AttachmentBuilder  } = require('@discordjs/builders');
 const { Client, GatewayIntentBits, EmbedBuilder, } = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
 const { token } = require('./config.json');
@@ -10,6 +10,7 @@ const { loot_box_info, lb_series_1, inventory, choose_series, choose_type, open_
 const { insertUser, updateCount, algoPosts, populateBagFromDatabase, postCountCheck, coin_check, setCount } = require('../database/dbFunctions.js');
 const fetch = require('node-fetch');
 const { buttons, actionRows } = require('../utilities/interactionBuilders.js');
+const { createCanvas, forestBiome, oceanBiome, jungleBiome, undergroundBiome, desertBiome } = require('../utilities/canvasFunctions.js');
 
 const client = new Client({
   intents: [
@@ -687,6 +688,11 @@ client.on('interactionCreate', async interaction => {
     .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
   
   channel.send({ embeds: [exampleEmbed], components: [rows, choose] });
+    break;
+
+  case 'create_canvas':
+    attachment = await jungleBiome();
+    await interaction.reply({ files: [attachment] });
     break;
     }
 });
