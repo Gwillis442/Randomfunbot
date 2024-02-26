@@ -5,6 +5,7 @@ const { add_to_inventory, total_Items } = require('../database/dbFunctions.js');
 
 
 
+
 function loot_box_info() {
     const embed = new EmbedBuilder()
         .setColor('#0099ff')
