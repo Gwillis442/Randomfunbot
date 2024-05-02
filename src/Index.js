@@ -17,9 +17,13 @@ const client = new Client({
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
-  ]
+  ],
+  partials: ['MESSAGE', 
+    'CHANNEL', 
+    'REACTION'
+  ],
 });
-
+client.setMaxListeners(15);
 //starting database
 const db = new sqlite3.Database('../database/botDatabase.db', (err) => {
   if (err) {
@@ -51,8 +55,34 @@ client.on('ready', () => {
       //displayBag();
     }
   });
+  const channel = client.channels.cache.get('1221937876888191027');
+  channel.messages.fetch('1221940610194346065') // replace 'message_id' with the ID of the message
+    .then(message => {
+      const filter = (reaction, user) => ['🔴', '🟡', '🟢'].includes(reaction.emoji.name) && !user.bot;
+      const collector = message.createReactionCollector({ filter });
+
+      collector.on('collect', (reaction, user) => {
+        const member = reaction.message.guild.members.cache.get(user.id);
+        let role;
+
+        if (reaction.emoji.name === '🔴') {
+          role = reaction.message.guild.roles.cache.find(role => role.name === 'Role 1');
+        } else if (reaction.emoji.name === '🟡') {
+          role = reaction.message.guild.roles.cache.find(role => role.name === 'Role 2');
+        } else if (reaction.emoji.name === '🟢') {
+          role = reaction.message.guild.roles.cache.find(role => role.name === 'Role 3');
+        }
+
+        if (role) {
+          member.roles.add(role).catch(console.error);
+        }
+      });
+    })
+    .catch(console.error);
 
 });
+
+
 
 // var for both bullet and chamber for roulette
 var chamber = rng(1, 6);
@@ -318,33 +348,6 @@ client.on('messageCreate', (message) => {
   }
 });
 
-/*
-==================================
-Voice Channel Coin Gain
-Every 30 minutes a user is in a voice channel the bot will increment the users coin count by 10
-Modified: 2/10/2024
-==================================
-*/
-const userVoiceTime = new Map();
-
-client.on('voiceStateUpdate', (oldState, newState) => {
-  // User joins a voice channel
-  if (!oldState.channelId && newState.channelId) {
-    userVoiceTime.set(newState.id, Date.now());
-  }
-
-  // User leaves a voice channel
-  if (oldState.channelId && !newState.channelId) {
-    const joinTime = userVoiceTime.get(oldState.id);
-    const timeInVoiceChat = Date.now() - joinTime;
-
-    if (timeInVoiceChat >= 1800000) { // 30 minutes
-      updateCount(db, 'inventory', 'coin_count', oldState.id, 10);
-    }
-
-    userVoiceTime.delete(oldState.id);
-  }
-});
 
 /*
 ==================================
@@ -359,6 +362,23 @@ client.on('messageCreate', message => {
   const customEmoji = client.emojis.cache.find(emoji => emoji.name === 'weedtooloud');
   if (message.content.includes(':weedtooloud:')) {
       message.channel.send( `${customEmoji}`);
+  }
+});
+
+/*
+==================================
+Racism reply bot
+When a message is sent by a user with the racism role the bot will respond with a message
+Modified: 5/1/2024
+==================================
+*/
+client.on('messageCreate', message => {
+  if(message.author.bot) return;
+  let num = rng(1, 100);
+  if(num === 1) {
+      if (message.member.roles.cache.some(role => role.name === 'racism')) {
+        message.reply('Racism is not tolerated here. Please refrain from using racist language.');
+      }
   }
 });
 

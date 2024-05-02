@@ -71,8 +71,32 @@ db.run(`
   });
 
   db.run(
-    'Alter table item add column item_link TEXT'
+    `Alter table inventory_items add column biome_id INTEGER`
   );
 
+  db.run(
+    `CREATE TABLE IF NOT EXISTS biome (
+      biome_id INTEGER PRIMARY KEY autoincrement,
+      biome_name TEXT,
+      biome_link TEXT
+    )`
+  );
+
+  db.run(
+    `CREATE TABLE IF NOT EXISTS equipment (
+      eq_id INTEGER Primary Key,
+      biome_id INTEGER,
+      armor_id INTEGER,
+      accessory_id INTEGER,
+      weapon_id INTEGER,
+      pet_id INTEGER,
+      foreign key(eq_id) references inventory(inventory_id),
+      foreign key(biome_id) references biome(biome_id),
+      foreign key(armor_id) references item(item_id),
+      foreign key(accessory_id) references item(item_id),
+      foreign key(weapon_id) references item(item_id),
+      foreign key(pet_id) references item(item_id)
+    )`
+  );
 // close the database connection
 db.close();
