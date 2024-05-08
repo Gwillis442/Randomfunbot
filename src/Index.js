@@ -240,12 +240,21 @@ client.on('messageCreate', (message) => {
   if (message.author.bot) return;
   const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))/i;
   const containsLink = linkRegex.test(message.content);
-  const channel = client.channels.cache.get('1163516659202523248');
+  const channel = client.channels.cache.get('1200161072980705353');
   const currTime = new Date().getHours();
 
   if (containsLink) {
 
-    const messageLink = message.content.match(linkRegex);
+    let messageLink = message.content.match(linkRegex)[0];
+
+    if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
+      // Replace 'tiktok' with 'vx.tiktok'
+      messageLink = messageLink.replace('tiktok.com', 'vxtiktok.com');
+      message.delete();
+      const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
+      channel.send(messageContent);
+    }
+
     updateCount(db, 'post_count', 'post_count', message.author.id, 1);
     updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
     pushUsernameToBag(message.author.id);

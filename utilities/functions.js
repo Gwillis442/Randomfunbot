@@ -208,6 +208,42 @@ function gracefulShutdown(db) {
   process.exit();
 }
 
+/*
+==================================
+replaceTikTokLink
+When called the function will replace TikTok links with vxtiktok links
+modified: 5/8/2024
+*/
+function replaceTikTokLink(messageLink, message, channel) {
+  if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
+    messageLink = messageLink.replace('tiktok.com', 'vxtiktok.com');
+    message.delete();
+    const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
+    channel.send(messageContent);
+  }
+  return messageLink;
+}
+/*
+==================================
+handleLinkPosting
+When called the function will handle link posting in the incorrect channel
+modified: 5/8/2024
+*/
+function handleLinkPosting(message, messageLink, channel) {
+  if (message.channelId !== channel.id) {
+    if (lastLinkPosted[message.author.id] === messageLink) {
+      message.delete();
+      return;
+    }
+    logWithTimestamp(`Link sent in ${message.channel.name} by ${message.author.username}`);
+    message.delete();
+    const messageContent = `From: **${message.author}** (Posted in: **${message.channel}**): ${message.content}`;
+    channel.send(messageContent);
+    updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
+  }
+  lastLinkPosted[message.author.id] = messageLink;
+}
+
 module.exports = {
   openLootBox,
   rng,
@@ -221,5 +257,7 @@ module.exports = {
   gracefulShutdown,
   replyWithRetry,
   dailyReward,
+  replaceTikTokLink,
+  handleLinkPosting,
 
 };
