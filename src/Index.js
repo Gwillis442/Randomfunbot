@@ -349,7 +349,13 @@ client.on('messageCreate', (message) => {
   }
 });
 
+/*
+ ====================================
+ link reply
+ ====================================
+*/
 client.on('messageCreate', (message) => {
+  if(message.author.bot) return;
   const link = "https://tenor.com/view/you-have-no-idea-gif-27149353";
 
   if (message.content === link) {
