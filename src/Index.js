@@ -254,13 +254,13 @@ client.on('messageCreate', (message) => {
       messageLink = messageLink.replace('tiktok.com', 'vxtiktok.com');
       message.delete();
       const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
-      channel.send(messageContent);
+      message.channel.send(messageContent);
     }
 
     updateCount(db, 'post_count', 'post_count', message.author.id, 1);
     updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
     pushUsernameToBag(message.author.id);
-    postCountCheck(db, message.author.id, message);
+    //postCountCheck(db, message.author.id, message);
 
     if (currTime >= 0 && currTime <= 8) {
       updateCount(db, 'inventory', 'coin_count', message.author.id, -10);
@@ -282,7 +282,7 @@ client.on('messageCreate', (message) => {
       logWithTimestamp(`Link sent in ${message.channel.name} by ${message.author.username}`);
       message.delete();
       const messageContent = `From: **${message.author}** (Posted in: **${message.channel}**): ${message.content}`;
-      channel.send(messageContent);
+      message.channel.send(messageContent);
       updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
 
     }
