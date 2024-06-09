@@ -252,8 +252,8 @@ client.on('messageCreate', (message) => {
     let messageLink = message.content.match(linkRegex)[0];
 
     if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
-      // Replace 'tiktok' with 'vx.tiktok'
-      messageLink = messageLink.replace('tiktok', 'vx.tiktok');
+      // Replace 'tiktok' with 'vxtiktok'
+      messageLink = messageLink.replace('tiktok', 'vxtiktok');
       message.delete();
       const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
       message.channel.send(messageContent);
@@ -269,26 +269,26 @@ client.on('messageCreate', (message) => {
     } else {
       updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
     }
-    /*
+    
     if (admin.some(adminUser => adminUser.id === message.author.id)) {
       return;
     }
-    */
+  
     if (lastLinkPosted[message.author.id] === messageLink[0]) {
         message.delete();
         return;
     }
 
+    if(message.channel.id === channelId){
       logWithTimestamp(`Link sent in ${message.channel.name} by ${message.author.username}`);
       message.delete();
       const messageContent = `From: **${message.author}** (Posted in: **${message.channel}**): ${message.content}`;
       message.channel.send(messageContent);
-      updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
-
-      lastLinkPosted[message.author.id] = messageLink;
+      updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);      
 
     }
-
+    lastLinkPosted[message.author.id] = messageLink;
+  }
 });
 
 /*
