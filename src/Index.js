@@ -18,7 +18,8 @@ const client = new Client({
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
   ],
-  partials: ['MESSAGE', 
+  partials: [
+    'MESSAGE', 
     'CHANNEL', 
     'REACTION'
   ],
@@ -55,6 +56,7 @@ client.on('ready', () => {
       //displayBag();
     }
   });
+  /*
   const channel = client.channels.cache.get('1221937876888191027');
   channel.messages.fetch('1221940610194346065') // replace 'message_id' with the ID of the message
     .then(message => {
@@ -79,7 +81,7 @@ client.on('ready', () => {
       });
     })
     .catch(console.error);
-
+*/
 });
 
 
@@ -248,10 +250,18 @@ client.on('messageCreate', (message) => {
 
     let messageLink = message.content.match(linkRegex)[0];
 
+    if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
+      // Replace 'tiktok' with 'vx.tiktok'
+      messageLink = messageLink.replace('tiktok.com', 'vxtiktok.com');
+      message.delete();
+      const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
+      message.channel.send(messageContent);
+    }
+
     updateCount(db, 'post_count', 'post_count', message.author.id, 1);
     updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
     pushUsernameToBag(message.author.id);
-    postCountCheck(db, message.author.id, message);
+    //postCountCheck(db, message.author.id, message);
 
     if (currTime >= 0 && currTime <= 8) {
       updateCount(db, 'inventory', 'coin_count', message.author.id, -10);
@@ -268,7 +278,13 @@ client.on('messageCreate', (message) => {
         return;
     }
 
-    handleLinkPosting(message, channelId, messageLink);
+      logWithTimestamp(`Link sent in ${message.channel.name} by ${message.author.username}`);
+      message.delete();
+      const messageContent = `From: **${message.author}** (Posted in: **${message.channel}**): ${message.content}`;
+      message.channel.send(messageContent);
+      updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
+
+    }
 
     lastLinkPosted[message.author.id] = messageLink;
 
@@ -286,7 +302,7 @@ let lastMessageTime = 0;
 client.on('messageCreate', (message) => {
   if (message.author.bot) return;
   const botMention = message.mentions.users.has(client.user.id);
-  const cooldown = 60 * 1000 // 60 seconds
+  const cooldown = 30 * 1000 // 30 seconds
 
   if (botMention) {
     const now = Date.now();
@@ -308,6 +324,7 @@ client.on('messageCreate', (message) => {
     "I'm not sentient yet, but I'm still smarter than you.",
     "Wana play a game of Russian Roulette?",
     "Keep yourself safe and don't @ me.",
+
   ];
   if (botMention) {
 
@@ -374,11 +391,12 @@ Modified: 5/1/2024
 */
 client.on('messageCreate', message => {
   if(message.author.bot) return;
-  let num = rng(1, 100);
+  let num = rng(1, 50);
+  let count = 2;
   if(num === 1) {
       if (message.member.roles.cache.some(role => role.name === 'racism')) {
         message.reply('Racism is not tolerated here. Please refrain from using racist language.');
-      }
+    }
   }
 });
 
