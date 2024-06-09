@@ -221,6 +221,5 @@ async function leaderboard_items(db) {
         open_loot_box,
         leaderboard_coins,
         leaderboard_items,
-        vidEmbed,
 
     }
