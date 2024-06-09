@@ -284,11 +284,10 @@ client.on('messageCreate', (message) => {
       message.channel.send(messageContent);
       updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
 
+      lastLinkPosted[message.author.id] = messageLink;
+
     }
-
-    lastLinkPosted[message.author.id] = messageLink;
-
-  }
+        
 });
 
 /*
