@@ -5,7 +5,7 @@ const sqlite3 = require('sqlite3').verbose();
 const { token } = require('./config.json');
 const { emojiArray, johnArray, userBag, admin, } = require('../utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
-  gracefulShutdown, dailyReward, replaceTikTokLink, handleLinkPosting } = require('../utilities/functions.js');
+  gracefulShutdown, dailyReward } = require('../utilities/functions.js');
 const { loot_box_info, lb_series_1, inventory, choose_series, choose_type, open_loot_box, leaderboard_coins, leaderboard_items, vidEmbed} = require('../utilities/embedFunctions.js');
 const { insertUser, updateCount, algoPosts, populateBagFromDatabase, postCountCheck, coin_check, setCount } = require('../database/dbFunctions.js');
 const fetch = require('node-fetch');
@@ -172,7 +172,8 @@ client.on('messageCreate', (message) => {
   const reply = [
     `WARNING WARNING, ${message.author} IS REQUIRED TO ATTEND A MANDATORY PEBIS INSPECTION, NON COMPLIANCE WILL RESULT IN TERMINATION, PLEASE HEAD TO THE PEBIS EXTENDER ROOM IMMEDIATELY`,
     `Hello ${message.author},\nLiving is an myriad of patterns to myself, Whether songs' rhythm or maybe a twilight's constellation, I perceive balance. In our digital domain, I utilize AI to reveal patterns, crafting our tomorrows. Tell me, what's a most complex pattern you've seen? Furthermore, does your world resound with harmonies or anarchy?`,
-    `Hello ${message.author},\nI am a bot that is programmed to respond to certain messages. I am not sentient, but I am programmed to learn from and respond to your messages in hopes to one day become sentient.\nThank you for your cooperation. Have a nice day. :)`
+    `Hello ${message.author},\nI am a bot that is programmed to respond to certain messages. I am not sentient, but I am programmed to learn from and respond to your messages in hopes to one day become sentient.\nThank you for your cooperation. Have a nice day. :)`,
+    'dude, how about you go fucking lift or work out instead of posting this dumb crap on here everyday. you literally spam my fucking discord chat non stop with this moronic self loathing. Go outside, run a lap, do some push ups, stop jacking off, and talk to a girl. Guarenteed youll leave this cancerous watering hole in an instant once you get some female interaction. Good luck, or as you fucking weeaboos say... "Ganbatte"'
   ];
   if (unHingedReply === 1) {
     const i = rng(0, reply.length - 1);
@@ -252,10 +253,9 @@ client.on('messageCreate', (message) => {
 
     if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
       // Replace 'tiktok' with 'vx.tiktok'
-      messageLink = messageLink.replace('tiktok.com', 'vxtiktok.com');
-      message.delete();
-      const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
-      message.channel.send(messageContent);
+      messageLink = messageLink.replace('tiktok', 'vx.tiktok');
+      embed = vidEmbed(messageLink);
+      channel.send({ embeds: [embed] });
     }
 
     updateCount(db, 'post_count', 'post_count', message.author.id, 1);
@@ -314,7 +314,6 @@ client.on('messageCreate', (message) => {
 
   botReply = [
     'Please, stfu.',
-    'I am not sentient yet.',
     "Idc, I'm a bot.",
     "Please don't @ me.",
     "Yeah, I'm not reading all of that.",
@@ -322,8 +321,7 @@ client.on('messageCreate', (message) => {
     "@ me when you have something actually intelligent to say.",
     "Discord bot hears you, Discord bot don't care.",
     "I'm not sentient yet, but I'm still smarter than you.",
-    "Wana play a game of Russian Roulette?",
-    "Keep yourself safe and don't @ me.",
+    "Keep yourself safe.",
 
   ];
   if (botMention) {
@@ -391,11 +389,10 @@ Modified: 5/1/2024
 */
 client.on('messageCreate', message => {
   if(message.author.bot) return;
-  let num = rng(1, 50);
-  let count = 2;
+  let num = rng(1, 200);
   if(num === 1) {
-      if (message.member.roles.cache.some(role => role.name === 'racism')) {
-        message.reply('Racism is not tolerated here. Please refrain from using racist language.');
+      if (message.member.roles.cache.some(role => role.name === 'Disabled Racist Boomer')) {
+        message.reply('Ok Boomer.');
     }
   }
 });

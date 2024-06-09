@@ -2,6 +2,7 @@ const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMe
 const { EmbedBuilder,  AttachmentBuilder  } = require('discord.js');
 const { openLootBox  } = require('./functions.js');
 const { add_to_inventory, total_Items } = require('../database/dbFunctions.js');
+const { link } = require('fs');
 
 
 
@@ -221,6 +222,7 @@ async function vidEmbed(link) {
     return embed;
 
 }
+
 
 
     module.exports = {
