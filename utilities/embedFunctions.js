@@ -211,6 +211,17 @@ async function leaderboard_items(db) {
         return embed;
 }
 
+async function vidEmbed(link) {
+    const embed = new EmbedBuilder()
+        .setColor('#0099ff')
+        .setTitle('Video')
+        .setDescription('Here is a video')
+        .setURL(link)
+        .setTimestamp()
+    return embed;
+
+}
+
 
     module.exports = {
         loot_box_info,
@@ -221,5 +232,6 @@ async function leaderboard_items(db) {
         open_loot_box,
         leaderboard_coins,
         leaderboard_items,
+        vidEmbed,
 
     }

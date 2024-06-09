@@ -5,8 +5,8 @@ const sqlite3 = require('sqlite3').verbose();
 const { token } = require('./config.json');
 const { emojiArray, johnArray, userBag, admin, } = require('../utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
-  gracefulShutdown, dailyReward } = require('../utilities/functions.js');
-const { loot_box_info, lb_series_1, inventory, choose_series, choose_type, open_loot_box, leaderboard_coins, leaderboard_items} = require('../utilities/embedFunctions.js');
+  gracefulShutdown, dailyReward, replaceTikTokLink, handleLinkPosting } = require('../utilities/functions.js');
+const { loot_box_info, lb_series_1, inventory, choose_series, choose_type, open_loot_box, leaderboard_coins, leaderboard_items, vidEmbed} = require('../utilities/embedFunctions.js');
 const { insertUser, updateCount, algoPosts, populateBagFromDatabase, postCountCheck, coin_check, setCount } = require('../database/dbFunctions.js');
 const fetch = require('node-fetch');
 const { buttons, actionRows } = require('../utilities/interactionBuilders.js');
@@ -233,27 +233,20 @@ client.on('messageCreate', (message) => {
 Link Post Counter
 When a message is sent in chat the bot will check the database for the user
 if the user is found the bot will increment the users post count
-Modified: 11/30/2023
+If a tiktok link is not a vxtiktok link the bot will replace the link with a vxtiktok link
+Modified: 5/8/2024
 ==================================
 */
 client.on('messageCreate', (message) => {
   if (message.author.bot) return;
-  const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))/i;
+  const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))(\/\S*)?/i;
   const containsLink = linkRegex.test(message.content);
-  const channel = client.channels.cache.get('1200161072980705353');
+  const channelId = client.channels.cache.get('1163516659202523248');
   const currTime = new Date().getHours();
 
   if (containsLink) {
 
     let messageLink = message.content.match(linkRegex)[0];
-
-    if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
-      // Replace 'tiktok' with 'vx.tiktok'
-      messageLink = messageLink.replace('tiktok.com', 'vxtiktok.com');
-      message.delete();
-      const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
-      channel.send(messageContent);
-    }
 
     updateCount(db, 'post_count', 'post_count', message.author.id, 1);
     updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
@@ -265,27 +258,19 @@ client.on('messageCreate', (message) => {
     } else {
       updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
     }
-
+    /*
     if (admin.some(adminUser => adminUser.id === message.author.id)) {
       return;
     }
-
-    if (message.channelId !== channel.id) {
-
-      if (lastLinkPosted[message.author.id] === messageLink[0]) {
+    */
+    if (lastLinkPosted[message.author.id] === messageLink[0]) {
         message.delete();
         return;
-      }
-
-      logWithTimestamp(`Link sent in ${message.channel.name} by ${message.author.username}`);
-      message.delete();
-      const messageContent = `From: **${message.author}** (Posted in: **${message.channel}**): ${message.content}`;
-      channel.send(messageContent);
-      updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
-
     }
 
-    lastLinkPosted[message.author.id] = messageLink[0];
+    handleLinkPosting(message, channelId, messageLink);
+
+    lastLinkPosted[message.author.id] = messageLink;
 
   }
 });

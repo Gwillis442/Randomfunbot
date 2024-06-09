@@ -214,14 +214,15 @@ replaceTikTokLink
 When called the function will replace TikTok links with vxtiktok links
 modified: 5/8/2024
 */
-function replaceTikTokLink(messageLink, message, channel) {
+function replaceTikTokLink(messageLink) {
+  let linkReplaced = false;
   if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
     messageLink = messageLink.replace('tiktok.com', 'vxtiktok.com');
-    message.delete();
-    const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
-    channel.send(messageContent);
+    linkReplaced = true;
+    return {messageLink, linkReplaced};
+  } else {
+    return;
   }
-  return messageLink;
 }
 /*
 ==================================
@@ -229,19 +230,31 @@ handleLinkPosting
 When called the function will handle link posting in the incorrect channel
 modified: 5/8/2024
 */
-function handleLinkPosting(message, messageLink, channel) {
-  if (message.channelId !== channel.id) {
+function handleLinkPosting(message, channelId, messageLink) {
+
+  if (message.channelId !== channelId) {
     if (lastLinkPosted[message.author.id] === messageLink) {
       message.delete();
       return;
     }
+    
     logWithTimestamp(`Link sent in ${message.channel.name} by ${message.author.username}`);
     message.delete();
-    const messageContent = `From: **${message.author}** (Posted in: **${message.channel}**): ${message.content}`;
+    
+    // Replace TikTok link if necessary
+    let {messageLink: newLink, linkReplaced} = replaceTikTokLink(messageLink);
+        
+    let messageContent = `From: **${message.author}** (Posted in: **${message.channel}**): ${message.content}`;
+    if (linkReplaced) {
+      messageContent = messageContent.replace(messageLink, newLink);
+      messageContent += `"\n**NOTE** Please try to use 'vxtiktok' for better user experience."`;
+    }
+    messageLink = newLink;
     channel.send(messageContent);
     updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
   }
-  lastLinkPosted[message.author.id] = messageLink;
+  //lastLinkPosted[message.author.id] = messageLink;
+  return;
 }
 
 module.exports = {
