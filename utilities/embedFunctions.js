@@ -212,19 +212,6 @@ async function leaderboard_items(db) {
         return embed;
 }
 
-async function vidEmbed(link) {
-    const embed = new EmbedBuilder()
-        .setColor('#0099ff')
-        .setTitle('Video')
-        .setDescription('Here is a video')
-        .setURL(link)
-        .setTimestamp()
-    return embed;
-
-}
-
-
-
     module.exports = {
         loot_box_info,
         lb_series_1,

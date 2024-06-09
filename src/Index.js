@@ -6,7 +6,7 @@ const { token } = require('./config.json');
 const { emojiArray, johnArray, userBag, admin, } = require('../utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
   gracefulShutdown, dailyReward } = require('../utilities/functions.js');
-const { loot_box_info, lb_series_1, inventory, choose_series, choose_type, open_loot_box, leaderboard_coins, leaderboard_items, vidEmbed} = require('../utilities/embedFunctions.js');
+const { loot_box_info, lb_series_1, inventory, choose_series, choose_type, open_loot_box, leaderboard_coins, leaderboard_items} = require('../utilities/embedFunctions.js');
 const { insertUser, updateCount, algoPosts, populateBagFromDatabase, postCountCheck, coin_check, setCount } = require('../database/dbFunctions.js');
 const fetch = require('node-fetch');
 const { buttons, actionRows } = require('../utilities/interactionBuilders.js');
@@ -254,8 +254,9 @@ client.on('messageCreate', (message) => {
     if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
       // Replace 'tiktok' with 'vx.tiktok'
       messageLink = messageLink.replace('tiktok', 'vx.tiktok');
-      embed = vidEmbed(messageLink);
-      channel.send({ embeds: [embed] });
+      message.delete();
+      const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
+      message.channel.send(messageContent);
     }
 
     updateCount(db, 'post_count', 'post_count', message.author.id, 1);
@@ -287,7 +288,7 @@ client.on('messageCreate', (message) => {
       lastLinkPosted[message.author.id] = messageLink;
 
     }
-        
+
 });
 
 /*
