@@ -11,6 +11,8 @@ const { insertUser, updateCount, algoPosts, populateBagFromDatabase, postCountCh
 const fetch = require('node-fetch');
 const { buttons, actionRows } = require('../utilities/interactionBuilders.js');
 const { createCanvas, forestBiome, oceanBiome, jungleBiome, undergroundBiome, desertBiome } = require('../utilities/canvasFunctions.js');
+const { monthlyTask } = require('../utilities/monthlyTask.js');
+const { log } = require('console');
 
 const client = new Client({
   intents: [
@@ -55,6 +57,8 @@ client.on('ready', () => {
       //uncomment to display bag contents
       //displayBag();
     }
+    monthlyTask();
+    logWithTimestamp('Monthly task scheduled');
   });
   /*
   const channel = client.channels.cache.get('1221937876888191027');
@@ -101,7 +105,7 @@ Modified: 11/30/2023
 */
 client.on('messageCreate', (message) => {
   if (message.author.bot) return;
-  const messageDelete = rng(1, 100);
+  const messageDelete = rng(1, 150);
 
   if (messageDelete === 1) {
     const bagPull = rng(0, (userBag.length - 1));
@@ -297,6 +301,7 @@ Bot response to being @'d
 When the bot is mentioned in chat it will respond with a random message
 there is a cooldown on when the bot can repsond to being @'d as to not being spammed
 Modified: 1/30/2024
+==================================
 */
 let lastMessageTime = 0;
 client.on('messageCreate', (message) => {
@@ -350,37 +355,6 @@ client.on('messageCreate', (message) => {
 });
 
 /*
- ====================================
- link reply
- ====================================
-*/
-client.on('messageCreate', (message) => {
-  if(message.author.bot) return;
-  const link = "https://tenor.com/view/you-have-no-idea-gif-27149353";
-
-  if (message.content === link) {
-    message.reply(link);
-  }
-});
-
-
-/*
-==================================
-Weed Too Loud
-When a message is sent in chat the bot will check if the message contains the custom emoji :weedtooloud:
-if the message contains the emoji the bot will respond with the emoji
-Modified: 2/13/2023
-==================================
-*/
-client.on('messageCreate', message => {
-  if(message.author.bot) return;
-  const customEmoji = client.emojis.cache.find(emoji => emoji.name === 'weedtooloud');
-  if (message.content.includes(':weedtooloud:')) {
-      message.channel.send( `${customEmoji}`);
-  }
-});
-
-/*
 ==================================
 Racism reply bot
 When a message is sent by a user with the racism role the bot will respond with a message
@@ -389,7 +363,7 @@ Modified: 5/1/2024
 */
 client.on('messageCreate', message => {
   if(message.author.bot) return;
-  let num = rng(1, 200);
+  let num = rng(1, 100);
   if(num === 1) {
       if (message.member.roles.cache.some(role => role.name === 'Disabled Racist Boomer')) {
         message.reply('Ok Boomer.');
