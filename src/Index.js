@@ -100,12 +100,13 @@ Message Deletion
 The bot will generate a random number between 1 and 100
 if number is 1 an ID will be pulled from the bag
 if the ID pulled from the bag matches the author of the message the message will be deleted
-Modified: 11/30/2023
+if the ID pulled does not match the author the bot will react to the message with a random emoji
+Modified: 6/28/2024
 ==================================
 */
 client.on('messageCreate', (message) => {
   if (message.author.bot) return;
-  const messageDelete = rng(1, 150);
+  const messageDelete = rng(1, 200);
 
   if (messageDelete === 1) {
     const bagPull = rng(0, (userBag.length - 1));
@@ -114,7 +115,7 @@ client.on('messageCreate', (message) => {
     const bagId = userBag[bagPull]; // Get the correct ID from the bag
     logWithTimestamp(`ID pulled from bag: ${bagId}`);
 
-    if (bagId === message.author.id) {
+    if (bagId === message.author.id) { // If ID matches author, delete message
       logWithTimestamp(`${bagId} == ${message.author.id}`);
       message.delete()
         .then(deletedMessage => {
@@ -127,37 +128,22 @@ client.on('messageCreate', (message) => {
         .catch(error => {
           console.error('Error deleting message:', error);
         });
-    } else {
+    } else { //If ID does not match author react to the message
+
       logWithTimestamp(`${bagId} != ${message.author.id}:${message.author.username}`);
+
+      if (message.author.id !== '283865139650756608') { // If author is not John, react with random emoji
+        message.react(emojiArray[rng(0, emojiArray.length - 1)]);
+        updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
+        logWithTimestamp(`Reacted to ${message.author.tag}'s message: ${message.content}`);
+  
+      } else { // If author is John, react with random John emoji
+        message.react(johnArray[rng(0, johnArray.length - 1)]);
+        updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
+        logWithTimestamp(`Reacted to ${message.author.tag}'s message: ${message.content}`);
+      }
     }
 
-  }
-});
-
-/*
-==================================
-Random Reaction
-When a message is sent in chat the bot will roll a number between 1 and 100
-if the number is 1 it will then roll a number between 1 and 8
-dependent on that number the bot will react to the message with the corrosponding emoji
-Modified: 11/16/2023
-==================================
-*/
-client.on('messageCreate', (message) => {
-  if (message.author.bot) return;
-  const reactionNum = rng(1, 200);
-
-  if (reactionNum === 1) {
-    if (message.author.id !== '283865139650756608') {
-      message.react(emojiArray[rng(0, emojiArray.length - 1)]);
-      updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
-      logWithTimestamp(`Reacted to ${message.author.tag}'s message: ${message.content}`);
-
-    } else {
-      message.react(johnArray[rng(0, johnArray.length - 1)]);
-      updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
-      logWithTimestamp(`Reacted to ${message.author.tag}'s message: ${message.content}`);
-    }
   }
 });
 
