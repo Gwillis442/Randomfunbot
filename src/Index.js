@@ -12,6 +12,7 @@ const fetch = require('node-fetch');
 const { buttons, actionRows } = require('../utilities/interactionBuilders.js');
 const { createCanvas, forestBiome, oceanBiome, jungleBiome, undergroundBiome, desertBiome } = require('../utilities/canvasFunctions.js');
 const { monthlyTask } = require('../utilities/monthlyTask.js');
+const { benTask } = require('../utilities/benTask.js');
 const { log } = require('console');
 
 const client = new Client({
@@ -59,6 +60,8 @@ client.on('ready', () => {
     }
     monthlyTask();
     logWithTimestamp('Monthly task scheduled');
+    benTask(client, '198297361733255168', '1200161072980705353');
+    logWithTimestamp('Ben Task Scheduled');
   });
   /*
   const channel = client.channels.cache.get('1221937876888191027');
@@ -362,6 +365,22 @@ client.on('messageCreate', message => {
   if(num === 1) {
       if (message.member.roles.cache.some(role => role.name === 'Disabled Racist Boomer')) {
         message.reply('Ok Boomer.');
+    }
+  }
+});
+
+/*
+===================================
+Ben Reply 
+When the user Enbay1 sends a message it replies with a message
+Modified: 5/1/2024
+===================================
+*/
+client.on('messageCreate', message => {
+  var ben = rng(1, 100);
+  if (ben === 1) {  
+    if (message.author.id === '281696935579222017') {
+      message.reply('https://tenor.com/view/kys-choocvlt-gif-21659242');
     }
   }
 });
