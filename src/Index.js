@@ -240,43 +240,52 @@ client.on('messageCreate', (message) => {
   if (containsLink) {
 
     let messageLink = message.content.match(linkRegex)[0];
-
-    if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
-      // Replace 'tiktok' with 'vxtiktok'
-      messageLink = messageLink.replace('tiktok', 'vxtiktok');
-      message.delete();
-      const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
-      message.channel.send(messageContent);
-    }
-
-    updateCount(db, 'post_count', 'post_count', message.author.id, 1);
-    updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
-    pushUsernameToBag(message.author.id);
-    //postCountCheck(db, message.author.id, message);
-
-    if (currTime >= 0 && currTime <= 8) {
-      updateCount(db, 'inventory', 'coin_count', message.author.id, -10);
-    } else {
-      updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
-    }
-    
-    if (admin.some(adminUser => adminUser.id === message.author.id)) {
-      return;
-    }
   
-    if (lastLinkPosted[message.author.id] === messageLink[0]) {
+    if (message.channel.id === channelId) {
+
+      if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
+        // Replace 'tiktok' with 'vxtiktok'
+        messageLink = messageLink.replace('tiktok', 'vxtiktok');
+        message.delete();
+        const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
+        message.channel.send(messageContent);
+      }
+
+      updateCount(db, 'post_count', 'post_count', message.author.id, 1);
+      updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);
+      pushUsernameToBag(message.author.id);
+      //postCountCheck(db, message.author.id, message);
+
+      if (currTime >= 0 && currTime <= 8) {
+        updateCount(db, 'inventory', 'coin_count', message.author.id, -10);
+      } else {
+        updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
+      }
+
+      if (admin.some(adminUser => adminUser.id === message.author.id)) {
+        return;
+      }
+
+      if (lastLinkPosted[message.author.id] === messageLink[0]) {
         message.delete();
         return;
-    }
+      }
+  } else {
+    
+      var messageContent;
 
-    if(message.channel.id === channelId){
+      if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
+        // Replace 'tiktok' with 'vxtiktok'
+        messageLink = messageLink.replace('tiktok', 'vxtiktok');
+        messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
+      }
+
       logWithTimestamp(`Link sent in ${message.channel.name} by ${message.author.username}`);
       message.delete();
-      const messageContent = `From: **${message.author}** (Posted in: **${message.channel}**): ${message.content}`;
-      message.channel.send(messageContent);
-      updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);      
+      channelId.send(messageContent);
+      updateCount(db, 'bag_count', 'bag_count', message.author.id, 1);  
 
-    }
+  }
     lastLinkPosted[message.author.id] = messageLink;
   }
 });
