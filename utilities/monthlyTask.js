@@ -9,7 +9,7 @@ const db = new sqlite3.Database('../database/botDatabase.db', sqlite3.OPEN_READW
 });
 
 function bagReset() {
-    const query = 'UPDATE users SET bag_count = 1 WHERE bag_count >= 0';
+    const query = 'UPDATE bag_count SET bag_count = 1 WHERE bag_count >= 0';
     db.run(query, function(err) {
         if (err) {
             return console.error(err.message);

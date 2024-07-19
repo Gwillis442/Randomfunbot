@@ -358,7 +358,7 @@ Modified: 5/1/2024
 */
 client.on('messageCreate', message => {
   if(message.author.bot) return;
-  let num = rng(1, 100);
+  let num = rng(1, 200);
   if(num === 1) {
       if (message.member.roles.cache.some(role => role.name === 'Disabled Racist Boomer')) {
         message.reply('Ok Boomer.');

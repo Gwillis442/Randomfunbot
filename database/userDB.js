@@ -38,7 +38,7 @@ db.run(`UPDATE daily SET last_claimed = ?`, date, function(err) {
   console.log(`Row(s) updated: ${this.changes}`);
 });
 */
-
+/*
 let rowsToUpdate = [
   {id: 1, value: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/4/48/Cactus_armor.png'},
   {id: 2, value: 'https://static.wikia.nocookie.net/terraria_gamepedia/images/e/ef/Wood_armor.png'},
@@ -78,4 +78,13 @@ let rowsToUpdate = [
 
 rowsToUpdate.forEach(row => {
   db.run('UPDATE item SET item_link = ? WHERE item_id = ?', [row.value, row.id]);
+});
+
+*/
+
+db.run(`UPDATE bag_count SET bag_count = 1 WHERE bag_count >= 0`, function(err) {
+  if (err) {
+    return console.log(err.message);
+  }
+  console.log(`Row(s) updated: ${this.changes}`);
 });
