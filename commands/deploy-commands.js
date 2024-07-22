@@ -23,6 +23,7 @@ const commands = [
 	new SlashCommandBuilder().setName('coin_flip').setDescription('Flip a coin'),
 	new SlashCommandBuilder().setName('test_embed').setDescription('Test embeds'),
 	new SlashCommandBuilder().setName('create_canvas').setDescription('Create a canvas'),
+	new SlashCommandBuilder().setName('giflash').setDescription('Play a game of Gif-Lash'),
 ]
 
 	.map(command => command.toJSON());

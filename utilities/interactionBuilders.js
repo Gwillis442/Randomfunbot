@@ -9,6 +9,7 @@ function button_builder(label, style, disabled, customId) {
   .setStyle(style)
   .setDisabled(disabled)
   .setCustomId(customId);
+  return button;
 }
 
 const buttons = {

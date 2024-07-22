@@ -9,10 +9,11 @@ const { rng, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUser
 const { loot_box_info, lb_series_1, inventory, choose_series, choose_type, open_loot_box, leaderboard_coins, leaderboard_items} = require('../utilities/embedFunctions.js');
 const { insertUser, updateCount, algoPosts, populateBagFromDatabase, postCountCheck, coin_check, setCount } = require('../database/dbFunctions.js');
 const fetch = require('node-fetch');
-const { buttons, actionRows } = require('../utilities/interactionBuilders.js');
+const { buttons, actionRows, button_builder } = require('../utilities/interactionBuilders.js');
 const { createCanvas, forestBiome, oceanBiome, jungleBiome, undergroundBiome, desertBiome } = require('../utilities/canvasFunctions.js');
 const { monthlyTask } = require('../utilities/monthlyTask.js');
 const { benTask } = require('../utilities/benTask.js');
+const { gifLash } = require('../utilities/giflash.js');
 const { log } = require('console');
 
 const client = new Client({
@@ -392,9 +393,9 @@ Interactions
 Modified: 11/30/2023
 ==================================
 */
-
+let gameParticipants = [];
 client.on('interactionCreate', async interaction => {
-  if (!interaction.isCommand()) return;
+  if (interaction.isCommand()) {
  // Create an object to store the history of each user's interactions
   const userHistories = {};
   switch (interaction.commandName) {
@@ -717,8 +718,43 @@ client.on('interactionCreate', async interaction => {
     attachment = await jungleBiome();
     await interaction.reply({ files: [attachment] });
     break;
+
+  case 'giflash':
+    const startButton = button_builder('Start Game', 'Primary', false, 'startGame');
+    const joinButton = button_builder('Join Game', 'Primary', false, 'joinGame');
+    const gameRow = actionRows.custom_Row(startButton, joinButton);
+    await interaction.reply({ content: 'To Play Gif-lash click Join Game', components: [gameRow] });
+    break;
+    }
+  }
+
+        // Handle button interactions
+    if (interaction.isButton()) {
+      if (interaction.customId === 'joinGame') {
+              // Store the user's ID in the array
+          if(gameParticipants.includes(interaction.user.id)) {
+            await interaction.reply({ content: 'You have already joined the game!', ephemeral: true });
+          } else {
+          gameParticipants.push(interaction.user.id);
+  
+              // Acknowledge the button interaction
+          await interaction.reply({ content: 'You have joined the game!', ephemeral: true });
+  
+              // Optional: Log the current state of gameParticipants array
+          console.log(gameParticipants);
+          }
+        }
+          // Handle other buttons if necessary
+      if (interaction.customId === 'startGame') {
+          if (gameParticipants.length < 0) {
+              await interaction.reply({ content: 'Not enough players to start the game.', ephemeral: true });
+          } else {
+              gifLash(gameParticipants, interaction.channel);
+          }
+      }
     }
 });
+
 
 
 client.login(token);
