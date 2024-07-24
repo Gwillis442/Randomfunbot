@@ -726,8 +726,9 @@ client.on('interactionCreate', async interaction => {
                   } else {
                     clearInterval(countdownInterval);
                     await countdownMessage.delete();
-                    gifLash(gameParticipants, interaction.channel);
-                    gameParticipants.lenth = 0; // Clear the gameParticipants array
+                    const participants = [...gameParticipants];
+                    gifLash(participants, interaction.channel);
+                    gameParticipants.length = 0; // Clear the gameParticipants array
                     return;
                   }
               }, 1000); // 1 second
