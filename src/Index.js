@@ -21,6 +21,7 @@ const client = new Client({
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMessageReactions,
   ],
   partials: [
     'MESSAGE', 
@@ -294,47 +295,7 @@ client.on('messageCreate', (message) => {
   }
 });
 
-/*
-==================================
-Bot response to being @'d 
-When the bot is mentioned in chat it will respond with a random message
-there is a cooldown on when the bot can repsond to being @'d as to not being spammed
-Modified: 1/30/2024
-==================================
-*/
-let lastMessageTime = 0;
-client.on('messageCreate', (message) => {
-  if (message.author.bot) return;
-  const botMention = message.mentions.users.has(client.user.id);
-  const cooldown = 30 * 1000 // 30 seconds
 
-  if (botMention) {
-    const now = Date.now();
-    if (now - lastMessageTime < cooldown) {
-      return;
-    }
-    lastMessageTime = now;
-  }
-
-  botReply = [
-    'Please, stfu.',
-    "Idc, I'm a bot.",
-    "Please don't @ me.",
-    "Yeah, I'm not reading all of that.",
-    `Hey ${message.author}, gfy.`,
-    "@ me when you have something actually intelligent to say.",
-    "Discord bot hears you, Discord bot don't care.",
-    "I'm not sentient yet, but I'm still smarter than you.",
-    "Keep yourself safe.",
-
-  ];
-  if (botMention) {
-
-    updateCount(db, 'inventory', 'coin_count', message.author.id, 10);
-
-    message.reply(botReply[rng(0, botReply.length - 1)]);
-  }
-});
 
 /*
 ==================================
@@ -722,7 +683,8 @@ client.on('interactionCreate', async interaction => {
   case 'giflash':
     const startButton = button_builder('Start Game', 'Primary', false, 'startGame');
     const joinButton = button_builder('Join Game', 'Primary', false, 'joinGame');
-    const gameRow = actionRows.custom_Row(startButton, joinButton);
+    const gameInfo = button_builder('Game Info', 'Primary', false, 'gameInfo');
+    const gameRow = actionRows.custom_Row(startButton, joinButton, gameInfo);
     await interaction.reply({ content: 'To Play Gif-lash click Join Game', components: [gameRow] });
     break;
     }
@@ -738,7 +700,7 @@ client.on('interactionCreate', async interaction => {
           gameParticipants.push(interaction.user.id);
   
               // Acknowledge the button interaction
-          await interaction.reply({ content: 'You have joined the game!', ephemeral: true });
+          await interaction.reply({ content: `<@${interaction.user.id}> joined the game!`});
   
               // Optional: Log the current state of gameParticipants array
           console.log(gameParticipants);
@@ -749,8 +711,31 @@ client.on('interactionCreate', async interaction => {
           if (gameParticipants.length < 0) {
               await interaction.reply({ content: 'Not enough players to start the game.', ephemeral: true });
           } else {
-              gifLash(gameParticipants, interaction.channel);
+              await interaction.deferReply();
+
+              let countdown = 5;
+
+              const countdownMessage = await interaction.followUp(`Game starting in ${countdown} seconds...`);
+
+              const countdownInterval = setInterval(async () => {
+                  countdown--;
+                  
+                  if (countdown > 0) {
+                    countdownMessage.edit(`Game starting in ${countdown} seconds...`);
+                      
+                  } else {
+                    clearInterval(countdownInterval);
+                    await countdownMessage.delete();
+                    gifLash(gameParticipants, interaction.channel);
+                    gameParticipants.lenth = 0; // Clear the gameParticipants array
+                    return;
+                  }
+              }, 1000); // 1 second
+
           }
+      }
+      if (interaction.customId === 'gameInfo') {
+        await interaction.reply({ content: 'Each Round of Gif-Lash two players are chosen and must reply to a provided link with a reaction gif. Everyone then votes on the better gif by clicking the corrosponding reaction. The Winner receives the points and the person with the most points at the end wins!', ephemeral: true });
       }
     }
 });
