@@ -253,7 +253,12 @@ client.on('messageCreate', (message) => {
         messageLink = messageLink.replace('tiktok', 'vxtiktok');
         message.delete();
         const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
+
+        if (messageLink) {
         message.channel.send(messageContent);
+        } else {
+          console.error('Generated message link is null');
+        }
       }
 
       updateCount(db, 'post_count', 'post_count', message.author.id, 1);
@@ -339,7 +344,7 @@ Modified: 5/1/2024
 ===================================
 */
 client.on('messageCreate', message => {
-  var ben = rng(1, 100);
+  var ben = rng(1, 500);
   if (ben === 1) {  
     if (message.author.id === '281696935579222017') {
       message.reply('https://tenor.com/view/kys-choocvlt-gif-21659242');
