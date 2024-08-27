@@ -21,6 +21,7 @@
     "node": "^21.6.1",
     "node-cron": "^3.0.3",
     "node-fetch": "^2.7.0",
+    "punycode": "^2.3.1",
     "sqlite3": "^5.1.6"
   }
 }
