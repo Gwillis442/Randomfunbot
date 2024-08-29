@@ -2,7 +2,7 @@
 const { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, AttachmentBuilder  } = require('@discordjs/builders');
 const { Client, GatewayIntentBits, EmbedBuilder, } = require('discord.js');
 const sqlite3 = require('sqlite3').verbose();
-const { token } = require('./config.json');
+const { token, algoChannelId } = require('./config.json');
 const { emojiArray, johnArray, userBag, admin, } = require('../utilities/item-arrays.js'); // Import from ItemArrays.js
 const { rng, testRNG, modAlert, getUsernameFromBag, popUsernameFromBag, pushUsernameToBag, displayBag, logWithTimestamp,
   gracefulShutdown, dailyReward } = require('../utilities/functions.js');
@@ -239,7 +239,7 @@ client.on('messageCreate', (message) => {
   if (message.author.bot) return;
   const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))(\/\S*)?/i;
   const containsLink = linkRegex.test(message.content);
-  const channelId = client.channels.cache.get('1200161072980705353');
+  const channelId = client.channels.cache.get(algoChannelId);
   const currTime = new Date().getHours();
 
   if (containsLink) {
