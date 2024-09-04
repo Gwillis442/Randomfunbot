@@ -1,9 +1,11 @@
 // Description: This file contains the linkBot functionality.
-const { client } = require('../client/client.js');
-const { linkChannelId } = require('../config.json');
+const { client } = require('../../client.js');
+const { linkChannelId } = require('../../../config/config.json');
 
 client.on('messageCreate', (message) => {
+
   if (message.author.bot) return;
+  
   const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))(\/\S*)?/i;
   const containsLink = linkRegex.test(message.content);
   const channelId = client.channels.cache.get(linkChannelId);
