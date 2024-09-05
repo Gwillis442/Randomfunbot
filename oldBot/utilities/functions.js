@@ -84,7 +84,6 @@ function popUsernameFromBag(index) {
     return userBag.splice(index, 1)[0];
   } else {
     console.error('Invalid index:', index);
-    return null; // You might want to handle this case differently based on your requirements
   }
 }
 

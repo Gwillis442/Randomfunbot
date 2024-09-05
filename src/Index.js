@@ -1,3 +1,4 @@
-require('../client/client.js');
-require('../linkBot/linkBot.js');
-require('../messageBot/messageBot.js');
+require('./client.js');
+require('./handlers/messageHandlers/linkHandler.js');
+require('./handlers/messageHandlers/messageDeletionHandler.js');
+require('./handlers/messageHandlers/randomResponseHandler.js');
