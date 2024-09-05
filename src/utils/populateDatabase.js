@@ -1,12 +1,14 @@
 const { guildId } = require('../../config/config.json');   
 const sqlite3 = require('sqlite3').verbose();
 
+//Connection to the Database
 const db = new sqlite3.Database('../database/messageCount.db', (err) => {
   if (err) {
     console.error(err.message);
   }
 });
 
+// Populate the database with users
 async function populateDatabase(client) {
     const guild = client.guilds.cache.get(guildId);
         if (!guild) {

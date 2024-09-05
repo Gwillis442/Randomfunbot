@@ -3,6 +3,7 @@ const { client } = require('../../client.js');
 const { rng } = require('../../utils/rng.js');
 const { emojiArray, johnArray, userBag } = require('../../../constants/arrays.js');
 
+//Connection to the Database
 const db = new sqlite3.Database('../database/messageCount.db', (err) => {
   if (err) {
     console.error(err.message);
@@ -12,7 +13,10 @@ const db = new sqlite3.Database('../database/messageCount.db', (err) => {
 });
 
 
-
+/*
+When a message is sent in chat a userId is chosen randomly in a defined array and if it matches the message.sender
+their message will be deleted.
+*/
 client.on('messageCreate', (message) => {
 
   if (message.author.bot) return;
@@ -45,9 +49,12 @@ client.on('messageCreate', (message) => {
   }
 });
 
-
+/*
+When the client is ready, the bag is populated with the user IDs based on the counts in the bag_count table.
+The bag is an array that is used to randomly select users to delete messages from.
+*/
 client.once('ready', () => {
-
+  // Query to get the user IDs and counts from the bag table
   const query = `
   SELECT user_id, bag_count
   FROM bag;
@@ -66,7 +73,7 @@ client.once('ready', () => {
         userBag.push(userId);
       }
     });
-
+    // Log the number of users in the bag
     console.log('Bag has been populated.');
     console.log(`${ userBag.length } users in the bag.`);
     
