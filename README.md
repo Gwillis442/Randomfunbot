@@ -1,16 +1,11 @@
 # Randomfunbot
-Discord bot created for personal server.
-Purpose is to create a bot that can do various actions on certain probablilities for fun. e.g deleting messges, adding random reactons and other things.
-Uses node to locally host the bot for use on the server.
 
-Hoping to add:
-	
-Expanding the loot boxes
+Randomfunbot is a Discord bot created for a personal server. Its purpose is to perform various actions based on certain probabilities for fun, such as deleting messages, adding random reactions, and more. The bot is hosted locally using Node.js.
 
-adding a way to 'equip' and display what is pulled from boxes
+## Features
 
-reworking of the coin system to make them worth more
-
-
-  
-![discord](https://github.com/Gwillis442/Randomfunbot/assets/122920316/f7292546-7431-4485-9f9b-661003e79242)
+- **Random Message Deletion**: Deletes messages based on a random probability.
+- **Random Reactions**: Adds random reactions to messages.
+- **Link Handling**: Moves links to a designated channel.
+- **User Interaction**: Replies to messages with random text or GIFs.
+- **Database Integration**: Tracks user activity and stores data in a SQLite database.

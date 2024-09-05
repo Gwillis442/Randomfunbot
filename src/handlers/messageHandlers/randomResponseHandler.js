@@ -2,6 +2,11 @@ const { client } = require('../../client'); // Import the client
 const { rng } = require('../../utils/rng');
 const { gifArray } = require('../../../constants/arrays');
 
+// Random response handler
+/*
+When a message is sent in chat a random number is chosen and if it is 1, a random response is sent to the message author.
+The response can be either a text response or a gif response.
+*/
 
 client.on('messageCreate', (message) => {
     if (message.author.bot) return; // If the author is a bot, return
