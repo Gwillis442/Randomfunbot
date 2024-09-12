@@ -29,6 +29,9 @@ config.json
 # assets
 *.png
 
+# notes
+notes.txt
+
 # Ignore node_modules directory
 .node_modules
 
@@ -158,3 +161,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 Randomfunbot.code-workspace
+
+
