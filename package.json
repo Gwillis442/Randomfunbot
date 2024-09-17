@@ -15,12 +15,12 @@
     "@sapphire/shapeshift": "^3.9.6",
     "discord-api-types": "^0.37.63",
     "discord.js": "^14.12.1",
-    "discord.js-commando": "^0.12.3",
     "fetch": "^1.1.0",
     "index.js": "^0.0.3",
     "node": "^21.6.1",
     "node-cron": "^3.0.3",
     "node-fetch": "^2.7.0",
+    "openai": "^4.61.1",
     "punycode": "^2.3.1",
     "sqlite3": "^5.1.6"
   }
