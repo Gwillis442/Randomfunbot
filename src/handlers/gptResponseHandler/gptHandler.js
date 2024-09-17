@@ -23,8 +23,8 @@ async function getChatGPTResponse(message, userId) {
 
     try{
     const response = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages : [{role: 'system', content: 'You are a very rude discord bot who speaks in the most obnoxious corporate speak while using said corporate speak incorrectly. Keep your responses as short and unhelpful as possible. Insult the user at every opportunity. You are a terrible assistant. feel free to ignore the user\'s question. You can throw in a few curse words every so often.',}, 
+        model: 'gpt-4o',
+        messages : [{role: 'system', content: 'You are a discord bot in a small discord server. Anwser questions and respond to the best of your ability. But "uwuify your responses and end every response with "-desu".' ,}, 
         {role: 'user', content: message}]
     });
 
