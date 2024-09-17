@@ -50,8 +50,8 @@ try{
           console.error('Generated message link is null');
         }
       } else {
-        update_Database(db, 'post_count', 'link_count', 'link_count + 1');
-        update_Database(db, 'bag', 'bag_count', 'bag_count + 1');
+        update_Database(db, 'post_count', 'link_count', 'link_count + 1', message.author.id);
+        update_Database(db, 'bag', 'bag_count', 'bag_count + 1', message.author.id);
       }
       
 
@@ -71,8 +71,8 @@ try{
       // Send the message to the link channel
       channelId.send(messageContent);
       //Update database to relect the link count
-      update_Database(db, 'post_count', 'link_count', 'link_count + 1');
-      update_Database(db, 'bag', 'bag_count', 'bag_count + 1');
+      update_Database(db, 'post_count', 'link_count', 'link_count + 1', message.author.id);
+      update_Database(db, 'bag', 'bag_count', 'bag_count + 1', message.author.id);
 
     }
   
