@@ -3,7 +3,7 @@ const { getChatGPTResponse } = require('../../gptResponseHandler/gptHandler.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('chatgpt')
+        .setName('ask')
         .setDescription('Ask ChatGPT a question')
         .addStringOption(option =>
             option.setName('question')
@@ -12,7 +12,7 @@ module.exports = {
     async execute(interaction) {
         const question = interaction.options.getString('question');
         await interaction.deferReply();
-        const response = await getChatGPTResponse(question);
+        const response = await getChatGPTResponse(question, interaction.user.id);
         await interaction.editReply(response);
     },
 };
