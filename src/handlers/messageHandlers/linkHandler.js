@@ -49,8 +49,12 @@ try{
         } else {
           console.error('Generated message link is null');
         }
+      } else {
+        update_Database(db, 'post_count', 'link_count', 'link_count + 1');
+        update_Database(db, 'bag', 'bag_count', 'bag_count + 1');
       }
-      //if the message is not in the link channel
+      
+
     } else {
 
       var messageContent;
