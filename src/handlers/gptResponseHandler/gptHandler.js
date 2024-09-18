@@ -1,6 +1,8 @@
 const { OpenAI } = require('openai');
-
 const { gptApiKey } = require('../../../config/config.json');
+
+const { aiInstructions } = require('../../../constants/arrays.js');
+const { rng } = require('../../utils/rng.js');
 
 const openai = new OpenAI( { apiKey: gptApiKey} );
 const cooldowns = new Map();
@@ -10,6 +12,7 @@ const cooldown_Seconds = 10;
 async function getChatGPTResponse(message, userId) {
     const now = Date.now();
     const cooldownAmount = cooldown_Seconds * 1000;
+    const instructions = aiInstructions[rng(0, aiInstructions.length - 1)];
 
     if (cooldowns.has(userId)) {
         const expirationTime = cooldowns.get(userId) + cooldownAmount;
@@ -24,7 +27,7 @@ async function getChatGPTResponse(message, userId) {
     try{
     const response = await openai.chat.completions.create({
         model: 'gpt-4o',
-        messages : [{role: 'system', content: 'You are a discord bot in a small discord server. Anwser questions and respond to the best of your ability. But "uwuify your responses and end every response with "-desu".' ,}, 
+        messages : [{role: 'system', content: instructions}, 
         {role: 'user', content: message}]
     });
 

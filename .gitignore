@@ -45,6 +45,7 @@ notes.txt
 botDatabase.db
 messageCount.db
 *.db
+database\messageCount.db
 
 # Dependency directories
 node_modules/
