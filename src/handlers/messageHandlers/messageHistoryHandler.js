@@ -4,11 +4,14 @@ const { client } = require('../../client.js');
 const messageHistory = [];
 
 function storeMessage(message, author) {
-    
+    try{
     messageHistory.push({content: message, author: author});
 
     if (messageHistory.length > 20) {
         messageHistory.shift();
+    }
+    } catch (error) {
+    console.error(error);
     }
 }
 
