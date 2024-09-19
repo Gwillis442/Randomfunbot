@@ -2,7 +2,6 @@ const { OpenAI } = require('openai');
 const { gptApiKey } = require('../../../config/config.json');
 
 const { aiInstructions } = require('../../../constants/arrays.js');
-const { getMessageHistory } = require('../messageHandlers/messageHistoryHandler.js');
 const { rng } = require('../../utils/rng.js');
 
 const openai = new OpenAI( { apiKey: gptApiKey} );
