@@ -57,6 +57,9 @@ nohup.out
 #nohup.out
 nohup.out
 
+#temp
+temp/
+
 # nyc test coverage
 .nyc_output
 
