@@ -7,7 +7,7 @@ function storeMessage(message, author) {
     try{
     messageHistory.push({content: message, author: author});
 
-    if (messageHistory.length > 20) {
+    if (messageHistory.length > 100) {
         messageHistory.shift();
     }
     } catch (error) {
