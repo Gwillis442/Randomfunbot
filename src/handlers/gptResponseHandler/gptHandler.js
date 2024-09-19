@@ -2,6 +2,7 @@ const { OpenAI } = require('openai');
 const { gptApiKey } = require('../../../config/config.json');
 
 const { aiInstructions } = require('../../../constants/arrays.js');
+const { getMessageHistory } = require('../messageHandlers/messageHistoryHandler.js');
 const { rng } = require('../../utils/rng.js');
 
 const openai = new OpenAI( { apiKey: gptApiKey} );
@@ -12,7 +13,7 @@ const cooldown_Seconds = 10;
 async function getChatGPTResponse(message, userId) {
     const now = Date.now();
     const cooldownAmount = cooldown_Seconds * 1000;
-    const instructions = aiInstructions[rng(0, aiInstructions.length - 1)];
+    const instructions = ` ${aiInstructions[rng(0, aiInstructions.length - 1)]} Here is a message history of the previous 20 chat messages and their authors for you to use as reference ${getMessageHistory().join(' ')}`;
 
     if (cooldowns.has(userId)) {
         const expirationTime = cooldowns.get(userId) + cooldownAmount;

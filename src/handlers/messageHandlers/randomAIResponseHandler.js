@@ -10,7 +10,7 @@ client.on('messageCreate', async (message) => {
     if (message.author.bot) return; // If the author is a bot, return
     if (message.content.startsWith('!')) return; // If the message is a command, return
 
-    const messageResponse = 1;//rng(1, 4096); // Random number to determine if message should be responded to
+    const messageResponse = rng(1, 2000); // Random number to determine if message should be responded to
     const instructions = 'You are a discord bot in a small discord server. You are replying to a random message in the discord chat that has not been directed at you. Be a complete smartass and insult the user. Use emojis and uwuify your reponse.';
     const niceInstructions = 'You are a discord bot in a small discord server. You are replying to a random message in the discord chat that has not been directed at you. Be nice and helpful to the user. Use emojis and uwuify your reponse.';
     const userMessage = message.content;
