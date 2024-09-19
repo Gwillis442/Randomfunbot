@@ -13,7 +13,7 @@ const cooldown_Seconds = 10;
 async function getChatGPTResponse(message, userId) {
     const now = Date.now();
     const cooldownAmount = cooldown_Seconds * 1000;
-    const instructions = ` ${aiInstructions[rng(0, aiInstructions.length - 1)]} Here is a message history of the previous 100 chat messages and their authors for you to use as reference ${getMessageHistory().join(' ')}`;
+    const instructions = ` ${aiInstructions[rng(0, aiInstructions.length - 1)]}`;
 
     if (cooldowns.has(userId)) {
         const expirationTime = cooldowns.get(userId) + cooldownAmount;
