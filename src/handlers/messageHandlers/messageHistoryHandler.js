@@ -27,6 +27,7 @@ function getMessageHistory() {
 }
 
 client.on('messageCreate', message => {
+    if(message.author.bot) return;
     if (mainChannelId != message.channelId) return;
     addMessageToHistory(message, message.author.username);
 });
