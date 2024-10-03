@@ -13,6 +13,8 @@
     "@discordjs/rest": "^2.2.0",
     "@napi-rs/canvas": "^0.1.47",
     "@sapphire/shapeshift": "^3.9.6",
+    "axios": "^1.7.7",
+    "cheerio": "^1.0.0",
     "discord-api-types": "^0.37.63",
     "discord.js": "^14.12.1",
     "fetch": "^1.1.0",
