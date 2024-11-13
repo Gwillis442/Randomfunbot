@@ -1,6 +1,7 @@
 const { OpenAI } = require('openai');
 const { gptApiKey } = require('../../../config/config.json');
-const { grabArticleInfo } = require('../articleSummaryHandler/grabArticleInfo.js');const { get } = require('express/lib/response');
+const { grabArticleInfo } = require('../articleSummaryHandler/grabArticleInfo.js');
+
 
 
 async function getGPTResponse(article) {
