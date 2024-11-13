@@ -11,7 +11,7 @@ async function getGPTResponse(article) {
         if (!articleContent) {
             return 'I am sorry, I am not able to summarize that article at this time.';
         }
-        const instructions = `You are a discord bot tasked with summarizing the following article's content ad pulling out the most relevant information to display to the user. Keep Responses as short as possible: ${articleContent}`;
+        const instructions = `You are a discord bot tasked with summarizing the following article's content and pulling out the most relevant information to display to the user. Keep Responses as short as possible: ${articleContent}`;
 
         const response = await openai.chat.completions.create({
             model: 'gpt-4o',
