@@ -5,7 +5,7 @@ const { gptApiKey } = require('../../../config/config.json');
 
 const openai = new OpenAI( {apiKey: gptApiKey } );
 
-async function getChatGPTResponse() {
+async function getDmReponse() {
     const message = "What is the capital of the United States?";
 
         const response = await openai.chat.completions.create({
@@ -16,4 +16,4 @@ async function getChatGPTResponse() {
     console.log(response.choices[0].message);
 }
 
-getChatGPTResponse();
+getDmReponse();

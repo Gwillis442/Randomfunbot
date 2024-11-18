@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const { token } = require('../config/config.json');
 const { populateDatabase } = require('./utils/populateDatabase.js');
 
@@ -8,7 +8,12 @@ var client = new Client({
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages,
     GatewayIntentBits.GuildMessageReactions,
+  ],
+  partials: [
+    Partials.Channel,
+    Partials.Message
   ]
 });
 
