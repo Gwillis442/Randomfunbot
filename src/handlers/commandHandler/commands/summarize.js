@@ -1,10 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getGPTResponse } = require('../../gptResponseHandler/gptSummerizeHandler.js');
+const { getGPTResponse } = require('../../gptResponseHandler/gptSummarizeHandler.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('summerize')
-        .setDescription('Ask ChatGPT to summerize an article')
+        .setName('summarize')
+        .setDescription('Ask ChatGPT to summarize an article')
         .addStringOption(option =>
             option.setName('url')
                 .setDescription('url link to the article')

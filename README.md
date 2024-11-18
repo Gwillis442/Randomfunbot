@@ -9,3 +9,20 @@ Randomfunbot is a Discord bot created for a personal server. Its purpose is to p
 - **Link Handling**: Moves links to a designated channel.
 - **User Interaction**: Replies to messages with random text or GIFs.
 - **Database Integration**: Tracks user activity and stores data in a SQLite database.
+
+## Getting Started
+
+### Prerequisites
+
+- Docker installed on your machine
+
+### Building the Docker Image
+
+To build the Docker image for Randomfunbot, run the following command in the directory containing the Dockerfile:
+
+```sh
+docker build -t randomfunbot .
+
+docker run -d --name randomfunbot randomfunbot
+
+```

@@ -64,6 +64,7 @@ client.once('ready', () => {
     if (err) {
       console.error(err.message);
     }
+    if (rows && rows.length > 0) {
     // Populate the bag based on the counts in bag_count table
     rows.forEach((row) => {
       const userId = row.user_id;
@@ -73,6 +74,9 @@ client.once('ready', () => {
         userBag.push(userId);
       }
     });
+  } else {
+    console.log('No users in the bag.');
+  }
     // Log the number of users in the bag
     console.log('Bag has been populated.');
     console.log(`${ userBag.length } users in the bag.`);
