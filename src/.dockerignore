@@ -1,0 +1,35 @@
+# Node.js dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs
+*.log
+*.log.*
+nohup.out
+
+# Temporary files
+tmp
+temp
+
+# Build output
+dist
+build
+
+# Docker-related files
+Dockerfile
+.dockerignore
+
+# Git-related files
+.git
+.gitignore
+
+# IDE/editor files
+.vscode
+.idea
+*.swp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
