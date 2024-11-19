@@ -1,6 +1,6 @@
 # Randomfunbot
 
-Randomfunbot is a Discord bot created for a personal server. Its purpose is to perform various actions based on certain probabilities for fun, such as deleting messages, adding random reactions, and more. The bot is hosted locally using Node.js.
+Randomfunbot is a Discord bot created for a personal server. Its purpose is to perform various actions based on certain probabilities for fun, such as deleting messages, adding random reactions, and more. The bot is hosted locally in a containerized in Docker.
 
 ## Features
 
