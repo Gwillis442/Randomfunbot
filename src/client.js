@@ -10,6 +10,7 @@ var client = new Client({
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessageTyping
   ],
   partials: [
     Partials.Channel,
