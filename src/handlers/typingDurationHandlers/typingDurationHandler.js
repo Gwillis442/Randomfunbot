@@ -51,7 +51,7 @@ client.on('messageCreate', (message) => {
 
     // Log typing duration
     if (typingDuration !== null) {
-        if (typingDuration > 3000) {
+        if (typingDuration > 30000) { // 30 seconds
             message.reply(`You took ${typingDuration / 1000} seconds to type your message.`);
         }
     }
