@@ -40,6 +40,11 @@ client.on('messageCreate', (message) => {
         const typingData = typingStartTimes.get(userId);
         if(typingData.currentlyTyping){
             typingDuration = Date.now() - typingData.startTime;
+            typingData.currentlyTyping = false;
+            if(typingData.timeout){
+                clearTimeout(typingData.timeout);
+                typingData.timeout = null;
+            }
             typingStartTimes.delete(userId);
         }
     }
