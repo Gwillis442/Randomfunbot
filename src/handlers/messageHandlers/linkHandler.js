@@ -39,8 +39,8 @@ try{
         messageLink = messageLink.replace('tiktok', 'vxtiktok');
         message.delete();
         //Update database to relect the link count
-        update_Database(db, 'post_count', 'link_count', 'link_count + 1');
-        update_Database(db, 'bag', 'bag_count', 'bag_count + 1');
+        update_Database(db, 'post_count', 'link_count', 'link_count + 1', message.author.id);
+        update_Database(db, 'bag', 'bag_count', 'bag_count + 1', message.author.id);
         // Send the message to the link channel with the replaced link
         const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
 
