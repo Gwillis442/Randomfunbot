@@ -33,6 +33,7 @@ client.on('messageCreate', (message) => {
     if (message.author.bot) return;
 
     const userId = message.author.id;
+    const messageContent = message.content;
 
     // Calculate typing duration
     let typingDuration = null;
@@ -49,10 +50,24 @@ client.on('messageCreate', (message) => {
         }
     }
 
+    const words = messageContent.split(' ');
+    const wordCount = words.length;
+
+    const wpm = Math.floor(wordCount / (typingDuration / 60000));
+    
+    console.log(`User ${message.author.username} typed ${wordCount} words in ${typingDuration / 1000} seconds. WPM: ${wpm}`);
+
+    // React with turtle or rabbit emoji based on WPM
+    if(wpm < 30){
+        message.react('🐢');
+    } else if (wpm < 60){
+        message.react('🐇');
+    }
+
     // Log typing duration
     if (typingDuration !== null) {
         if (typingDuration > 60000) { // 60 seconds
-            message.reply(`You took ${typingDuration / 1000} seconds to type your message.`);
+            message.reply(`You took ${typingDuration / 1000} seconds to type your message. That's ${wpm} words per minute.`);
         }
     }
 });
