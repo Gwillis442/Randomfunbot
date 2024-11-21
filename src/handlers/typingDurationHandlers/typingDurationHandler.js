@@ -59,11 +59,12 @@ client.on('messageCreate', (message) => {
 
         console.log(`User ${message.author.username} typed ${wordCount} words in ${typingDuration / 1000} seconds. WPM: ${wpm}`);
 
-        // React with turtle or rabbit emoji based on WPM
-        if (wpm < 20) {
-            message.react('🐢');
-        } else if (wpm > 70 && wpm < 150) {
-            message.react('🐇');
+        if(wordCount >= 10){
+            // React with turtle or rabbit emoji based on WPM
+            if (wpm < 20) {
+                message.react('🐢');
+            } else if (wpm > 70 && wpm < 150) {
+                message.react('🐇');            }
         }
 
         // Log typing duration
