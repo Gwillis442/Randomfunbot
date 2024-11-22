@@ -57,7 +57,7 @@ client.on('messageCreate', (message) => {
         const typingDurationInMinutes = typingDuration / 60000;
         const wpm = Math.floor(wordCount / typingDurationInMinutes);
 
-        console.log(`User ${message.author.username} typed ${wordCount} words in ${typingDuration / 1000} seconds. WPM: ${wpm}`);
+        //console.log(`User ${message.author.username} typed ${wordCount} words in ${typingDuration / 1000} seconds. WPM: ${wpm}`);
 
         if(wordCount >= 10){
             // React with turtle or rabbit emoji based on WPM
@@ -74,6 +74,6 @@ client.on('messageCreate', (message) => {
             }
         }
     } else {
-        console.log(`User ${message.author.username} typed too quickly to calculate WPM.`);
+        //console.log(`User ${message.author.username} did not type anything.`);
     }
 });

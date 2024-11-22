@@ -2,13 +2,12 @@
 FROM node:22
 
 # Install Chrome dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     gnupg \
     unzip \
     libxss1 \
     libappindicator1 \
-    libindicator7 \
     fonts-liberation \
     libasound2 \
     libnspr4 \
@@ -20,7 +19,8 @@ RUN apt-get update && apt-get install -y \
     libxi6 \
     libxtst6 \
     xdg-utils \
-    --no-install-recommends
+    libatspi2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Chrome
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
