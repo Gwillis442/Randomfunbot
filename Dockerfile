@@ -41,5 +41,8 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Set permissions for the database directory
+RUN chmod -R 755 /app/database
+
 # Define the command to run the application
 CMD ["node", "src/index.js"]

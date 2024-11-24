@@ -2,7 +2,7 @@ const { guildId } = require('../../config/config.json');
 const sqlite3 = require('sqlite3').verbose();
 
 //Connection to the Database
-const db = new sqlite3.Database('../database/messageCount.db', (err) => {
+const db = new sqlite3.Database('../../database/messageCount.db', (err) => {
   if (err) {
     console.error(err.message);
   }
