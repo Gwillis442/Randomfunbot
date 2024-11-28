@@ -63,7 +63,7 @@ client.on('messageCreate', (message) => {
             // React with turtle or rabbit emoji based on WPM
             if (wpm < 20) {
                 message.react('🐢');
-            } else if (wpm > 70 && wpm < 150) {
+            } else if (wpm > 80 && wpm < 160) {
                 message.react('🐇');            }
         }
 
