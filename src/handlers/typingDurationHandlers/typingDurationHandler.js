@@ -70,7 +70,7 @@ client.on('messageCreate', (message) => {
         // Log typing duration
         if (typingDuration !== null) {
             if (typingDuration > 60000) { // 60 seconds
-                message.reply(`You took ${typingDuration / 1000} seconds to type your message. That's ${wpm} words per minute.`);
+                message.reply(`You took **${Math.floor(typingDuration / 1000)}** seconds to type **${wordCount}** words. That's **${wpm}** words per minute.`);
             }
         }
     } else {
