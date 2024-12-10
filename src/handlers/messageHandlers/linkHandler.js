@@ -22,7 +22,8 @@ client.on('messageCreate', (message) => {
 try{
   if (message.author.bot) return;
   // Regex to match TikTok, Instagram Reel, and YouTube Shorts links
-  const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))(\/\S*)?/i;
+  //const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))(\/\S*)?/i;
+  const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-])|x\.com\/\S+|twitter\.com\/\S+)(\/\S*)?/i;
   // Check if the message contains a link
   const containsLink = linkRegex.test(message.content);
   // Get the link channel
@@ -64,7 +65,7 @@ try{
         messageLink = messageLink.replace('tiktok', 'vxtiktok');
         messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
       } else {
-        messageContent = `${message.author}, please post short content links in <#${channelId.id}>.\n${message.content}`;
+        messageContent = `${message.author}, please post short and social media content links in <#${channelId.id}>.\n${message.content}`;
       }
 
       message.delete();
