@@ -1,6 +1,7 @@
 // Gpt replies with a tts message
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { generateImage } = require('../../shortHandler/imageGenHandler');
+const { generateVideo } = require('../../shortHandler/videoGeneratorHandler');
 
 
 module.exports = {
@@ -14,7 +15,7 @@ module.exports = {
     async execute(interaction) {
         const prompt = interaction.options.getString('prompt');
         await interaction.deferReply();
-        const short = await generateImage(prompt, 1);
+        const short = await generateVideo(prompt, 1);
         const attachment = short;
         await interaction.editReply({ files: [attachment] });
     },
