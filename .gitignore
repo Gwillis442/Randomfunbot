@@ -32,6 +32,9 @@ config.json
 # notes
 notes.txt
 
+# ffmpeg
+ffmpeg
+
 # Ignore node_modules directory
 .node_modules
 
@@ -168,3 +171,4 @@ dist
 Randomfunbot.code-workspace
 
 
+ffmpeg/LICENSE
