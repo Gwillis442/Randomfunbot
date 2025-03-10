@@ -1,7 +1,7 @@
 
 const { Builder, By, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-require('chromedriver');
+const puppeteer = require('puppeteer');
 
 const cssSelectors = [
     'article',
@@ -13,47 +13,48 @@ const cssSelectors = [
     'div.article-content',
     'div.post-content',
     'div.entry-content',
-    'div.article-body'
+    'div.article-body',
+    'text',
+
 ];
 
 async function grabArticleInfo(url) {
-    let options = new chrome.Options();
-    options.addArguments('--headless');
-    options.addArguments('--disable-gpu');
-    options.addArguments('--no-sandbox');
-    options.addArguments('--disable-dev-shm-usage');
-
-    let driver = await new Builder()
-        .forBrowser('chrome')
-        .setChromeOptions(options)
-        .build();
+    let browser;
 
     try {
-        await driver.get(url);
 
-        for (let i = 0; i < cssSelectors.length; i++) {
-            try {
-                await driver.wait(until.elementLocated(By.css(cssSelectors[i])), 3000);
-                const articleElement = await driver.findElement(By.css(cssSelectors[i]));
-                const articleContent = await articleElement.getText();
+        browser = await puppeteer.launch({
+            headless: "new",
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-gpu',
+                '--disable-dev-shm-usage'
+            ]
+        });
 
-                if (articleContent.length && articleContent.trim().length > 0) {
-                    return articleContent.trim();
-                }
-            } catch (err) {
-                // Ignore error and try next selector
-            }
-        }
-
+        const page = await browser.newPage();
+        await page.goto(url, {
+            waitUntil: 'networkidle2',
+            timeout: 30000
+        });
+        try {
+        const text = await page.evaluate(() => document.body.innerText);
+        return text;
+        }catch(err){
         console.log('No content found under specified selectors');
         return null;
+        }
 
-    } catch (err) {
+    } catch(err) {
         console.log(err);
         return null;
     } finally {
-        await driver.quit();
+        if (browser){
+            await browser.close();
+        }
     }
+
 }
 
 module.exports = { grabArticleInfo };
