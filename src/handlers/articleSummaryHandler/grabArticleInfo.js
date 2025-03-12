@@ -1,6 +1,3 @@
-
-const { Builder, By, until } = require('selenium-webdriver');
-const chrome = require('selenium-webdriver/chrome');
 const puppeteer = require('puppeteer');
 
 const cssSelectors = [

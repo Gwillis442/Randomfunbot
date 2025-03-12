@@ -24,7 +24,6 @@
     "node-fetch": "^2.7.0",
     "openai": "^4.61.1",
     "puppeteer": "^24.4.0",
-    "selenium-webdriver": "^4.26.0",
     "sqlite3": "^5.1.6"
   }
 }
