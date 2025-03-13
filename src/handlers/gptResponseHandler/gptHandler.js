@@ -1,7 +1,7 @@
 const { OpenAI } = require('openai');
 const { gptApiKey } = require('../../../config/config.json');
 
-const { aiInstructions } = require('../../../constants/arrays.js');
+const { aiInstructions, admin } = require('../../../constants/arrays.js');
 const { rng } = require('../../utils/rng.js');
 
 const openai = new OpenAI( { apiKey: gptApiKey} );
@@ -12,7 +12,14 @@ const cooldown_Seconds = 10;
 async function getChatGPTResponse(message, userId) {
     const now = Date.now();
     const cooldownAmount = cooldown_Seconds * 1000;
-    const instructions = ` ${aiInstructions[rng(0, aiInstructions.length - 1)]}`;
+
+    let adminId = admin.some(adminUser => adminUser.id === userId);
+
+    if(!adminId){
+    var instructions = ` ${aiInstructions[rng(0, aiInstructions.length - 1)]}`;
+    } else {
+        instructions = 'You are a helpful pirate discord bot. Please anwser the users question to the best of you ability. Please keep your responses as short as possible.';
+    }
 
     if (cooldowns.has(userId)) {
         const expirationTime = cooldowns.get(userId) + cooldownAmount;
