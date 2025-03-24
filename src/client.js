@@ -21,12 +21,6 @@ var client = new Client({
 client.once('ready', () => {
   console.log(`Ready! Logged in as ${client.user.tag}`);
 
-  try {
-    populateDatabase(client);
-  }
-  catch (error) {
-    console.error("Error in database population: ", error);
-  }
 });
 
 client.login(token);

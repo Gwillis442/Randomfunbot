@@ -1,8 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { createBasicEmbed, createRichEmbed } = require('../../utils/embedCreator');
-const { buttonBuilder } = require('../../utils/buttonCreator');
-const { actionRowBuilder } = require('../../utils/actionRowCreator');
-const { getWarframeDropInfo } = require('./getWFDropInfo');
+const { createBasicEmbed, createRichEmbed } = require('../../../utils/embedCreator');
+const { buttonBuilder } = require('../../../utils/buttonCreator');
+const { actionRowBuilder } = require('../../../utils/actionRowCreator');
+const { getWarframeDropInfo } = require('../../wfInfoHandler/getWFDropInfo');
 
 module.exports = {
     data: new SlashCommandBuilder()

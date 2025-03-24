@@ -1,16 +1,7 @@
-const sqlite3 = require('sqlite3').verbose();
 const { client } = require('../../client.js');
 const { rng } = require('../../utils/rng.js');
 const { emojiArray, johnArray, userBag } = require('../../../constants/arrays.js');
 
-//Connection to the Database
-const db = new sqlite3.Database('../database/messageCount.db', (err) => {
-  if (err) {
-    console.error(err.message);
-  } else {
-    console.log('Connected to the message/link count database.');
-  }
-});
 
 
 /*
@@ -55,33 +46,5 @@ The bag is an array that is used to randomly select users to delete messages fro
 */
 client.once('ready', () => {
   // Query to get the user IDs and counts from the bag table
-  const query = `
-  SELECT user_id, bag_count
-  FROM bag;
-`;
-
-  db.all(query, [], (err, rows) => {
-    if (err) {
-      console.error(err.message);
-    }
-    if (rows && rows.length > 0) {
-    // Populate the bag based on the counts in bag_count table
-    rows.forEach((row) => {
-      const userId = row.user_id;
-      const count = row.bag_count;
-
-      for (let i = 0; i < count; i++) {
-        userBag.push(userId);
-      }
-    });
-  } else {
-    console.log('No users in the bag.');
-  }
-    // Log the number of users in the bag
-    console.log('Bag has been populated.');
-    console.log(`${ userBag.length } users in the bag.`);
-    
-  });
-
 
 });

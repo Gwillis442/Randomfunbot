@@ -2,14 +2,7 @@
 const { client } = require('../../client.js');
 const { linkChannelId } = require('../../../config/config.json');
 const { update_Database } = require('../../utils/updateDatabase.js');
-const sqlite3 = require('sqlite3').verbose();
 
-//Connection to the Database
-const db = new sqlite3.Database('../database/messageCount.db', (err) => { 
-  if (err) {
-    console.error(err.message);
-  } 
-});
 
 // Link handler
 /*
