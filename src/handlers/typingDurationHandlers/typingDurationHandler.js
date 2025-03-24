@@ -1,9 +1,35 @@
 const { client } = require('../../client.js');
 
 const typingStartTimes = new Map();
+const typingStreak = new Map();
 const TYPING_TIMEOUT = 30000;
 
+function checkTypingStreak(userId, emoji){
+    if(typingStreak.has(userId)){
+        let userStreak = typingStreak.get(userId);
+        if(userStreak.type == emoji){
+            userStreak.count++;
+            if(userStreak.count%3 == 0){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            userStreak.type = emoji;
+            userStreak.count = 1;
+            return false;
+        }
+
+    } else {
+        typingStreak.set(userId, {type: emoji,count: 1});
+        console.log(`${userId} entered into typing Streak with ${emoji}`);
+        return false;
+    }
+
+}
+
 client.on('typingStart', (typing) => {
+
     const userId = typing.user.id;
     const startedTypingAt = typing.startedTimestamp
 
@@ -63,8 +89,18 @@ client.on('messageCreate', (message) => {
             // React with turtle or rabbit emoji based on WPM
             if (wpm < 20) {
                 message.react('🐢');
-            } else if (wpm > 80 && wpm < 160) {
-                message.react('🐇');            }
+                if(checkTypingStreak(userId, '🐢') ){
+                    message.reply(`🐢 Streak!`)
+                }  
+            } else if (wpm > 80) {
+                message.react('🐇');          
+                if(checkTypingStreak(userId, '🐇') ){
+
+                    message.reply(`🐇 Streak!`)
+                }  
+            } else if ( wpm > 20 && wpm < 80){
+                checkTypingStreak(userId, ' ');
+            }
         }
 
         // Log typing duration
