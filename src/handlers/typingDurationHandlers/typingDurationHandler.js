@@ -1,4 +1,5 @@
 const { client } = require('../../client.js');
+const { updateUserRabbits, updateUserTurtles } = require('../../../database/databaseUtils/updateDB.js');
 
 const typingStartTimes = new Map();
 const typingStreak = new Map();
@@ -89,13 +90,14 @@ client.on('messageCreate', (message) => {
             // React with turtle or rabbit emoji based on WPM
             if (wpm < 20) {
                 message.react('🐢');
+                updateUserTurtles(message.author.id);
                 if(checkTypingStreak(userId, '🐢') ){
                     message.reply(`🐢 Streak!`)
                 }  
             } else if (wpm > 80) {
-                message.react('🐇');          
+                message.react('🐇');  
+                updateUserRabbits(message.author.id);        
                 if(checkTypingStreak(userId, '🐇') ){
-
                     message.reply(`🐇 Streak!`)
                 }  
             } else if ( wpm > 20 && wpm < 80){
