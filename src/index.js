@@ -1,7 +1,5 @@
 // Desc: Entry point for the bot
 require('./client.js'); 
-// Desc: Database connection for bot
-require('./connectDB.js');
 // Desc: Handlers
 require('./handlers/messageHandlers/linkHandler.js'); // Link posting Handler
 require('./handlers/messageHandlers/dmHandler.js'); // DM Handler
