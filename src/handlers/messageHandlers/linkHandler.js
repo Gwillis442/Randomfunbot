@@ -1,7 +1,7 @@
 // Description: This file contains the linkBot functionality.
 const { client } = require('../../client.js');
 const { linkChannelId } = require('../../../config/config.json');
-const { update_Database } = require('../../utils/updateDatabase.js');
+const { updateUserLinks } = require('../../../database/databaseUtils/updateDB.js');
 
 
 // Link handler
@@ -33,8 +33,7 @@ try{
         messageLink = messageLink.replace('tiktok', 'vxtiktok');
         message.delete();
         //Update database to relect the link count
-        update_Database(db, 'post_count', 'link_count', 'link_count + 1', message.author.id);
-        update_Database(db, 'bag', 'bag_count', 'bag_count + 1', message.author.id);
+        updateUserLinks(message.author.id);
         // Send the message to the link channel with the replaced link
         const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n**Your TikTok provided by our glorious leader Donald J. Trump**:tm:\n${message.content.replace(linkRegex, messageLink)}`;
 
@@ -44,8 +43,7 @@ try{
           console.error('Generated message link is null');
         }
       } else {
-        update_Database(db, 'post_count', 'link_count', 'link_count + 1', message.author.id);
-        update_Database(db, 'bag', 'bag_count', 'bag_count + 1', message.author.id);
+        updateUserLinks(message.author.id);
       }
       
 
@@ -65,9 +63,7 @@ try{
       // Send the message to the link channel
       channelId.send(messageContent);
       //Update database to relect the link count
-      update_Database(db, 'post_count', 'link_count', 'link_count + 1', message.author.id);
-      update_Database(db, 'bag', 'bag_count', 'bag_count + 1', message.author.id);
-
+      updateUserLinks(message.author.id);
     }
   
   }
