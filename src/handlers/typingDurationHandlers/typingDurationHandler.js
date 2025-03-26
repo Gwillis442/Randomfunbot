@@ -90,13 +90,13 @@ client.on('messageCreate', (message) => {
             // React with turtle or rabbit emoji based on WPM
             if (wpm < 20) {
                 message.react('🐢');
-                updateUserTurtles(message.author.id);
+                //updateUserTurtles(message.author.id);
                 if(checkTypingStreak(userId, '🐢') ){
                     message.reply(`🐢 Streak!`)
                 }  
             } else if (wpm > 80) {
                 message.react('🐇');  
-                updateUserRabbits(message.author.id);        
+                //updateUserRabbits(message.author.id);        
                 if(checkTypingStreak(userId, '🐇') ){
                     message.reply(`🐇 Streak!`)
                 }  
