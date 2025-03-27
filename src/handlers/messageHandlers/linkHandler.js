@@ -78,7 +78,7 @@ client.on('messageCreate', async (message) => {
           console.log(message.content);
           const summary = await getGPTResponse(message.content);
           if (summary && summary.trim().length > 0) {
-            message.channel.send(summary);
+            message.reply(summary);
           } else {
             console.error("Generated summary is empty or invalid.");
           }
