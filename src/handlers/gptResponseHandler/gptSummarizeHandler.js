@@ -11,18 +11,14 @@ async function getGPTResponse(article) {
         if (!articleContent) {
             return 'I am sorry, I am not able to summarize that article at this time.';
         }
-        const instructions = `You are a discord bot tasked with summarizing the following article's content and pulling out the most relevant information to display to the user. If the data sent mentions requiring some sort of verification send Requires Verification. Keep Responses as short as possible: ${articleContent}`;
+        const instructions = `You are a discord bot tasked with summarizing the following article's content and pulling out the most relevant information to display to the user. If the data sent mentions requiring some sort of verification send 'This link requires some sort of verification to access. I am unable to summarize it.' Keep Responses as short as possible: ${articleContent}`;
 
         const response = await openai.chat.completions.create({
             model: 'gpt-4o',
             messages : [{role: 'system', content: instructions}]
         });
 
-        if(response.choices[0].message.content === "Requires Verification"){
-            return false;
-        } else {
         return response.choices[0].message.content;
-        }
 
     } catch (error) {
         console.error(error);
