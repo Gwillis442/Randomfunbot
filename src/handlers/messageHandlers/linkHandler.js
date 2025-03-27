@@ -19,7 +19,7 @@ client.on('messageCreate', async (message) => {
     //const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))(\/\S*)?/i;
     const isShortContentRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-])|x\.com\/\S+|twitter\.com\/\S+)(\/\S*)?/i;
     // Regex to match common links 
-    const isCommonContentRegex = /https?:\/\/(?!www\.)?(?!.*\b(tiktok\.com|vxtiktok\.com|youtube\.com|youtu\.be|reddit\.com|steamcommunity\.com|instagram\.com|tenor\.com)\b)\S+/i;
+    const isCommonContentRegex = /https?:\/\/(?!www\.)?(?!.*\b(tiktok\.com|vxtiktok\.com|youtube\.com|youtu\.be|reddit\.com|steamcommunity\.com|instagram\.com|tenor\.com|imgur\.com|discord\.com|packaged-media\.redd\.it)\b)\S+/i;
     // Check if the message contains a link
     const containsLink = isLinkRegex.test(message.content);
     // Get the link channel
