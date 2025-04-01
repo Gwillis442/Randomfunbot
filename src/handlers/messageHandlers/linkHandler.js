@@ -29,7 +29,7 @@ client.on('messageCreate', async (message) => {
       const containsShortLink = isShortContentRegex.test(message.content);
       if (containsShortLink) {
         // Get the link from the message
-        let messageLink = message.content.match(linkRegex)[0];
+        let messageLink = message.content.match(isShortContentRegex)[0];
         // Check if the message is in the link channel
         if (message.channel.id == channelId) {
 
@@ -40,7 +40,7 @@ client.on('messageCreate', async (message) => {
             //Update database to relect the link count
             //updateUserLinks(message.author.id);
             // Send the message to the link channel with the replaced link
-            const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n**Your TikTok provided by our glorious leader Donald J. Trump**:tm:\n${message.content.replace(linkRegex, messageLink)}`;
+            const messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n**Your TikTok provided by our glorious leader Donald J. Trump**:tm:\n${message.content.replace(isShortContentRegex, messageLink)}`;
 
             if (messageLink) {
               message.channel.send(messageContent);
@@ -59,7 +59,7 @@ client.on('messageCreate', async (message) => {
           if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
             // Replace 'tiktok' with 'vxtiktok'
             messageLink = messageLink.replace('tiktok', 'vxtiktok');
-            messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(linkRegex, messageLink)}`;
+            messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(isShortContentRegex, messageLink)}`;
           } else {
             messageContent = `${message.author}, please post short and social media content links in <#${channelId.id}>.\n${message.content}`;
           }
