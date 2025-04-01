@@ -14,12 +14,12 @@ If the message is not in the link channel, the message is deleted and the link i
 client.on('messageCreate', async (message) => {
   try {
     if (message.author.bot) return;
-    const isLinkRegex = /https?:\/\/(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/\S*)?/i;
+    const isLinkRegex = /https?:\/\/(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/\S*)?/i;
     // Regex to match TikTok, Instagram Reel, and YouTube Shorts links
     //const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))(\/\S*)?/i;
     const isShortContentRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-])|x\.com\/\S+|twitter\.com\/\S+)(\/\S*)?/i;
     // Regex to match common links 
-    const isCommonContentRegex = /https?:\/\/(?!www\.)?(?!.*\b(tiktok\.com|vxtiktok\.com|youtube\.com|youtu\.be|reddit\.com|steamcommunity\.com|instagram\.com|tenor\.com|imgur\.com|discord\.com|packaged-media\.redd\.it|amazon\.com)\b)\S+/i;
+    const isCommonContentRegex = /https?:\/\/(?!.*\b(tiktok\.com|vxtiktok\.com|youtube\.com|youtu\.be|reddit\.com|steamcommunity\.com|instagram\.com|tenor\.com|imgur\.com|discord\.com|packaged-media\.redd\.it|amazon\.com)\b)(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/\S*)?/i;
     // Check if the message contains a link
     const containsLink = isLinkRegex.test(message.content);
     // Get the link channel
@@ -72,22 +72,31 @@ client.on('messageCreate', async (message) => {
         }
       } else {
         try {
-          const linkMatch = message.content.match(isLinkRegex);
-          const extractedLink = linkMatch ? linkMatch[0] : null;
 
-          if (extractedLink) {
-            const url = new URL(extractedLink); // Throws an error if the URL is invalid
-            const containsCommonLink = isCommonContentRegex.test(url.href);
+          const extractedLink = message.content.match(/\bhttps?:\/\/\S+/gi);
 
-            if (containsCommonLink) {
-              console.log(message.content);
-              const summary = await getGPTResponse(message.content);
-              if (summary && summary.trim().length > 0) {
-                message.reply(summary);
-              } else {
-                console.error("Generated summary is empty or invalid.");
+
+          if (extractedLink && extractedLink.length > 0) {
+
+            for (let i = 0; i < extractedLink.length; i++) {
+              const link = extractedLink[i];
+              
+
+              const url = new URL(link);
+              const urlString = url.href;
+              const containsCommonLink = isCommonContentRegex.test(extractedLink);
+
+              if (containsCommonLink) {
+                console.log(`Processing link: ${urlString}`);
+                const summary = await getGPTResponse(urlString);
+                if (summary && summary.trim().length > 0) {
+                  message.reply(summary);
+                } else {
+                  console.error("Generated summary is empty or invalid.");
+                }
               }
             }
+
           }
         } catch (error) {
           console.log("Error summarizing article", error);
