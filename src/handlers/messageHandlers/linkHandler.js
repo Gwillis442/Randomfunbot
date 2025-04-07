@@ -19,7 +19,7 @@ client.on('messageCreate', async (message) => {
     //const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))(\/\S*)?/i;
     const isShortContentRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-])|x\.com\/\S+|twitter\.com\/\S+)(\/\S*)?/i;
     // Regex to match common links 
-    const isCommonContentRegex = /https?:\/\/(?!.*\b(tiktok\.com|vxtiktok\.com|youtube\.com|youtu\.be|reddit\.com|steamcommunity\.com|instagram\.com|tenor\.com|imgur\.com|discord\.com|packaged-media\.redd\.it|amazon\.com)\b)(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/\S*)?/i;
+    const isCommonContentRegex = /https?:\/\/(?!.*\b(tiktok\.com|vxtiktok\.com|youtube\.com|youtu\.be|reddit\.com|steamcommunity\.com|instagram\.com|tenor\.com|imgur\.com|discord\.com|packaged-media\.redd\.it|amazon\.com|walmart\.com|costco\.com|target\.com)\b)(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/\S*)?/i;
     // Check if the message contains a link
     const containsLink = isLinkRegex.test(message.content);
     // Get the link channel
@@ -72,11 +72,13 @@ client.on('messageCreate', async (message) => {
         }
       } else {
         try {
-
+          //Extract the urls from the message and store them as an array
           const extractedLink = message.content.match(/\bhttps?:\/\/\S+/gi);
-
+          
+          //if a link is successfuly extracted
           if (extractedLink && extractedLink.length > 0) {
 
+            //Loop through the array and have chatgpt summarize the content
             for (let i = 0; i < extractedLink.length; i++) {
 
               const link = extractedLink[i];
