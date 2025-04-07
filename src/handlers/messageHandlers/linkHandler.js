@@ -75,13 +75,11 @@ client.on('messageCreate', async (message) => {
 
           const extractedLink = message.content.match(/\bhttps?:\/\/\S+/gi);
 
-
           if (extractedLink && extractedLink.length > 0) {
 
             for (let i = 0; i < extractedLink.length; i++) {
-              const link = extractedLink[i];
-              
 
+              const link = extractedLink[i];
               const url = new URL(link);
               const urlString = url.href;
               const containsCommonLink = isCommonContentRegex.test(extractedLink);
