@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const { token } = require('../config/config.json');
 const { connectDB } = require('./connectDB.js');
-const { populateDatabase } = require('./utils/populateDatabase.js');
+
 
 var client = new Client({
   intents: [
