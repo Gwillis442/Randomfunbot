@@ -1,7 +1,7 @@
 // Description: This file contains the linkBot functionality.
 const { client } = require('../../client.js');
 const { linkChannelId } = require('../../../config/config.json');
-const { updateUserLinks } = require('../../../database/databaseUtils/updateDB.js');
+//const { updateUserLinks } = require('../../../database/databaseUtils/updateDB.js');
 const { getGPTResponse } = require('../gptResponseHandler/gptSummarizeHandler.js')
 
 // Link handler
