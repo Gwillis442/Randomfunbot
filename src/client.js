@@ -1,6 +1,6 @@
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const { token } = require('../config/config.json');
-const { connectDB } = require('./connectDB.js');
+const {populateDatabase} = require('./utils/populateDatabase.js');
 
 
 var client = new Client({
@@ -21,7 +21,7 @@ var client = new Client({
 
 client.once('ready', () => {
   //connectDB();
-  //populateDatabase(client);
+  populateDatabase(client);
   console.log(`Ready! Logged in as ${client.user.tag}`);
 
 });

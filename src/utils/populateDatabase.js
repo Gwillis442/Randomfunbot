@@ -1,5 +1,5 @@
 const { guildId } = require('../../config/config.json');  
-const User = require('../../database/botDatabase.js') 
+const { insertUser } = require('../../database/databaseUtils/insertDB.js'); 
 
 
 // Populate the database with users
@@ -12,22 +12,10 @@ async function populateDatabase(client) {
 
     const members = await guild.members.fetch();
     for (const [id, member] of members){
-        const userExists = await User.findOne({userId: member.id});
-        //console.log(`Processing member: ${member.user.username}, ID: ${member.id}`); // Debug log
-        if(!userExists) {
-            await User.create({
-                userId: member.id,
-                username: member.user.username,
-                nickname: member.nickname || null,
-                joinedAt: member.joinedAt,
-                linksPosted: 0,
-                turtles: 0,
-                rabbits: 0
-            });
+            insertUser(member.user.id, member.user.username, member.user.nickname);
             console.log(`${member.user.username} added to database`);
         }
 
     }
 
-}
 module.exports = { populateDatabase };

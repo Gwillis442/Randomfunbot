@@ -1,5 +1,5 @@
 const { client } = require('../../client.js');
-const { updateUserRabbits, updateUserTurtles } = require('../../../database/databaseUtils/updateDB.js');
+//const { updateUserRabbits, updateUserTurtles } = require('../../../database/databaseUtils/updateDB.js');
 
 const typingStartTimes = new Map();
 const typingStreak = new Map();
