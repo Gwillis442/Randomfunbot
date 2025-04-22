@@ -9,6 +9,7 @@ async function getGPTResponse(article) {
     try{
         const articleContent = await grabArticleInfo(article);
         if (!articleContent) {
+            console.log(articleContent);
             return 'I am sorry, no summarizable content was found. [406]';
         }
         const instructions = `You are a discord bot tasked with summarizing the following content and pulling out the most relevant information to display to the user. If the data sent mentions requiring some sort of verification send 'This link requires some sort of verification to access. I am unable to summarize it. [403]'
