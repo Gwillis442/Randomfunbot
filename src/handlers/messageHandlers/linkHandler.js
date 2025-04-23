@@ -2,7 +2,8 @@
 const { client } = require('../../client.js');
 const { linkChannelId } = require('../../../config/config.json');
 //const { updateUserLinks } = require('../../../database/databaseUtils/updateDB.js');
-const { getGPTResponse } = require('../gptResponseHandler/gptSummarizeHandler.js')
+const { getGPTResponse } = require('../gptResponseHandler/gptSummarizeHandler.js');
+const path = require('path');
 
 // Link handler
 /*
@@ -90,7 +91,9 @@ client.on('messageCreate', async (message) => {
                 console.log(`Processing link: ${urlString}`);
                 const summary = await getGPTResponse(urlString);
                 if (summary && summary.trim().length > 0) {
+                  const pngPath = path.resolve(__dirname, '../../../src/webpage.png');
                   message.reply(summary);
+                  message.channel.send({files: [{attachment: pngPath}]});
                 } else {
                   console.error("Generated summary is empty or invalid.");
                 }

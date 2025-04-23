@@ -7,11 +7,11 @@ function createBasicEmbed(title, description) {
         .setColor('#0099ff');
 }
 
-function createRichEmbed(title, description, fields, footer) {
+function createRichEmbed(title, description, color, fields, footer) {
     const embed = new EmbedBuilder()
         .setTitle(title)
         .setDescription(description)
-        .setColor('#0099ff');
+        .setColor(color);
 
     if (fields) {
         embed.addFields(fields);
