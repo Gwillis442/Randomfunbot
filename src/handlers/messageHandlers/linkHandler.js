@@ -91,9 +91,9 @@ client.on('messageCreate', async (message) => {
                 console.log(`Processing link: ${urlString}`);
                 const summary = await getGPTResponse(urlString);
                 if (summary && summary.trim().length > 0) {
-                  const pngPath = path.resolve(__dirname, '../../../src/webpage.png');
+                  //const pngPath = path.resolve(__dirname, '../../../src/webpage.png');
                   message.reply(summary);
-                  message.channel.send({files: [{attachment: pngPath}]});
+                  //message.channel.send({files: [{attachment: pngPath}]});
                 } else {
                   console.error("Generated summary is empty or invalid.");
                 }

@@ -89,7 +89,7 @@ async function grabArticleInfo(url) {
             timeout: 30000
         });
 
-        await page.screenshot({ path: 'webpage.png', fullPage: true })
+        //await page.screenshot({ path: 'webpage.png', fullPage: true })
 
         try {
             const text = await page.evaluate(() => document.body.innerText);

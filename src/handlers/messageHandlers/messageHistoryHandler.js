@@ -8,7 +8,7 @@ const messageHistory = new Map();
 function addMessageToHistory(message, username) {
 
     //if the message history is full, remove the oldest message
-    if (messageHistory.size >= 100) {
+    if (messageHistory.size >= 500) {
         messageHistory.delete(messageHistory.keys().next().value);
     }
 
