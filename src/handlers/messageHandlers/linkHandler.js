@@ -20,7 +20,7 @@ client.on('messageCreate', async (message) => {
     //const linkRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-]))(\/\S*)?/i;
     const isShortContentRegex = /https?:\/\/(?:www\.)?(tiktok\.com|vxtiktok\.com\/t\/[a-zA-Z0-9_-]+|vxtiktok\.com|instagram\.com\/reel\/\S+|youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(?![a-zA-Z0-9_-])|x\.com\/\S+|twitter\.com\/\S+)(\/\S*)?/i;
     // Regex to match common links 
-    const isCommonContentRegex = /https?:\/\/(?!.*\b(tiktok\.com|vxtiktok\.com|youtube\.com|youtu\.be|reddit\.com|steamcommunity\.com|instagram\.com|tenor\.com|imgur\.com|discord\.com|packaged-media\.redd\.it|amazon\.com|walmart\.com|costco\.com|target\.com|twitch\.com|nexusmods\.com|lastepochtools\.com|pathofexile\.com|streamable\.com|github\.com)\b)(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/\S*)?/i;
+    const isCommonContentRegex = /https?:\/\/(?!.*\b(tiktok\.com|vxtiktok\.com|youtube\.com|youtu\.be|reddit\.com|steamcommunity\.com|instagram\.com|tenor\.com|imgur\.com|discord\.com|packaged-media\.redd\.it|amazon\.com|walmart\.com|costco\.com|target\.com|twitch\.com|nexusmods\.com|lastepochtools\.com|pathofexile\.com|streamable\.com|github\.com|\.png|\.jpg|\.gif|\.jpeg|\.bmp|\.webp|\.svg)\b)(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/\S*)?/i;
     // Check if the message contains a link
     const containsLink = isLinkRegex.test(message.content);
     // Get the link channel
@@ -91,9 +91,9 @@ client.on('messageCreate', async (message) => {
                 console.log(`Processing link: ${urlString}`);
                 const summary = await getGPTResponse(urlString);
                 if (summary && summary.trim().length > 0) {
-                  //const pngPath = path.resolve(__dirname, '../../../src/webpage.png');
+                  const pngPath = path.resolve(__dirname, '../../../src/webpage.png');
                   message.reply(summary);
-                  //message.channel.send({files: [{attachment: pngPath}]});
+                  message.channel.send({files: [{attachment: pngPath}]});
                 } else {
                   console.error("Generated summary is empty or invalid.");
                 }

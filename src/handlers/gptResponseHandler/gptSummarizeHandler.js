@@ -3,7 +3,6 @@ const { gptApiKey } = require('../../../config/config.json');
 const { grabArticleInfo } = require('../articleSummaryHandler/grabArticleInfo.js');
 
 
-
 async function getGPTResponse(article) {
     const openai = new OpenAI( { apiKey: gptApiKey} );
     try{
@@ -24,6 +23,7 @@ async function getGPTResponse(article) {
            - Use bullet points for key information
            - Keep the total summary under 400 words
            - Include a short source attribution at the end
+           - Please reply in American English no matter the language of the content
         
         3. SPECIAL CONTENT TYPES:
            - For patch notes: Focus on major changes, balance updates, and new features
