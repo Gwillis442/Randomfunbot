@@ -74,7 +74,9 @@ async function grabArticleInfo(url) {
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
                 '--disable-gpu',
-                '--disable-dev-shm-usage'
+                '--disable-dev-shm-usage',
+                '--single-process',
+                '--no-zygote'
             ]
         });
 
@@ -93,6 +95,7 @@ async function grabArticleInfo(url) {
 
         try {
             const text = await page.evaluate(() => document.body.innerText);
+
             return text;
         } catch (err) {
             console.log('No content found under specified selectors');
@@ -109,5 +112,17 @@ async function grabArticleInfo(url) {
     }
 
 }
+
+// Ensure browser closes on exit/signals
+const cleanup = async () => {
+    if (browser) {
+        try { await browser.close(); } catch {}
+    }
+    process.exit();
+};
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
+process.on('exit', cleanup);
+process.on('uncaughtException', cleanup);
 
 module.exports = { grabArticleInfo };
