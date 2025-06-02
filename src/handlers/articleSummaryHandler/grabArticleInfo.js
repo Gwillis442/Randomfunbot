@@ -93,9 +93,11 @@ async function grabArticleInfo(url) {
 
         try {
             const text = await page.evaluate(() => document.body.innerText);
+            await browser.close();
             return text;
         } catch (err) {
             console.log('No content found under specified selectors');
+            await browser.close();
             return null;
         }
 
