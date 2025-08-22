@@ -19,7 +19,7 @@ var client = new Client({
   ]
 });
 
-client.once('ready', () => {
+client.once('clientReady', () => {
   //connectDB();
   //populateDatabase(client);
   console.log(`Ready! Logged in as ${client.user.tag}`);

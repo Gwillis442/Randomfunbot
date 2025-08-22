@@ -15,6 +15,7 @@ const cssSelectors = [
     'div.article-body',
     'text',
 
+
 ];
 
 const userAgents = [
@@ -67,17 +68,11 @@ async function grabArticleInfo(url) {
     puppeteer.use(StealthPlugin());
 
     try {
-
         browser = await puppeteer.launch({
-            headless: "new",
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-gpu',
-                '--disable-dev-shm-usage',
-                '--single-process',
-                '--no-zygote'
-            ]
+          headless: true,
+          // on Windows you may need to point to your Chrome/Edge binary:
+          // executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
 
         const page = await browser.newPage();
@@ -91,26 +86,29 @@ async function grabArticleInfo(url) {
             timeout: 30000
         });
 
-        //await page.screenshot({ path: 'webpage.png', fullPage: true })
+        await page.screenshot({ path: 'webpage.png', fullPage: true })
 
-        try {
-            const text = await page.evaluate(() => document.body.innerText);
-            await browser.close();
-            return text;
-        } catch (err) {
-            console.log('No content found under specified selectors');
-            await browser.close();
-            return null;
-        }
+        const content = await page.evaluate(() => {
+            // grabs exactly what a user would see (no HTML tags)
+            return document.body.innerText
+              .replace(/\s+/g, ' ')  // collapse whitespace
+              .trim();
+          });
+          
+          return content;
 
-    } catch (err) {
-        console.log(err);
+      } catch (err) {
+        console.error('Error during page navigation or extraction:', err);
         return null;
-    } finally {
+      } finally {
         if (browser) {
+          try {
             await browser.close();
+          } catch (closeErr) {
+            console.warn('Error closing browser instance:', closeErr);
+          }
         }
-    }
+      }
 
 }
 
