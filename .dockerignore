@@ -33,3 +33,5 @@ Dockerfile
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+oldBot/

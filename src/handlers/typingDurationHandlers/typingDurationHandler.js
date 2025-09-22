@@ -91,17 +91,17 @@ client.on('messageCreate', (message) => {
             if (wpm < 20) {
                 message.react('🐢');
                 //updateUserTurtles(message.author.id);
-                if(checkTypingStreak(userId, '🐢') ){
-                    message.reply(`🐢 Streak!`)
-                }  
+                // if(checkTypingStreak(userId, '🐢') ){
+                //     message.reply(`🐢 Streak!`)
+                // }  
             } else if (wpm > 80 && wpm < 180) {
                 message.react('🐇');  
                 //updateUserRabbits(message.author.id);        
-                if(checkTypingStreak(userId, '🐇') ){
-                    message.reply(`🐇 Streak!`)
-                }  
+                // if(checkTypingStreak(userId, '🐇') ){
+                //     message.reply(`🐇 Streak!`)
+                // }  
             } else if ( wpm > 20 && wpm < 80){
-                checkTypingStreak(userId, ' ');
+                // checkTypingStreak(userId, ' ');
             }
         }
 

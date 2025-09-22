@@ -95,12 +95,21 @@ client.on('messageCreate', async (message) => {
                   //const pngPath = path.resolve(__dirname, '../../../src/webpage.png');
                   const summaryMessage = await message.reply(summary);
                   //message.channel.send({files: [{attachment: pngPath}]});
-                  try {
-                    await summaryMessage.react('👍');
-                    await summaryMessage.react('👎');
-                    await summaryMessage.react('❌');
-                  } catch (reactErr) {
-                    console.error('Failed to add reactions:', reactErr);
+                  if (summary === 'I am sorry, I am not able to summarize that article at this time. [500]' 
+                      || summary === 'I am sorry, no summarizable content was found. [406]') {
+                    try {
+                      await summaryMessage.react('❌');
+                    } catch (reactErr) {
+                      console.error('Failed to add reactions:', reactErr);
+                    }
+                  } else {
+                    try {
+                      await summaryMessage.react('👍');
+                      await summaryMessage.react('👎');
+                      await summaryMessage.react('❌');
+                    } catch (reactErr) {
+                      console.error('Failed to add reactions:', reactErr);
+                    }
                   }
 
                   // Create a short-lived collector that deletes the summary if the original poster reacts ❌
