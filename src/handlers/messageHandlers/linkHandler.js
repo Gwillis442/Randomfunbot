@@ -1,6 +1,7 @@
 // Description: This file contains the linkBot functionality.
 const { client } = require('../../client.js');
 const { linkChannelId } = require('../../../config/config.json');
+require('dotenv').config();
 //const { updateUserLinks } = require('../../../database/databaseUtils/updateDB.js');
 const { getGPTResponse } = require('../gptResponseHandler/gptSummarizeHandler.js');
 const path = require('path');
@@ -24,7 +25,7 @@ client.on('messageCreate', async (message) => {
     // Check if the message contains a link
     const containsLink = isLinkRegex.test(message.content);
     // Get the link channel
-    const channelId = client.channels.cache.get(linkChannelId);
+    const channelId = client.channels.cache.get(process.env.linkChannelId);
 
     if (containsLink) {
       const containsShortLink = isShortContentRegex.test(message.content);
@@ -94,9 +95,36 @@ client.on('messageCreate', async (message) => {
                   //const pngPath = path.resolve(__dirname, '../../../src/webpage.png');
                   const summaryMessage = await message.reply(summary);
                   //message.channel.send({files: [{attachment: pngPath}]});
-                  await summaryMessage.react ('👍');
-                  await summaryMessage.react ('👎' );
-                  await summaryMessage.react ('❌' );
+                  try {
+                    await summaryMessage.react('👍');
+                    await summaryMessage.react('👎');
+                    await summaryMessage.react('❌');
+                  } catch (reactErr) {
+                    console.error('Failed to add reactions:', reactErr);
+                  }
+
+                  // Create a short-lived collector that deletes the summary if the original poster reacts ❌
+                  const filter = (reaction, user) => {
+                    return reaction.emoji.name === '❌' && user.id === message.author.id;
+                  };
+
+                  const collector = summaryMessage.createReactionCollector({ filter, time: 5 * 60 * 1000 }); // 5 minutes
+
+                  collector.on('collect', async (reaction, user) => {
+                    try {
+                      // Double-check original author reacted with ❌
+                      if (user.id === message.author.id) {
+                        await summaryMessage.delete();
+                        collector.stop();
+                      }
+                    } catch (delErr) {
+                      console.error('Failed to delete summary message:', delErr);
+                    }
+                  });
+
+                  collector.on('end', () => {
+                    // Optionally remove reactions or perform cleanup
+                  });
                 } else {
                   console.error("Generated summary is empty or invalid.");
                 }
