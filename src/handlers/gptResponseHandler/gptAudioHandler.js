@@ -4,8 +4,8 @@ const { OpenAI } = require('openai');
 const  path  = require('path');
 const  fs = require('fs');
 const { get } = require('http');
-
-const openai = new OpenAI( { apiKey: gptApiKey} );
+require('dotenv').config();
+const openai = new OpenAI( { apiKey: process.env.gptApiKey || gptApiKey} );
 
 const tempDir = path.resolve(__dirname, '../../temp');
 const speechFile = path.resolve(tempDir, 'reply.ogg');

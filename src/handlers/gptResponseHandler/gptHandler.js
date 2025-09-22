@@ -1,10 +1,11 @@
 const { OpenAI } = require('openai');
 const { gptApiKey } = require('../../../config/config.json');
+require('dotenv').config();
 
 const { aiInstructions, admin } = require('../../../constants/arrays.js');
 const { rng } = require('../../utils/rng.js');
 
-const openai = new OpenAI( { apiKey: gptApiKey} );
+const openai = new OpenAI( { apiKey: process.env.gptApiKey || gptApiKey} );
 const cooldowns = new Map();
 
 const cooldown_Seconds = 10;

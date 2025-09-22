@@ -1,10 +1,10 @@
 const { OpenAI } = require('openai');
 const { gptApiKey } = require('../../../config/config.json');
 const { grabArticleInfo } = require('../articleSummaryHandler/grabArticleInfo.js');
-
+require('dotenv').config();
 
 async function getGPTResponse(article) {
-    const openai = new OpenAI( { apiKey: gptApiKey} );
+    const openai = new OpenAI( { apiKey: process.env.gptApiKey || gptApiKey} );
     try{
         const articleContent = await grabArticleInfo(article);
         if (!articleContent) {
@@ -21,7 +21,7 @@ async function getGPTResponse(article) {
         2. FORMAT REQUIREMENTS:
            - Begin with "📰 **SUMMARY**" as a header
            - Use bullet points for key information
-           - Keep the total summary under 400 words
+           - Keep the total summary under 300 words
            - Include a short source attribution at the end
            - Please reply in American English no matter the language of the content
         

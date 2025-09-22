@@ -1,7 +1,9 @@
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const { token } = require('../config/config.json');
 const {populateDatabase} = require('./utils/populateDatabase.js');
+require('dotenv').config();
 
+const discordToken = process.env.token || token;
 
 var client = new Client({
   intents: [
@@ -26,6 +28,6 @@ client.once('clientReady', () => {
 
 });
 
-client.login(token);
+client.login(discordToken);
 
 module.exports = { client };

@@ -2,8 +2,8 @@
 
 const { OpenAI } = require('openai');
 const { gptApiKey } = require('../../../config/config.json');
-
-const openai = new OpenAI( {apiKey: gptApiKey } );
+require('dotenv').config();
+const openai = new OpenAI( {apiKey: process.env.gptApiKey || gptApiKey } );
 
 async function getDmReponse() {
     const message = "What is the capital of the United States?";

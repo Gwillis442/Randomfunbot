@@ -94,7 +94,7 @@ client.on('messageCreate', (message) => {
                 if(checkTypingStreak(userId, '🐢') ){
                     message.reply(`🐢 Streak!`)
                 }  
-            } else if (wpm > 80) {
+            } else if (wpm > 80 && wpm < 180) {
                 message.react('🐇');  
                 //updateUserRabbits(message.author.id);        
                 if(checkTypingStreak(userId, '🐇') ){

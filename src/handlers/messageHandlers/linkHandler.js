@@ -92,8 +92,11 @@ client.on('messageCreate', async (message) => {
                 const summary = await getGPTResponse(urlString);
                 if (summary && summary.trim().length > 0) {
                   //const pngPath = path.resolve(__dirname, '../../../src/webpage.png');
-                  message.reply(summary);
+                  const summaryMessage = await message.reply(summary);
                   //message.channel.send({files: [{attachment: pngPath}]});
+                  await summaryMessage.react ('👍');
+                  await summaryMessage.react ('👎' );
+                  await summaryMessage.react ('❌' );
                 } else {
                   console.error("Generated summary is empty or invalid.");
                 }
