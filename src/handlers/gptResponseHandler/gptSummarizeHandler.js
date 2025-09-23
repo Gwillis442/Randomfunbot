@@ -44,7 +44,7 @@ async function getGPTResponse(article) {
         Content to summarize: ${articleContent}`;
 
         const response = await openai.chat.completions.create({
-            model: 'gpt-4o',
+            model: 'gpt-5',
             messages : [{role: 'system', content: instructions}]
         });
 

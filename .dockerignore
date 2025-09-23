@@ -35,3 +35,4 @@ Dockerfile
 Thumbs.db
 
 oldBot/
+*.md
