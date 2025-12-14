@@ -1,6 +1,6 @@
 // Description: This file contains the linkBot functionality.
 const { client } = require('../../client.js');
-const { linkChannelId } = require('../../../config/config.json');
+// const { linklinkChannelId } = require('../../../config/config.json');
 require('dotenv').config();
 //const { updateUserLinks } = require('../../../database/databaseUtils/updateDB.js');
 const { getGPTResponse } = require('../gptResponseHandler/gptSummarizeHandler.js');
@@ -25,17 +25,25 @@ client.on('messageCreate', async (message) => {
     // Check if the message contains a link
     const containsLink = isLinkRegex.test(message.content);
     // Get the link channel
-    const channelId = client.channels.cache.get(process.env.linkChannelId);
+    const linkChannelId = process.env.linkChannelId;
+    const linkChannelObject = client.channels.cache.get(linkChannelId);
+
+    if (!linkChannelObject) {
+      console.error(`Link channel not found with ID: ${linkChannelId}`);
+      console.error('Available channels:', client.channels.cache.map(ch => `${ch.name}: ${ch.id}`));
+      return;
+    }
 
     if (containsLink) {
+      const replaceTikTok = process.env.replaceTikTokLinks;
       const containsShortLink = isShortContentRegex.test(message.content);
       if (containsShortLink) {
         // Get the link from the message
         let messageLink = message.content.match(isShortContentRegex)[0];
         // Check if the message is in the link channel
-        if (message.channel.id == channelId) {
+        if (message.channel.id == linkChannelId) {
 
-          if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
+          if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com') && replaceTikTok !== 'false') {
             // Replace 'tiktok' with 'vxtiktok'
             messageLink = messageLink.replace('tiktok', 'vxtiktok');
             message.delete();
@@ -58,17 +66,17 @@ client.on('messageCreate', async (message) => {
 
           var messageContent;
 
-          if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com')) {
+          if (messageLink.includes('tiktok.com') && !messageLink.includes('vxtiktok.com') && replaceTikTok !== 'false') {
             // Replace 'tiktok' with 'vxtiktok'
             messageLink = messageLink.replace('tiktok', 'vxtiktok');
             messageContent = `${message.author}, please try to use 'vxtiktok' for better user experience.\n${message.content.replace(isShortContentRegex, messageLink)}`;
           } else {
-            messageContent = `${message.author}, please post short and social media content links in <#${channelId.id}>.\n${message.content}`;
+            messageContent = `${message.author}, please post short and social media content links in <#${linkChannelObject.id}>.\n${message.content}`;
           }
 
           message.delete();
           // Send the message to the link channel
-          channelId.send(messageContent);
+          linkChannelObject.send(messageContent);
           //Update database to relect the link count
           //updateUserLinks(message.author.id);
         }

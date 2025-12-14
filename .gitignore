@@ -177,3 +177,5 @@ ffmpeg/LICENSE
 config(1).json
 
 oldBot/
+
+docker-compose.yml
